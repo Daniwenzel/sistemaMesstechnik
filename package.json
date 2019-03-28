@@ -1,0 +1,48 @@
+{
+    "name": "Sistema-Messtechnik",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "clean": "rm -rf ./node_modules"
+    },
+    "dependencies": {
+        "@mdi/font": "^3.5.95",
+        "bootstrap": "4.0.0",
+        "chart.js": "^2.8.0",
+        "flag-icon-css": "2.9.0",
+        "font-awesome": "4.7.0",
+        "gulp-sourcemaps": "^2.6.3",
+        "jquery": "3.2.1",
+        "mdi": "2.1.19",
+        "popper.js": "1.12.9",
+        "simple-line-icons": "2.4.1"
+    },
+    "devDependencies": {
+        "axios": "^0.18",
+        "bootstrap": "^4.0.0",
+        "browser-sync": "^2.16.0",
+        "compass-mixins": "^0.12.10",
+        "cross-env": "^5.1",
+        "del": "2.2.2",
+        "jquery": "^3.2",
+        "laravel-mix": "^4.0.7",
+        "lodash": "^4.17.5",
+        "merge-stream": "^1.0.1",
+        "minimatch": "^3.0.4",
+        "popper.js": "^1.12",
+        "resolve-url-loader": "^2.3.1",
+        "run-sequence": "^1.2.2",
+        "sass": "^1.17.3",
+        "sass-loader": "^7.1.0",
+        "vue": "^2.5.17",
+        "vue-template-compiler": "^2.6.10"
+    }
+}
