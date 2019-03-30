@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Messtechnik Comercio e Instrumentações</title>
+    <title>Messtechnik</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<div class="container-scroller" id="app">
+<div class="container-scroller">
     @include('partials._navbar')
     <div class="container-fluid page-body-wrapper">
         @include('partials._sidebar')

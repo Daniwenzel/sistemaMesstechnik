@@ -24,4 +24,5 @@ mix.js([
        'vendor/css/vendor.bundle.base.css',
        'vendor/css/vendor.bundle.addons.css'
        ], 'public/css/all.css')
-    .copy(['']);
+    .copy(['node_modules/@mdi/font/fonts'], 'public/fonts')
+    .copy('resources/images', 'public/images');
