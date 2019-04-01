@@ -12,13 +12,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <script src="{{ asset('js/all.js') }}" type="text/javascript" defer></script>
-    <script src="{{ asset('js/vendor.bundle.addons.js') }}" type="text/javascript" defer></script>
-    <script src="{{ asset('js/vendor.bundle.base.js') }}" type="text/javascript" defer></script>
-
     <!-- Styles -->
     <link href="{{asset('css/all.css')}}" rel="stylesheet" type="text/css">
-    <!--<link href="{{asset('css/sass.css')}}" rel="stylesheet" type="text/css">-->
     <link href="{{asset('css/vendor.bundle.addons.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('css/vendor.bundle.base.css')}}" rel="stylesheet" type="text/css">
 
@@ -27,13 +22,26 @@
 <div class="container-scroller" id="app">
     @auth
         @include('partials._navbar')
-        @include('partials._sidebar')
-        @yield('content')
-        @include('partials._footer')
-
+        <div class="container-fluid page-body-wrapper">
+            @include('partials._sidebar')
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @yield('content')
+                </div>
+                @include('partials._footer')
+            </div>
+        </div>
     @else
         @yield('content')
     @endauth
 </div>
+
+<script src="{{ asset('js/app.js') }}" type="text/javascript" defer></script>
+<script src="{{ asset('js/off-canvas.js') }}" type="text/javascript" defer></script>
+<script src="{{ asset('js/misc.js') }}" type="text/javascript" defer></script>
+<script src="{{ asset('js/dashboard.js') }}" type="text/javascript" defer></script>
+<!--<script src="{{ asset('js/vendor.bundle.base.js') }}" type="text/javascript" defer></script>
+<script src="{{ asset('js/vendor.bundle.addons.js') }}" type="text/javascript" defer></script>-->
+
 </body>
 </html>

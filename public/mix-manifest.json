@@ -1,5 +1,8 @@
 {
-    "/js/all.js": "/js/all.js",
+    "/js/app.js": "/js/app.js",
+    "/js/dashboard.js": "/js/dashboard.js",
+    "/js/misc.js": "/js/misc.js",
+    "/js/off-canvas.js": "/js/off-canvas.js",
     "/js/vendor.bundle.addons.js": "/js/vendor.bundle.addons.js",
     "/js/vendor.bundle.base.js": "/js/vendor.bundle.base.js",
     "/css/all.css": "/css/all.css",
