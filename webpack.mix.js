@@ -16,6 +16,8 @@ mix.js([
     'resources/js/off-canvas.js',
     'resources/js/misc.js',
     'resources/js/dashboard.js',
+    'vendor/js/vendor.bundle.addons.js',
+    'vendor/js/vendor.bundle.base.js'
    ], 'public/js/all.js')
    .sass('resources/sass/app.scss', 'public/css/sass.css')
    .styles([
