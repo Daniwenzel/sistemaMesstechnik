@@ -11,10 +11,10 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('auth/login');
+Route::get('/', function () {
+    return redirect()->route('login');
 });
-
+/*
 Route::get('/admin', function() {
     return view('master');
 });*/
