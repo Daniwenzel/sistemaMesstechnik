@@ -1,5 +1,8 @@
 {
     "/js/all.js": "/js/all.js",
-    "/css/sass.css": "/css/sass.css",
-    "/css/all.css": "/css/all.css"
+    "/js/vendor.bundle.addons.js": "/js/vendor.bundle.addons.js",
+    "/js/vendor.bundle.base.js": "/js/vendor.bundle.base.js",
+    "/css/all.css": "/css/all.css",
+    "/css/vendor.bundle.base.css": "/css/vendor.bundle.base.css",
+    "/css/vendor.bundle.addons.css": "/css/vendor.bundle.addons.css"
 }
