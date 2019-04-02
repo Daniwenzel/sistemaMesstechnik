@@ -14,12 +14,11 @@
 Route::get('/', function () {
     return redirect()->route('login');
 });
-/*
-Route::get('/admin', function() {
-    return view('master');
-});*/
 
-
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/register', 'UserController@showRegisterUser')->name('show.register');
+
+Route::post('/register', 'UserController@registerUser')->name('create.register');

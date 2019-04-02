@@ -14,8 +14,8 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success btn-block">New Project
-                    <i class="mdi mdi-plus"></i>
+                <button type="button" class="btn btn-success btn-block" onclick="window.location='{{ route("show.register") }}'">Novo Usuário
+                    <i class="mdi mdi-plus" href="{{route('show.register')}}"></i>
                 </button>
             </div>
         </li>

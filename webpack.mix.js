@@ -17,11 +17,9 @@ mix.js('resources/js/app.js', 'public/js/app.js')
     .js('resources/js/dashboard.js', 'public/js/dashboard.js')
     .copy('vendor/js/vendor.bundle.addons.js', 'public/js/vendor.bundle.addons.js')
     .copy('vendor/js/vendor.bundle.base.js', 'public/js/vendor.bundle.base.js')
-    .styles([
-       'resources/css/style.css',
-       'vendor/iconfonts/mdi/css/materialdesignicons.min.css',
-       'vendor/iconfonts/puse-icons-feather/feather.css',
-       ], 'public/css/all.css')
+    .copy('resources/css/style.css', 'public/css/style.css')
+    .copy('vendor/iconfonts/mdi/css/materialdesignicons.min.css', 'public/css/materialdesignicons.min.css')
+    .copy('vendor/iconfonts/puse-icons-feather/feather.css', 'public/css/feather.css')
     .copy('vendor/css/vendor.bundle.base.css', 'public/css/vendor.bundle.base.css')
     .copy('vendor/css/vendor.bundle.addons.css', 'public/css/vendor.bundle.addons.css')
     .copy(['node_modules/@mdi/font/fonts'], 'public/fonts')

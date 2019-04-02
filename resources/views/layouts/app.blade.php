@@ -13,7 +13,10 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
     <!-- Styles -->
-    <link href="{{asset('css/all.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/feather.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/materialdesignicons.min.css')}}" rel="stylesheet" type="text/css">
+
     <link href="{{asset('css/vendor.bundle.addons.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('css/vendor.bundle.base.css')}}" rel="stylesheet" type="text/css">
 
