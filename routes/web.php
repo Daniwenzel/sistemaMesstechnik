@@ -17,8 +17,26 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function() {
 
-Route::get('/register', 'UserController@showRegisterUser')->name('show.register');
+    Route::get('/', function () {
+        return redirect()->route('dashboard');
+    });
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-Route::post('/register', 'UserController@registerUser')->name('create.register');
+    Route::get('/register', 'UserController@showRegisterUser')->name('show.register');
+
+    Route::get('/registercompany', 'CompanyController@showRegisterCompany')->name('show.register.company');
+
+    Route::post('/register', 'UserController@registerUser')->name('create.register');
+
+    Route::post('registercompany', 'CompanyController@registerCompany')->name('create.company');
+
+    Route::get('/management', 'ManagementController@index')->name('management');
+
+    Route::get('/userlist', 'UserController@showUserList')->name('user.list');
+
+    Route::get('companylist', 'CompanyController@showCompanyList')->name('company.list');
+
+    Route::get('rolespermissions', 'UserController@showRolesPermissions')->name('role.permission');
+});

@@ -1,7 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/checkbox-radio.css": "/css/checkbox-radio.css",
     "/js/dashboard.js": "/js/dashboard.js",
+    "/js/jquery-mask.js": "/js/jquery-mask.js",
+    "/js/mask.js": "/js/mask.js",
     "/js/misc.js": "/js/misc.js",
     "/js/off-canvas.js": "/js/off-canvas.js",
     "/js/vendor.bundle.addons.js": "/js/vendor.bundle.addons.js",

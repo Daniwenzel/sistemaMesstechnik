@@ -13,8 +13,8 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card-body">
-                    <h2 class="text-center mb-4">{{ __('Registrar Usuário') }}</h2>
-                    <form method="POST" action="{{ route('create.register') }}">
+                    <h2 class="text-center mb-4">{{ __('Cadastrar Empresa') }}</h2>
+                    <form method="POST" action="{{ route('create.company') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="input-group">
@@ -33,6 +33,36 @@
 
                         <div class="form-group row">
                             <div class="input-group">
+                            <span class="input-group-text btn-inverse-warning">
+                              <i class="mdi mdi-barcode-scan"></i>
+                            </span>
+                                <input id="cnpj" type="text" class="cnpj form-control{{ $errors->has('cnpj') ? ' is-invalid' : '' }}" placeholder="CNPJ" name="cnpj" value="{{ old('cnpj') }}" required>
+
+                                @if ($errors->has('cnpj'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('cnpj') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="input-group">
+                            <span class="input-group-text btn-inverse-info">
+                              <i class="mdi mdi-phone"></i>
+                            </span>
+                                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" placeholder="Telefone" name="phone" value="{{ old('phone') }}" required>
+
+                                @if ($errors->has('phone'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="input-group">
                             <span class="input-group-text btn-inverse-success">
                               <i class="mdi mdi-at"></i>
                             </span>
@@ -43,43 +73,6 @@
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="input-group">
-                            <span class="input-group-text btn-inverse-info">
-                              <i class="mdi mdi-key"></i>
-                            </span>
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Senha" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="input-group">
-                                <!-- <span class="input-group-text btn-inverse-warning">
-                                     <i class="mdi mdi-key"></i>
-                                 </span>-->
-                                <input id="password-confirm" type="password" class="form-control" placeholder="Confirmar Senha" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="input-group">
-                                <span class="input-group-text btn-inverse-warning">
-                                    <i class="mdi mdi-briefcase"></i>
-                                </span>
-                                <select class="form-control" id="empresa" name="empresa">
-                                    @foreach($empresas as $empresa)
-                                        <option>{{ $empresa->nome }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
 

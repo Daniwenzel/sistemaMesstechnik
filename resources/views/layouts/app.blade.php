@@ -43,8 +43,7 @@
 <script src="{{ asset('js/off-canvas.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/misc.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/dashboard.js') }}" type="text/javascript" defer></script>
-<!--<script src="{{ asset('js/vendor.bundle.base.js') }}" type="text/javascript" defer></script>
-<script src="{{ asset('js/vendor.bundle.addons.js') }}" type="text/javascript" defer></script>-->
+<!--<script src="{{ asset('js/jquery-mask.js') }}" type="text/javascript" defer></script>-->
 
 </body>
 </html>

@@ -48366,26 +48366,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/components/_checkbox-radio.scss":
-/*!********************************************************!*\
-  !*** ./resources/sass/components/_checkbox-radio.scss ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/components/_checkbox-radio.scss ***!
-  \************************************************************************************/
+/*!***********************************!*\
+  !*** multi ./resources/js/app.js ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/sistemaMesstechnik/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/sistemaMesstechnik/resources/sass/components/_checkbox-radio.scss */"./resources/sass/components/_checkbox-radio.scss");
+module.exports = __webpack_require__(/*! /var/www/html/sistemaMesstechnik/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })
