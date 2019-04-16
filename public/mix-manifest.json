@@ -1,15 +1,10 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/dashboard.js": "/js/dashboard.js",
-    "/js/jquery-mask.js": "/js/jquery-mask.js",
-    "/js/mask.js": "/js/mask.js",
-    "/js/misc.js": "/js/misc.js",
-    "/js/off-canvas.js": "/js/off-canvas.js",
-    "/js/vendor.bundle.addons.js": "/js/vendor.bundle.addons.js",
-    "/js/vendor.bundle.base.js": "/js/vendor.bundle.base.js",
+    "/css/font-awesome.css": "/css/font-awesome.css",
     "/css/style.css": "/css/style.css",
-    "/css/materialdesignicons.min.css": "/css/materialdesignicons.min.css",
-    "/css/feather.css": "/css/feather.css",
-    "/css/vendor.bundle.base.css": "/css/vendor.bundle.base.css",
-    "/css/vendor.bundle.addons.css": "/css/vendor.bundle.addons.css"
+    "/css/sweetalert2.css": "/css/sweetalert2.css",
+    "/css/bootstrap.css": "/css/bootstrap.css",
+    "/js/sweetalert2.js": "/js/sweetalert2.js",
+    "/js/sweetalert2.all.js": "/js/sweetalert2.all.js",
+    "/css/all.css": "/css/all.css"
 }

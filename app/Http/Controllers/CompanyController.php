@@ -38,4 +38,9 @@ class CompanyController extends Controller
 
         return view('companylist', compact('empresas'));
     }
+
+    public function deleteCompany($company_id) {
+        Company::find($company_id)->delete();
+    }
+
 }

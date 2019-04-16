@@ -17,6 +17,8 @@ class CreateTorresTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->unsignedBigInteger('parque_id');
+            $table->string('cod_MSTK');
+            $table->string('cod_cliente');
             $table->foreign('parque_id')
                 ->references('id')
                 ->on('parque_eolicos');

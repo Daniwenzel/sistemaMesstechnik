@@ -23,7 +23,8 @@
         "jquery": "3.2.1",
         "mdi": "2.1.19",
         "popper.js": "1.12.9",
-        "simple-line-icons": "2.4.1"
+        "simple-line-icons": "2.4.1",
+        "sweetalert2": "^8.8.2"
     },
     "devDependencies": {
         "axios": "^0.18",
@@ -43,6 +44,8 @@
         "sass": "^1.17.3",
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
-        "vue-template-compiler": "^2.6.10"
+        "vue-template-compiler": "^2.6.10",
+        "sweetalert2": "^8.8.2"
+
     }
 }

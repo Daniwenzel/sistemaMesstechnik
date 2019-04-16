@@ -6,8 +6,14 @@
  */
 
 require('./bootstrap');
+require('./dashboard');
+require('./misc');
+require('./off-canvas');
+//require('./sweetalert2.all');
+//require('./alerts');
 
 window.Vue = require('vue');
+window.swal = require('./sweetalert2.all');
 
 /**
  * The following block of code may be used to automatically register your

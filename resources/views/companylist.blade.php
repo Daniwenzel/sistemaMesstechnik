@@ -25,6 +25,9 @@
                             <th>
                                 E-mail
                             </th>
+                            <th>
+                                Ações
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,6 +44,11 @@
                                 </td>
                                 <td>
                                     {{ $empresa->email }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-company" id="{{$empresa->id}}-btn" data-toggle="modal" data-id="{{ $empresa->id }}">
+                                        <i class="mdi mdi-delete"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\Company;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -63,5 +64,19 @@ class UserController extends Controller
         }
     }
 
+    public function deleteUser($user_id) {
+        User::find($user_id)->delete();
+
+    }
+
+    public static function showUserConfig($user_id) {
+        $user = User::find($user_id);
+        $allpermissions = Permission::all();
+        $permission = $user->getAllPermissions();
+        $allroles = Role::all();
+        $role =$user->getRoleNames();
+
+        return view('userconfig', compact(['user', 'permission', 'role', 'allpermissions', 'allroles']));
+    }
 
 }

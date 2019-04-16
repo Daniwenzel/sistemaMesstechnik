@@ -4,7 +4,7 @@
             <div class="nav-link">
                 <div class="user-wrapper">
                     <div class="profile-image">
-                        <img src="images/faces-clipart/pic-1.png" alt="profile image">
+                        <img src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
                     </div>
                     <div class="text-wrapper">
                         <p class="profile-name">{{ Auth::user()->name }}</p>
@@ -24,18 +24,24 @@
         </li>
         @role('Engenheiro')
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.list') }}">
+            <a class="nav-link" href="{{ route('user') }}">
                 <i class="menu-icon mdi mdi-account-box"></i>
                 <span class="menu-title">Usuários</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('company.list') }}">
+            <a class="nav-link" href="{{ route('company') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>
                 <span class="menu-title">Empresas</span>
             </a>
         </li>
         @endrole
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('windfarm') }}">
+                <i class="menu-icon mdi mdi-weather-windy"></i>
+                <span class="menu-title">Complexos Eólicos</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('role.permission') }}">
                 <i class="menu-icon mdi mdi-settings"></i>
@@ -43,42 +49,11 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="menu-icon mdi mdi-weather-windy"></i>
-                <span class="menu-title">Complexos Eólicos</span>
+            <a class="nav-link" href="{{ action('SensorController@openFile') }}">
+                <i class="menu-icon mdi mdi-settings"></i>
+                <span class="menu-title">openfile</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="pages/icons/font-awesome.html">
-                <i class="menu-icon mdi mdi-sticker"></i>
-                <span class="menu-title">Icons</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                <i class="menu-icon mdi mdi-restart"></i>
-                <span class="menu-title">User Pages</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="auth">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/samples/login.html"> Login </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/samples/register.html"> Register </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/samples/error-404.html"> 404 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/samples/error-500.html"> 500 </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
+
     </ul>
 </nav>

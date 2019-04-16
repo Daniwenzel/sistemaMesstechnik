@@ -47,7 +47,7 @@
                                         <button type="button" class="btn btn-icons btn-rounded btn-outline-primary">
                                             <i class="mdi mdi-pencil"></i>
                                         </button>
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger">
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-user" id="{{$user->id}}-btn" data-toggle="modal" data-id="{{ $user->id }}">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>
@@ -60,6 +60,5 @@
             </div>
         </div>
     </div>
-
 
 @endsection

@@ -16,7 +16,10 @@ class CreateParqueEolicosTable extends Migration
         Schema::create('parque_eolicos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->string('nome');
+            $table->string('cod_EPE');
             $table->unsignedBigInteger('empresa_id');
+
             $table->foreign('empresa_id')
                 ->references('id')
                 ->on('empresas');

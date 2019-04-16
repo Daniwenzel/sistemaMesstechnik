@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <div class="card-body">
                     <h2 class="text-center mb-4">{{ __('Registrar Usuário') }}</h2>
-                    <form method="POST" action="{{ route('create.register') }}">
+                    <form method="POST" action="{{ route('show.register') }}">
                         @csrf
                         <div class="form-group row">
                             <div class="input-group">
@@ -63,9 +63,6 @@
 
                         <div class="form-group row">
                             <div class="input-group">
-                                <!-- <span class="input-group-text btn-inverse-warning">
-                                     <i class="mdi mdi-key"></i>
-                                 </span>-->
                                 <input id="password-confirm" type="password" class="form-control" placeholder="Confirmar Senha" name="password_confirmation" required>
                             </div>
                         </div>

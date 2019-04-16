@@ -11,4 +11,8 @@ class Tower extends Model
     public function sensores() {
         return $this->hasMany('App\Models\Sensor', 'torre_id');
     }
+
+    public function parque() {
+        return $this->belongsTo('App\Models\WindFarm','parque_id', 'id');
+    }
 }

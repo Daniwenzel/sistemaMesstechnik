@@ -11,4 +11,8 @@ class WindFarm extends Model
     public function torres() {
         return $this->hasMany('App\Models\Tower', 'parque_id');
     }
+
+    public function empresa() {
+        return $this->belongsTo('App\Models\Company','empresa_id', 'id');
+    }
 }

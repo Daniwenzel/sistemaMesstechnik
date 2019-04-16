@@ -15,8 +15,10 @@ class CreateSensorsTable extends Migration
     {
         Schema::create('sensors', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nome');
             $table->timestamps();
             $table->unsignedBigInteger('torre_id');
+
             $table->foreign('torre_id')
                 ->references('id')
                 ->on('torres');
