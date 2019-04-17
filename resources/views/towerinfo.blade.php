@@ -5,15 +5,23 @@
     <div class="row">
         <div class="col-lg-12">
             <h2 class="text-md-center">{{ $torre->cod_cliente }}</h2>
-            <h4 class="card-title m-3 text-md-center">Última leitura realizada em {{ $created_at }}</h4>
+            <h4 class="card-title m-3 text-md-center">Última atualização realizada em {{ $created_at }}</h4>
 
-            @foreach($sensores->chunk(2) as $chunk)
-                <div class="row m-5">
+            @foreach(array_chunk($leituras,2) as $chunk)
+                <div class="row">
                     @foreach($chunk as $sensor)
-                        <div class="col-md-6 d-md-block">
-                            <div class="card card-img-holder">
+                        <div class="col-md-6 d-md-block mt-5">
+                            <div class="card card-img-holder bg-gradient-green-white">
                                 <div class="card-body">
-                                    {{ $sensor->barometro->where('created_at', app\Models\Barometro::where('sensor_id', $sensor->id)->latest()->value('created_at')) }}
+                                    <?php $sensorArray = $sensor->toArray(); ?>
+
+                                    @foreach(array_slice($sensorArray, 0, count($sensorArray) - 1) as $dataSensor)
+                                        <h5>{{ $dataSensor['nome'] }}: {{ $dataSensor['leitura'] }}</h5>
+                                    @endforeach
+
+                                    <img src="{{ asset(last($sensorArray)['marca']) }}" class="card-img-absolute"/>
+                                    <img src="{{ asset('images/circle.svg') }}" class="card-img-absolute" alt="circle-image"/>
+
                                 </div>
                             </div>
                         </div>

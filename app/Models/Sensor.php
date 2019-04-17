@@ -23,4 +23,20 @@ class Sensor extends Model
     public function barometro() {
         return $this->hasMany('App\Models\Barometro', 'sensor_id', 'id');
     }
+
+    public function windvane() {
+        return $this->hasMany('App\Models\Windvane', 'sensor_id', 'id');
+    }
+
+    public function temperatura() {
+        return $this->hasMany('App\Models\Temperatura', 'sensor_id', 'id');
+    }
+
+    public function umidade() {
+        return $this->hasMany('App\Models\Umidade', 'sensor_id', 'id');
+    }
+
+    public function bateria() {
+        return $this->hasMany('App\Models\Bateria', 'sensor_id', 'id');
+    }
 }

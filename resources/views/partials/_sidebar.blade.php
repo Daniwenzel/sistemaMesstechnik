@@ -48,12 +48,5 @@
                 <span class="menu-title">Cargos e Permissões</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ action('SensorController@openFile') }}">
-                <i class="menu-icon mdi mdi-settings"></i>
-                <span class="menu-title">openfile</span>
-            </a>
-        </li>
-
     </ul>
 </nav>

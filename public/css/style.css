@@ -15066,6 +15066,10 @@ pre {
   background: linear-gradient(to right, #56ab2f, #a8e063);
 }
 
+.bg-gradient-green-white {
+  background: linear-gradient(to right, #f2ffee, #33c90b);
+}
+
 .bg-windfarm {
   background: url(/images/eolic-park.jpg?4716817bbfc996abee86a0f769638568) center center no-repeat;
   background-size: cover;

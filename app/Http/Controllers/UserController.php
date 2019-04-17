@@ -45,14 +45,22 @@ class UserController extends Controller
         }
     }
 
-    public function showUserList() {
-        if (Auth::user()->hasPermissionTo('teste')) {
-            $empresas = Company::with('users')->get();
+    public function showUserList(Request $request) {
+        $search = $request['search'];
+
+        if (Auth::user()->hasRole('Engenheiro')) {
+            $usuarios = User::with('empresa')
+                ->where('name','like','%'.$search.'%')
+                ->paginate(10);
         }
         else {
-            $empresas = Company::with('users')->where('id', Auth::user()->empresa_id)->get();
+            $usuarios = User::with('empresa')
+                ->where('empresa_id', Auth::user()->empresa_id)
+                ->where('name','like','%'.$search.'%')
+                ->paginate(10);
         }
-        return view('userlist', compact('empresas'));
+
+        return view('userlist', compact('usuarios'));
     }
 
     public function showRolesPermissions() {

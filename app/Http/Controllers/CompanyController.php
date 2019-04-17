@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyStoreRequest;
 use App\Models\Company;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -33,8 +34,10 @@ class CompanyController extends Controller
         return redirect()->back();
     }
 
-    public function showCompanyList() {
-        $empresas = Company::all();
+    public function showCompanyList(Request $request) {
+        $search = $request['search'];
+
+        $empresas = Company::where('nome','like','%'.$search.'%')->get();
 
         return view('companylist', compact('empresas'));
     }

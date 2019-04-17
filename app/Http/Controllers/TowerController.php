@@ -22,29 +22,48 @@ class TowerController extends Controller
 
         $sensores = Sensor::where('torre_id', $tower_id)->get();
 
-        // {{ $sensor->barometro->where('created_at', Barometro::where('sensor_id', $sensor->id)->latest()->value('created_at')) }}
-
         foreach ($sensores as $sensor) {
 
-            $ultimoAN = Anemometro::where('sensor_id', $sensor->id)->latest()->value('created_at');
-            $ultimoWV = Windvane::where('sensor_id', $sensor->id)->latest()->value('created_at');
-            $ultimoBA = Barometro::where('sensor_id', $sensor->id)->latest()->value('created_at');
-            $ultimoTMP = Temperatura::where('sensor_id', $sensor->id)->latest()->value('created_at');
-            $ultimoUMI = Umidade::where('sensor_id', $sensor->id)->latest()->value('created_at');
-            $ultimoBT = Bateria::where('sensor_id', $sensor->id)->latest()->value('created_at');
+            if ($sensor->barometro->first()) {
+                $leituras[$sensor->nome] = $sensor->barometro->where('created_at', Barometro::latest()->value('created_at'))
+                    ->where('sensor_id', $sensor->id);
+                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+            }
 
-            Anemometro::where('sensor_id', $sensor->id)->where('created_at', $ultimoAN)->first() ? $leituras[$sensor->nome] = Anemometro::where('sensor_id', $sensor->id)->where('created_at', $ultimoAN)->get() : false;
-            Windvane::where('sensor_id', $sensor->id)->where('created_at', $ultimoWV)->first() ? $leituras[$sensor->nome] = Windvane::where('sensor_id', $sensor->id)->where('created_at', $ultimoWV)->get() : false;
-            Barometro::where('sensor_id', $sensor->id)->where('created_at', $ultimoBA)->first() ? $leituras[$sensor->nome] = Barometro::where('sensor_id', $sensor->id)->where('created_at', $ultimoBA)->get() : false;
-            Temperatura::where('sensor_id', $sensor->id)->where('created_at', $ultimoTMP)->first() ? $leituras[$sensor->nome] = Temperatura::where('sensor_id', $sensor->id)->where('created_at', $ultimoTMP)->get() : false;
-            Umidade::where('sensor_id', $sensor->id)->where('created_at', $ultimoUMI)->first() ? $leituras[$sensor->nome] = Umidade::where('sensor_id', $sensor->id)->where('created_at', $ultimoUMI)->get() : false;
-            Bateria::where('sensor_id', $sensor->id)->where('created_at', $ultimoBT)->first() ? $leituras[$sensor->nome] = Bateria::where('sensor_id', $sensor->id)->where('created_at', $ultimoBT)->get() : false;
+            elseif($sensor->anemometro->first()) {
+                $leituras[$sensor->nome] = $sensor->anemometro->where('created_at', Anemometro::latest()->value('created_at'))
+                    ->where('sensor_id', $sensor->id);
+                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+            }
+
+            elseif($sensor->windvane->first()) {
+                $leituras[$sensor->nome] = $sensor->windvane->where('created_at', Windvane::latest()->value('created_at'))
+                    ->where('sensor_id', $sensor->id);
+                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+            }
+
+            elseif($sensor->temperatura->first()) {
+                $leituras[$sensor->nome] = $sensor->temperatura->where('created_at', Temperatura::latest()->value('created_at'))
+                    ->where('sensor_id', $sensor->id);
+                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+            }
+
+            elseif($sensor->umidade->first()) {
+                $leituras[$sensor->nome] = $sensor->umidade->where('created_at', Umidade::latest()->value('created_at'))
+                    ->where('sensor_id', $sensor->id);
+                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+            }
+
+            elseif($sensor->bateria->first()) {
+                $leituras[$sensor->nome] = $sensor->bateria->where('created_at', Bateria::latest()->value('created_at'))
+                    ->where('sensor_id', $sensor->id);
+                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+           }
+
         }
 
-        dd($leituras);
+        $created_at = array_values($leituras)[0]->first()->created_at;
 
-        $created_at = now();
-
-        return view('towerinfo', compact(['sensores', 'torre', 'created_at']));
+        return view('towerinfo', compact(['leituras', 'torre', 'created_at']));
     }
 }

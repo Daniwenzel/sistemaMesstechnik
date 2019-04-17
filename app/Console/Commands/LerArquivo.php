@@ -55,86 +55,87 @@ class LerArquivo extends Command
         for ($row=4; $row<count($array);$row++) {  // inicia na linha 4 (ignora as informações referentes a torre, tipo das leituras)
             for ($col=2; $col<count($array[$row]); $col++) { // inicia na coluna 2 (ignora o timestamp e o numero do registro)
 
-                $nome = trim($array[1][$col], '"');
+                $nomeEstatisticas = str_ireplace(array("\r", "\n", " ", '"') ,'' ,trim($array[1][$col], '"'));
+                $nomeSensor = str_ireplace(array("Avg", "Min", "Max", "Std"),'', $nomeEstatisticas);
 
-                if (substr($nome, 0, 2) === 'B_') {
+                if (substr($nomeSensor, 0, 2) === 'B_') {
                     $sensor = Sensor::firstOrCreate([
-                        'nome' => 'Barometro-teste',
+                        'nome' => $nomeSensor,
                         'torre_id' => 5
                     ]);
 
                     array_push($barometros, [
-                        'nome' => $nome,
+                        'nome' => $nomeEstatisticas,
                         'leitura' => $array[$row][$col],
                         'sensor_id' => $sensor->id,
                         'created_at' => trim($array[$row][0], '"')
                     ]);
                 }
 
-                elseif (substr($nome, 0, 3) === 'AN_') {
+                elseif (substr($nomeSensor, 0, 3) === 'AN_') {
                     $sensor = Sensor::firstOrCreate([
-                        'nome' => 'Anemometro-teste',
+                        'nome' => $nomeSensor,
                         'torre_id' => 5
                     ]);
 
                     array_push($anemometros, [
-                        'nome' => $nome,
+                        'nome' => $nomeEstatisticas,
                         'leitura' => $array[$row][$col],
                         'sensor_id' => $sensor->id,
                         'created_at' => trim($array[$row][0], '"')
                     ]);
                 }
 
-                elseif (substr($nome, 0, 3) === 'WV_') {
+                elseif (substr($nomeSensor, 0, 3) === 'WV_') {
                     $sensor = Sensor::firstOrCreate([
-                        'nome' => 'Windvane-teste',
+                        'nome' => $nomeSensor,
                         'torre_id' => 5
                     ]);
 
                     array_push($windvanes, [
-                        'nome' => $nome,
+                        'nome' => $nomeEstatisticas,
                         'leitura' => $array[$row][$col],
                         'sensor_id' => $sensor->id,
                         'created_at' => trim($array[$row][0], '"')
                     ]);
                 }
 
-                elseif (substr($nome, 0, 2) === 'T_') {
+                elseif (substr($nomeSensor, 0, 2) === 'T_') {
                     $sensor = Sensor::firstOrCreate([
-                        'nome' => 'Temperatura-teste',
+                        'nome' => $nomeSensor,
                         'torre_id' => 5
                     ]);
 
                     array_push($temperaturas, [
-                        'nome' => $nome,
+                        'nome' => $nomeEstatisticas,
                         'leitura' => $array[$row][$col],
                         'sensor_id' => $sensor->id,
                         'created_at' => trim($array[$row][0], '"')
                     ]);
                 }
 
-                elseif (substr($nome, 0, 2) === 'U_') {
+                elseif (substr($nomeSensor, 0, 2) === 'U_') {
                     $sensor = Sensor::firstOrCreate([
-                        'nome' => 'Umidade-teste',
+                        'nome' => $nomeSensor,
                         'torre_id' => 5
                     ]);
 
                     array_push($umidades, [
-                        'nome' => $nome,
+                        'nome' => $nomeEstatisticas,
                         'leitura' => $array[$row][$col],
                         'sensor_id' => $sensor->id,
                         'created_at' => trim($array[$row][0], '"')
                     ]);
                 }
 
-                elseif (substr($nome, 0, 7) === 'Bat12V_') {
+                elseif (substr($nomeSensor, 0, 7) === 'Bat12V_') {
                     $sensor = Sensor::firstOrCreate([
-                        'nome' => 'Bateria-teste',
+                        'nome' => $nomeSensor,
                         'torre_id' => 5
                     ]);
 
                     array_push($baterias, [
-                        'nome' => str_replace('"','',$nome),
+                        'nome' => $nomeEstatisticas,
                         'leitura' => str_replace(array("\r", "\n", " "), '', $array[$row][$col]),
                         'sensor_id' => $sensor->id,
                         'created_at' => trim($array[$row][0], '"')

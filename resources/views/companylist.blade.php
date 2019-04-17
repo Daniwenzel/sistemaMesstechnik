@@ -9,6 +9,18 @@
                 <button type="button" class="btn btn-outline-success btn-md btn-block" onclick="window.location='{{ route("show.register.company") }}'">
                     <i class="mdi mdi-briefcase mdi-24px"></i>Registrar Empresa
                 </button>
+                <form method="get" action="{{ route('company') }}" class="navbar-form navbar-left mt-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="search" type="text" class="form-control" placeholder="Procurar..." aria-label="Company" aria-describedby="colored-addon3">
+                            <div class="input-group-append bg-success border-primary">
+                                <button type="submit" class="btn input-group-text bg-transparent">
+                                    <i class="mdi mdi-account-search text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
