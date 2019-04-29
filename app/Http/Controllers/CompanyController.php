@@ -12,7 +12,7 @@ class CompanyController extends Controller
 {
     public function showRegisterCompany()
     {
-        if (Auth::user()->hasPermissionTo('teste')) {
+        if (Auth::user()->hasRole('Engenheiro')) {
             return view('register-company');
         } else {
             return view('errors/unallowed');

@@ -4,7 +4,11 @@
             <div class="nav-link">
                 <div class="user-wrapper">
                     <div class="profile-image">
-                        <img src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
+                        @if(Auth::user()->getFirstMedia('profile'))
+                            {{ Auth::user()->getFirstMedia('profile') }}
+                        @else
+                            <img src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
+                        @endif
                     </div>
                     <div class="text-wrapper">
                         <p class="profile-name">{{ Auth::user()->name }}</p>
@@ -22,17 +26,23 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        @role('Engenheiro')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('user') }}">
                 <i class="menu-icon mdi mdi-account-box"></i>
                 <span class="menu-title">Usuários</span>
             </a>
         </li>
+        @role('Engenheiro')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('company') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>
                 <span class="menu-title">Empresas</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('role.permission') }}">
+                <i class="menu-icon mdi mdi-settings"></i>
+                <span class="menu-title">Cargos e Permissões</span>
             </a>
         </li>
         @endrole
@@ -40,12 +50,6 @@
             <a class="nav-link" href="{{ route('windfarm') }}">
                 <i class="menu-icon mdi mdi-weather-windy"></i>
                 <span class="menu-title">Complexos Eólicos</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('role.permission') }}">
-                <i class="menu-icon mdi mdi-settings"></i>
-                <span class="menu-title">Cargos e Permissões</span>
             </a>
         </li>
     </ul>

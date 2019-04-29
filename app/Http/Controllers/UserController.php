@@ -35,14 +35,13 @@ class UserController extends Controller
     }
 
     public function showRegisterUser() {
-        if (Auth::user()->hasPermissionTo('teste')) {
+        if (Auth::user()->hasRole('Engenheiro')) {
             $empresas = Company::all('id', 'nome');
-
-            return view('auth/register')->with('empresas', $empresas);
         }
         else {
-            return view('errors/unallowed');
+            $empresas = Company::find(Auth::user()->empresa_id);
         }
+        return view('auth/register')->with('empresas', $empresas);
     }
 
     public function showUserList(Request $request) {
@@ -82,9 +81,29 @@ class UserController extends Controller
         $allpermissions = Permission::all();
         $permission = $user->getAllPermissions();
         $allroles = Role::all();
-        $role =$user->getRoleNames();
+        $role = $user->getRoleNames();
 
         return view('userconfig', compact(['user', 'permission', 'role', 'allpermissions', 'allroles']));
+    }
+
+    public function postUserConfig(Request $request) {
+        $user = User::find($request->input('id'));
+
+        $user->name = $request->input('name');
+        $user->last_name = $request->input('last_name');
+        $user->genero = $request->input('genero');
+        $user->aniversario = $request->input('aniversario');
+
+        if($request->hasFile('avatar')) {
+            if ($request->file('avatar')->isValid()) {
+                $user
+                    ->addMedia($request->file('avatar'))
+                    ->toMediaCollection('profile');
+            }
+        }
+
+        $user->save();
+        return view('userconfig', compact('user'));
     }
 
 }

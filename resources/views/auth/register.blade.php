@@ -80,8 +80,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-10 offset-md-2">
+                        <div class="form-group row">
+                            <div class="col-md-12">
                                 <button type="submit" class="btn btn-success mr-2">{{ __('Confirmar') }}</button>
                                 <button class="btn btn-light" onclick="window.history.go(-1); return false;">{{ __('Cancelar') }}</button>
                             </div>

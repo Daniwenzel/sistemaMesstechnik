@@ -55,7 +55,7 @@
                                     <button type="button" class="btn btn-icons btn-rounded btn-outline-success">
                                         <i class="mdi mdi-email"></i>
                                     </button>
-                                    <button type="button" class="btn btn-icons btn-rounded btn-outline-primary">
+                                    <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" onclick="window.location='{{ route('show.config', $usuario->id) }}'">
                                         <i class="mdi mdi-pencil"></i>
                                     </button>
                                     <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-user" id="{{$usuario->id}}-btn" data-toggle="modal" data-id="{{ $usuario->id }}">

@@ -3,14 +3,16 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use Notifiable, HasRoles, HasPermissions;
+    use Notifiable, HasRoles, HasPermissions, HasMediaTrait;
 
     protected $guard_name = 'web';
 
@@ -19,30 +21,35 @@ class User extends Authenticatable
     public function empresa() {
         return $this->belongsTo('App\Models\Company','empresa_id', 'id');
     }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'name', 'email', 'password', 'empresa_id',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function registerMediaCollections()
+    {
+        $this
+            ->addMediaCollection('profile')
+            ->singleFile();
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('avatar')
+            ->width(50)
+            ->performOnCollections('profile');
+
+        $this->addMediaConversion('preview')
+            ->width(400)
+            ->performOnCollections('profile');
+    }
+
 }

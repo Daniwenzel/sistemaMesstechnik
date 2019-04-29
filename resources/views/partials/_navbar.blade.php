@@ -4,15 +4,19 @@
             <img src="{{ asset('images/logo.png') }}" alt="logo" />
         </a>
         <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}">
-           <img class="img-xs rounded-circle" src="{{ asset('images/auth/logo.png') }}" alt="Profile image">
+            <img class="img-xs rounded-circle" src="{{ asset('images/auth/logo.png') }}" alt="Profile image">
         </a>
     </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center">
+    <div class="navbar-menu-wrapper d-flex align-items-center ">
         <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-none d-xl-inline-block" style="cursor: pointer">
-                <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item dropdown nav-profile" style="cursor: pointer">
+                <a class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                     <span class="profile-text">Hello, {{ Auth::user()->name  }} !</span>
-                    <img src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
+                    @if(Auth::user()->getFirstMedia('profile'))
+                        <img class="img-xs rounded-circle" src="{{ Auth::user()->getFirstMedia('profile')->getUrl('avatar') }}" alt="profile image">
+                    @else
+                        <img src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <a class="dropdown-item p-0">
@@ -33,9 +37,6 @@
                     </a>
                     <a class="dropdown-item">
                         Change Password
-                    </a>
-                    <a class="dropdown-item">
-                        Check Inbox
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">

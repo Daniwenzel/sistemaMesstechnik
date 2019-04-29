@@ -3,8 +3,8 @@
 @section('content')
 
     @foreach($windfarms as $windfarm)
-        <div class="row text-md-center btn-block">
-            <div class="col-md-8 offset-2 stretch-card grid-margin">
+        <div class="row text-md-center">
+            <div class="col-md-12 stretch-card grid-margin">
                 <div class="card bg-gradient-info card-img-holder text-white">
                     <div class="card-body btn" onclick="window.location='{{ route('windfarm.info', $windfarm->id) }}'">
                         <img src="{{ asset('images/circle.svg') }}" class="card-img-absolute" alt="circle-image"/>
