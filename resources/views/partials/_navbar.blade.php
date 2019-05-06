@@ -32,8 +32,8 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item mt-2">
-                        Manage Accounts
+                    <a class="dropdown-item mt-2" href="{{ route('show.config', Auth::user()->id) }}">
+                        Manage Account
                     </a>
                     <a class="dropdown-item">
                         Change Password

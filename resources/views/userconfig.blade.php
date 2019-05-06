@@ -6,10 +6,8 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Cadastro de {{ $user->name }}</h4>
-                    <form method="POST" action="{{ route('edit.config', $user->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('edit.config', $user->id) }}">
                         @csrf
-
-                        <input type="hidden" value="{{ $user->id }}" name="id"/>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -65,6 +63,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <button type="submit" class="btn btn-outline-success btn-fw">
+                                <i class="mdi mdi-file-document m-2"></i>Submit</button>
+                        </div>
+                    </form>
+                    <form class="mt-5" method="POST" action="{{ route('edit.avatar', $user->id) }}" enctype="multipart/form-data">
+                        @csrf
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -79,6 +85,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-outline-info btn-fw">
+                                    <i class="mdi mdi-upload"></i>Upload</button>
+                            </div>
                         </div>
                         <div class="row mt-5">
                             <div class="col-md-12">
@@ -88,9 +98,6 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <button type="submit" class="btn btn-success mr-2">Submit</button>
                         </div>
                     </form>
                 </div>

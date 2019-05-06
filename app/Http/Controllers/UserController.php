@@ -48,8 +48,11 @@ class UserController extends Controller
         $search = $request['search'];
 
         if (Auth::user()->hasRole('Engenheiro')) {
-            $usuarios = User::with('empresa')
-                ->where('name','like','%'.$search.'%')
+            $usuarios = User::where('name','like','%'.$search.'%')
+                ->with('empresa')
+                ->orWhereHas('empresa', function($query) use ($search) {
+                    $query->where('nome', 'like','%'.$search.'%');
+                })
                 ->paginate(10);
         }
         else {
@@ -86,8 +89,8 @@ class UserController extends Controller
         return view('userconfig', compact(['user', 'permission', 'role', 'allpermissions', 'allroles']));
     }
 
-    public function postUserConfig(Request $request) {
-        $user = User::find($request->input('id'));
+    public function editUserConfig($user_id, Request $request) {
+        $user = User::find($user_id);
 
         $user->name = $request->input('name');
         $user->last_name = $request->input('last_name');
@@ -103,6 +106,20 @@ class UserController extends Controller
         }
 
         $user->save();
+        return view('userconfig', compact('user'));
+    }
+
+    public function editUserAvatar($user_id, Request $request) {
+        $user = User::find($user_id);
+
+        if($request->hasFile('avatar')) {
+            if ($request->file('avatar')->isValid()) {
+                $user
+                    ->addMedia($request->file('avatar'))
+                    ->toMediaCollection('profile');
+            }
+        }
+
         return view('userconfig', compact('user'));
     }
 
