@@ -10,6 +10,7 @@ use App\Models\Temperatura;
 use App\Models\Tower;
 use App\Models\Umidade;
 use App\Models\Windvane;
+use Illuminate\Support\Carbon;
 
 class TowerController extends Controller
 {
@@ -22,48 +23,62 @@ class TowerController extends Controller
 
         $sensores = Sensor::where('torre_id', $tower_id)->get();
 
-        foreach ($sensores as $sensor) {
+        //$yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+        $yesterday = Carbon::createFromDate(2018, 6, 20)->format('Y-m-d'); // usar yesterday fixo para exposicao
+
+        /*$leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);*/
+
+        foreach ($sensores as $sensor) { // Percorre a lista de sensores daquela torre
+            // e compara o seu tipo (anemometro, windvane...)
 
             if ($sensor->barometro->first()) {
-                $leituras[$sensor->nome] = $sensor->barometro->where('created_at', Barometro::latest()->value('created_at'))
-                    ->where('sensor_id', $sensor->id);
-                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+                $barometros[$sensor->nome] = Barometro::whereDate('created_at', $yesterday)
+                    ->where('sensor_id', $sensor->id)
+                    ->get();
             }
 
             elseif($sensor->anemometro->first()) {
-                $leituras[$sensor->nome] = $sensor->anemometro->where('created_at', Anemometro::latest()->value('created_at'))
-                    ->where('sensor_id', $sensor->id);
-                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+                $anemometros[$sensor->nome] = Anemometro::whereDate('created_at', $yesterday)
+                    ->where('sensor_id', $sensor->id)
+                    ->get();
             }
 
             elseif($sensor->windvane->first()) {
-                $leituras[$sensor->nome] = $sensor->windvane->where('created_at', Windvane::latest()->value('created_at'))
-                    ->where('sensor_id', $sensor->id);
-                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+                $windvanes[$sensor->nome] = Windvane::whereDate('created_at', $yesterday)
+                    ->where('sensor_id', $sensor->id)
+                    ->get();
             }
 
             elseif($sensor->temperatura->first()) {
-                $leituras[$sensor->nome] = $sensor->temperatura->where('created_at', Temperatura::latest()->value('created_at'))
-                    ->where('sensor_id', $sensor->id);
-                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+                $temperaturas[$sensor->id] = Temperatura::whereDate('created_at', $yesterday)
+                    ->where('sensor_id', $sensor->id)
+                    ->get();
             }
 
             elseif($sensor->umidade->first()) {
-                $leituras[$sensor->nome] = $sensor->umidade->where('created_at', Umidade::latest()->value('created_at'))
-                    ->where('sensor_id', $sensor->id);
-                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
+                $umidades[$sensor->id] = Umidade::whereDate('created_at', $yesterday)
+                    ->where('sensor_id', $sensor->id)
+                    ->get();
             }
 
             elseif($sensor->bateria->first()) {
-                $leituras[$sensor->nome] = $sensor->bateria->where('created_at', Bateria::latest()->value('created_at'))
-                    ->where('sensor_id', $sensor->id);
-                $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);
-           }
+                $baterias[$sensor->id] = Bateria::whereDate('created_at', $yesterday)
+                    ->where('sensor_id', $sensor->id)
+                    ->get();
+            }
 
         }
 
-        $created_at = array_values($leituras)[0]->first()->created_at;
-
-        return view('towerinfo', compact(['leituras', 'torre', 'created_at']));
+        //dd($anemometros);
+        return view('towerinfo', compact([
+            'torre',
+            'yesterday',
+            'barometros',
+            'anemometros',
+            'windvanes',
+            'temperaturas',
+            'umidades',
+            'baterias'
+        ]));
     }
 }

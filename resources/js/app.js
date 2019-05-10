@@ -12,12 +12,12 @@ require('./off-canvas');
 require('gsap/all');
 require('./login');
 require('./transitions');
-
 //require('./alerts');
 
 window.Vue = require('vue');
 window.swal = require('./sweetalert2.all');
 window.barba = require('@barba/core');
+window.Chart = require('chart.js');
 
 /**
  * The following block of code may be used to automatically register your

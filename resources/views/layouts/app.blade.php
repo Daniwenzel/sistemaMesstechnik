@@ -49,6 +49,7 @@
 <script src="{{ asset('js/sweetalert2.all.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/alerts.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/sensor.js') }}" type="text/javascript" defer></script>
+<script src="{{ asset('js/chart.js') }}" type="text/javascript" defer></script>
 
 <!--<script src="{ asset('js/transitions.js') }}" type="text/javascript" defer></script>
 <script src="{ asset('js/login.js') }}" type="text/javascript" defer></script>-->
