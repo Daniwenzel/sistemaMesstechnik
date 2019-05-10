@@ -11,7 +11,7 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown nav-profile" style="cursor: pointer">
                 <a class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                    <span class="profile-text">Hello, {{ Auth::user()->name  }} !</span>
+                    <span class="profile-text">Olá, {{ Auth::user()->name  }} !</span>
                     @if(Auth::user()->getFirstMedia('profile'))
                         <img class="img-xs rounded-circle" src="{{ Auth::user()->getFirstMedia('profile')->getUrl('avatar') }}" alt="profile image">
                     @else

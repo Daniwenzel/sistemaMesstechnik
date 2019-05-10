@@ -13445,6 +13445,24 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
           animation-name: fadeInUp;
 }
 
+.page-transition-top {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(120deg, #90ff83, #3cec2c, #3abe2a, #179108);
+  position: fixed;
+  z-index: 1000;
+  top: -100%;
+}
+
+.page-transition-bot {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(120deg, #90ff83, #3cec2c, #3abe2a, #179108);
+  position: fixed;
+  z-index: 1000;
+  bottom: -100%;
+}
+
 /* Miscellaneous Mixins */
 
 .new-accounts ul.chats li.chat-persons a div.user p.u-designation,
@@ -14849,8 +14867,8 @@ pre {
   background-color: #d209fa;
   *zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr="#FFD209FA", endColorstr="#FF4F81D4");
-  background-image: -owg-linear-gradient(left, #d209fa 1%, #4f81d4 100%);
-  background-image: linear-gradient(left, #d209fa 1%, #4f81d4 100%);
+  background-image: -owg-linear-gradient(to right, #d209fa 1%, #4f81d4 100%);
+  background-image: linear-gradient(to right, #d209fa 1%, #4f81d4 100%);
   color: #ffffff;
   border: none;
   line-height: 1;
@@ -14941,7 +14959,7 @@ pre {
 
 .card-weather {
   background: #e1ecff;
-  background-image: linear-gradient(to left bottom, #d6eef6, #dff0fa, #e7f3fc, #eff6fe, #f6f9ff);
+  background-image: linear-gradient(to top, #d6eef6, #dff0fa, #e7f3fc, #eff6fe, #f6f9ff);
 }
 
 .card-weather .card-body {
@@ -17228,7 +17246,7 @@ ul li {
 /* Auth */
 
 .auth.auth-bg-1 {
-  background: url(/images/login_1.jpg?a280ec0db77419ee9f580d7805d4a2dc);
+  background: url(/images/home-bg1.jpg?1d42798d61717f3265e8eecb7e489432);
   background-size: cover;
 }
 
@@ -17468,7 +17486,7 @@ ul li {
 }
 
 .auth.theme-two .banner-section .slide-content.bg-1 {
-  background: url(/images/login_1.jpg?a280ec0db77419ee9f580d7805d4a2dc) no-repeat center center;
+  background: url(/images/home-bg1.jpg?1d42798d61717f3265e8eecb7e489432) no-repeat center center;
   background-size: cover;
 }
 

@@ -12,12 +12,13 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js/app.js')
-// .js('resources/js/off-canvas.js', 'public/js/off-canvas.js')
-//.js('resources/js/misc.js', 'public/js/misc.js')
-//.js('resources/js/dashboard.js', 'public/js/dashboard.js')
     .sass('vendor/iconfonts/font-awesome/scss/font-awesome.scss', 'public/css')
     .js('node_modules/sweetalert2/dist/sweetalert2.all.js', 'public/js')
     .js('node_modules/sweetalert2/dist/sweetalert2.js', 'public/js')
+    .copy('resources/js/transitions.js', 'public/js')
+    .copy('resources/js/login.js', 'public/js')
+    //.js('node_modules/gsap/all.js', 'public/js/TweenMax.js')
+    //.js('node_modules/@barba/core/dist/barba.js', 'public/js')
     //.js('resources/js/mask.js', 'public/js/mask.js')
     //.js('node_modules/popper.js/dist/popper.js', 'public/js')
     //.js('node_modules/jquery/src/jquery.js', 'public/js')
@@ -34,10 +35,3 @@ mix.js('resources/js/app.js', 'public/js/app.js')
         'vendor/css/vendor.bundle.addons.css'], 'public/css/all.css')
     .copy(['node_modules/@mdi/font/fonts'], 'public/fonts')
     .copy('resources/images', 'public/images');
-
-
-/*'public/css/materialdesignicons.min.css')
-'public/css/feather.css')
-'public/css/vendor.bundle.base.css')
- 'public/css/vendor.bundle.addons.css')
- */

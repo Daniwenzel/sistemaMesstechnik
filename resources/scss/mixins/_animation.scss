@@ -68,3 +68,20 @@
 .fadeInUp {
   animation-name: fadeInUp;
 }
+
+.page-transition-top {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(120deg, #90ff83, #3cec2c, #3abe2a, #179108);
+  position: fixed;
+  z-index: 1000;
+  top: -100%;
+}
+.page-transition-bot {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(120deg, #90ff83, #3cec2c, #3abe2a, #179108);
+  position: fixed;
+  z-index: 1000;
+  bottom: -100%;
+}

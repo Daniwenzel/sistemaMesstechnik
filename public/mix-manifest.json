@@ -6,5 +6,7 @@
     "/css/bootstrap.css": "/css/bootstrap.css",
     "/js/sweetalert2.js": "/js/sweetalert2.js",
     "/js/sweetalert2.all.js": "/js/sweetalert2.all.js",
+    "/js/transitions.js": "/js/transitions.js",
+    "/js/login.js": "/js/login.js",
     "/css/all.css": "/css/all.css"
 }

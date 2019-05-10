@@ -66,7 +66,7 @@
 
 .card-weather {
   background: #e1ecff;
-  background-image: linear-gradient(to left bottom, #d6eef6, #dff0fa, #e7f3fc, #eff6fe, #f6f9ff);
+  background-image: linear-gradient(to top, #d6eef6, #dff0fa, #e7f3fc, #eff6fe, #f6f9ff);
   .card-body {
     background: $white;
     &:first-child {
