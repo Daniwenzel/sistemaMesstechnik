@@ -11,15 +11,46 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('auth/login');
+Route::get('/', function () {
+    return redirect()->route('login');
 });
 
-Route::get('/admin', function() {
-    return view('master');
-});*/
+Auth::routes(['register' => false]);
 
+Route::group(['middleware' => 'auth'], function() {
 
-Auth::routes();
+    Route::get('/', 'DashboardController@showDashboard')->name('dashboard');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/', 'UserController@showUserList')->name('user');
+        Route::get('/config/{user_id}', 'UserController@showUserConfig')->name('show.config');
+        Route::post('/edit/{user_id}', 'UserController@editUserConfig')->name('edit.config');
+        Route::post('/avatar/{user_id}', 'UserController@editUserAvatar')->name('edit.avatar');
+        Route::get('/register', 'UserController@showRegisterUser')->name('show.register');
+        Route::post('/register', 'UserController@registerUser')->name('create.register');
+        Route::post('/delete/{user_id}', 'UserController@deleteUser')->name('delete.user');
+    });
+
+    Route::group(['prefix' => 'company'], function () {
+        Route::get('/', 'CompanyController@showCompanyList')->name('company');
+        Route::post('/register', 'CompanyController@registerCompany')->name('create.company');
+        Route::get('/register', 'CompanyController@showRegisterCompany')->name('show.register.company');
+        Route::post('/delete/{company_id}', 'CompanyController@deleteCompany')->name('delete.company');
+    });
+
+    Route::group(['prefix' => 'entitlement'], function () {
+        Route::get('/', 'UserController@showRolesPermissions')->name('role.permission');
+        Route::post('/registerpermission', 'RolePermissionController@insertPermission')->name('create.permission');
+        Route::post('/roledel/{role_id}', 'RolePermissionController@deleteRole')->name('delete.role');
+        Route::post('/permdel/{perm_id}', 'RolePermissionController@deletePerm')->name('delete.permission');
+        Route::post('/registerrole', 'RolePermissionController@insertRole')->name('create.role');
+    });
+
+    Route::get('windfarms', 'WindFarmController@showWindfarmList')->name('windfarm');
+    Route::get('windfarms/{farm_id}', 'WindFarmController@showWindfarm')->name('windfarm.info');
+
+    Route::get('windfarms/tower/{tower_id}', 'TowerController@showTowerInfo')->name('tower.info');
+
+    Route::get('openfile', 'SensorController@openFile')->name('open.file');
+
+});

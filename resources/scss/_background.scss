@@ -1,0 +1,11 @@
+/* Backgrounds  */
+@each $color, $value in $theme-gradient-colors {
+	.bg-gradient-#{$color} {
+		background: theme-gradient-color($color);
+	}
+}
+
+.bg-windfarm {
+	background: url("../images/eolic-park.jpg") center center no-repeat;
+	background-size: cover;
+}
