@@ -15,7 +15,7 @@
                     @if(Auth::user()->getFirstMedia('profile'))
                         <img class="img-xs rounded-circle" src="{{ Auth::user()->getFirstMedia('profile')->getUrl('avatar') }}" alt="profile image">
                     @else
-                        <img src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
+                        <img class="img-xs rounded-circle" src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="profile image">
                     @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
