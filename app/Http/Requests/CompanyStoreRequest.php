@@ -24,9 +24,9 @@ class CompanyStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'bail|required|string|max:255',
-            'cnpj' => 'bail|required|string',
-            'phone'=> 'bail|required|string',
+            'name' => 'bail|required|string|max:255|unique:empresas',
+            'cnpj' => 'bail|string|nullable',
+            'phone' => 'bail|string|nullable',
             'email' => 'bail|required|string|email|max:255|unique:empresas',
         ];
     }

@@ -58,7 +58,7 @@
                                         {{ $empresa->email }}
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-company" id="{{$empresa->id}}-btn" data-toggle="modal" data-id="{{ $empresa->id }}">
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarEmpresa({{ $empresa->id }})" id="{{$empresa->id}}-btn" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>

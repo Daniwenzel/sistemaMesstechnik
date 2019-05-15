@@ -4,9 +4,7 @@
     "/css/style.css": "/css/style.css",
     "/css/sweetalert2.css": "/css/sweetalert2.css",
     "/css/bootstrap.css": "/css/bootstrap.css",
-    "/js/sweetalert2.js": "/js/sweetalert2.js",
-    "/js/sweetalert2.all.js": "/js/sweetalert2.all.js",
-    "/js/transitions.js": "/js/transitions.js",
-    "/js/login.js": "/js/login.js",
+    "/js/alerts.js": "/js/alerts.js",
+    "/js/chart.js": "/js/chart.js",
     "/css/all.css": "/css/all.css"
 }

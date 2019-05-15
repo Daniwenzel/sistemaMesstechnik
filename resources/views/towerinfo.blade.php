@@ -5,21 +5,73 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-md-center">{{ $torre->cod_cliente }}</h2>
-                <h4 class="card-title m-3 text-md-center">Últimos dados lidos no dia {{ $yesterday }}</h4>
+                <h4 class="card-title m-3 text-md-center">Dados do dia {{ $yesterday }}</h4>
 
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Anemômetros</h4>
-                                <canvas id="lineChart" style="height:250px"></canvas>
+                                <canvas id="anemometroChart" style="height:250px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Windvanes</h4>
+                                <canvas id="windvaneChart" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Barômetros</h4>
+                                <canvas id="barometroChart" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Temperaturas</h4>
+                                <canvas id="temperaturaChart" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Umidades</h4>
+                                <canvas id="umidadeChart" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Baterias</h4>
+                                <canvas id="bateriaChart" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!--foreach(array_chunk($leituras,2) as $chunk)
                     <div class="row">

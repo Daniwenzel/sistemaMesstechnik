@@ -60,7 +60,7 @@
                                             {{ $cargo->updated_at }}
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-role" id="{{$cargo->id}}-btn" data-toggle="modal" data-id="{{ $cargo->id }}">
+                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarCargo({{ $cargo->id }})" id="{{$cargo->id}}-btn" data-toggle="modal">
                                                 <i class="mdi mdi-delete"></i>
                                             </button>
                                         </td>
@@ -134,7 +134,7 @@
                                             <button type="button" class="btn btn-icons btn-rounded btn-outline-primary">
                                                 <i class="mdi mdi-pencil"></i>
                                             </button>
-                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-perm" id="{{$permissao->id}}-btn" data-toggle="modal" data-id="{{ $permissao->id }}">
+                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarPermissao({{ $permissao->id }})" id="{{$permissao->id}}-btn" data-toggle="modal">
                                                 <i class="mdi mdi-delete"></i>
                                             </button>
                                         </td>

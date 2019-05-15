@@ -76,3 +76,8 @@
     @include card-inverse-variant(rgba(theme-color($color), .2), theme-color-level($color, 1), theme-color-level($color, 3));
   }
 }
+
+.card-button:hover {
+  cursor: pointer;
+  opacity: 0.4;
+}

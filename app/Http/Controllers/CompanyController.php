@@ -10,15 +10,18 @@ use Illuminate\Support\Facades\Session;
 
 class CompanyController extends Controller
 {
+
+    // Mostrar tela de registro de empresa
     public function showRegisterCompany()
     {
-        if (Auth::user()->hasRole('Engenheiro')) {
+        if (Auth::user()->hasRole('Admin')) {
             return view('register-company');
         } else {
             return view('errors/unallowed');
         }
     }
 
+    // Registrar empresa
     public function registerCompany(CompanyStoreRequest $request) {
         $validated = $request->validated();
 
@@ -34,6 +37,7 @@ class CompanyController extends Controller
         return redirect()->back();
     }
 
+    // Mostrar lista de empresas
     public function showCompanyList(Request $request) {
         $search = $request['search'];
 
@@ -42,6 +46,7 @@ class CompanyController extends Controller
         return view('companylist', compact('empresas'));
     }
 
+    // Deletar empresa
     public function deleteCompany($company_id) {
         Company::find($company_id)->delete();
     }

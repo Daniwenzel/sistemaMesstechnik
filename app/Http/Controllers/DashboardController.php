@@ -14,9 +14,9 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+    // Mostrar tela inicial (dashboard) após o login efetuado
     public function showDashboard()
     {
-
         return view('dashboard');
     }
 }

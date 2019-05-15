@@ -32,7 +32,7 @@
                 <span class="menu-title">Usuários</span>
             </a>
         </li>
-        @role('Engenheiro')
+        @role('Admin')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('company') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>

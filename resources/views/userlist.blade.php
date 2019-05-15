@@ -58,7 +58,7 @@
                                         <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" onclick="window.location='{{ route('show.config', $usuario->id) }}'">
                                             <i class="mdi mdi-pencil"></i>
                                         </button>
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-delete-user" id="{{$usuario->id}}-btn" data-toggle="modal" data-id="{{ $usuario->id }}">
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger {{ Auth::user()->id === $usuario->id ? 'hidden' : '' }}" onclick="swalDeletarUsuario({{ $usuario->id }})" id="{{$usuario->id}}-btn" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>

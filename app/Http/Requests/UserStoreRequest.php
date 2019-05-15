@@ -26,9 +26,9 @@ class UserStoreRequest extends FormRequest
         return [
             //'id' => 'required',
             'name' => 'bail|required|string|max:255',
-            'last_name' => 'bail|string|max:255',
-            'aniversario' => 'bail|date',
-            'genero' => 'bail|string|max:255',
+            'last_name' => 'bail|string|max:255|nullable',
+            'aniversario' => 'bail|date|nullable',
+            'genero' => 'bail|string|max:255|nullable',
             'email' => 'bail|required|string|email|max:255|unique:users',
             'password' => 'bail|required|string|min:6|confirmed',
         ];

@@ -9,24 +9,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
+    // Registrar usuário
     public function registerUser(UserStoreRequest $request) {
-
-        $validated = $request->validated();
-
         $empresa = Company::where('nome', $request['empresa'])->first();
 
-        $user = new User([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'empresa_id' => $empresa->id
-        ]);
+        $user = new User($request->validated());
+        $user->password = Hash::make($user->password);
+        $user->empresa_id = $empresa->id;
+
         //$user->assignRole('Engenheiro');
         $user->save();
 
@@ -34,20 +31,23 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    // Mostrar tela de cadastro de usuário
     public function showRegisterUser() {
-        if (Auth::user()->hasRole('Engenheiro')) {
+        if (Auth::user()->hasRole('Admin')) {
             $empresas = Company::all('id', 'nome');
         }
         else {
-            $empresas = Company::find(Auth::user()->empresa_id);
+            $empresas = Company::all('id', 'nome')
+                ->where('id', Auth::user()->empresa_id);
         }
-        return view('auth/register')->with('empresas', $empresas);
+        return view('auth/register', compact('empresas'));
     }
 
+    // Mostrar tela de usuários cadastrados
     public function showUserList(Request $request) {
         $search = $request['search'];
 
-        if (Auth::user()->hasRole('Engenheiro')) {
+        if (Auth::user()->hasRole('Admin')) {
             $usuarios = User::where('name','like','%'.$search.'%')
                 ->with('empresa')
                 ->orWhereHas('empresa', function($query) use ($search) {
@@ -65,8 +65,9 @@ class UserController extends Controller
         return view('userlist', compact('usuarios'));
     }
 
+    // Mostrar tela lista de cargos e permissoes
     public function showRolesPermissions() {
-        if (Auth::user()->hasRole('Engenheiro')) {
+        if (Auth::user()->hasRole('Admin')) {
             $permissoes = Permission::all();
             $cargos = Role::all();
 
@@ -74,11 +75,12 @@ class UserController extends Controller
         }
     }
 
+    // Deletar usuario
     public function deleteUser($user_id) {
         User::find($user_id)->delete();
-
     }
 
+    // Mostrar tela e configuracoes de usuario
     public static function showUserConfig($user_id) {
         $user = User::find($user_id);
         $allpermissions = Permission::all();
