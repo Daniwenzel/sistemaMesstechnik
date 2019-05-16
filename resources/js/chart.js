@@ -1573,7 +1573,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     // valor mínimo da axis y = 800 para os barometros, caso o valor for menor que 800, o gráfico se adapta.
-                    suggestedMin: 800
+                    suggestedMin: 0
                 }
             }],
             xAxes: [{
@@ -1618,7 +1618,31 @@ $(function() {
         var baChart = new Chart(barometroCanvas, {
             type: 'line',
             data: barometrosData,
-            options: options
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            // valor mínimo da axis y = 800 para os barometros, caso o valor for menor que 800, o gráfico se adapta.
+                            suggestedMin: 800
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            minRotation: 90,
+                            autoSkip: true,
+                            maxTicksLimit: 24.1
+                        }
+                    }]
+                },
+                legend: {
+                    display: true
+                },
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                }
+            }
         });
     }
 

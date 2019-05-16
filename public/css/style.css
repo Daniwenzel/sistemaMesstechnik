@@ -13463,6 +13463,10 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
   bottom: -100%;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 /* Miscellaneous Mixins */
 
 .new-accounts ul.chats li.chat-persons a div.user p.u-designation,
@@ -17251,7 +17255,7 @@ ul li {
 /* Auth */
 
 .auth.auth-bg-1 {
-  background: url(/images/home-bg1.jpg?1d42798d61717f3265e8eecb7e489432);
+  background: url(/images/home-bg1.jpg?9d59df21e1b966458ebcfb630531a34c);
   background-size: cover;
 }
 
@@ -17482,7 +17486,7 @@ ul li {
 }
 
 .auth.theme-two .banner-section .slide-content.bg-1 {
-  background: url(/images/home-bg1.jpg?1d42798d61717f3265e8eecb7e489432) no-repeat center center;
+  background: url(/images/home-bg1.jpg?9d59df21e1b966458ebcfb630531a34c) no-repeat center center;
   background-size: cover;
 }
 
