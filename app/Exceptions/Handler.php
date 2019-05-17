@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
                 return response()->view('errors.' . '500', [], 500);
             }
             if ($exception->getStatusCode() == 403) {
-                return response()->view('errors.' . 'unallowed', [], 403);
+                return response()->view('errors.' . '403', [], 403);
             }
         }
         return parent::render($request, $exception);

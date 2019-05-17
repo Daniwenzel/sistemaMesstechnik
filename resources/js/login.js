@@ -4,17 +4,17 @@ $(document).ready(function() {
         repeat:-1,
     });
 
-    tl.set("#login-bg", {backgroundSize:"110% 135%",background:'url("images/auth/home-bg1.jpg")'}, "-=0.5")
+    tl.set("#login-bg", {backgroundSize:"120% 120%",background:'url("images/auth/home-bg1.jpg")'}, "-=0.5")
         .to("#login-bg", 5, {
-            backgroundPosition:"65% 0",
+            backgroundPosition:"0% 80%",
             autoRound:false,
             ease: Power1.ease0ut
         })
         .to("#login-bg", 0.5,{opacity: 0.3}, "-=0.5")
         .to("#login-bg", 0.65,{opacity: 1})
-        .set("#login-bg", {backgroundSize:"120% 120%",background:'url("images/auth/home-bg2.jpg")'}, "-=0.5")
+        .set("#login-bg", {backgroundSize:"110% 135%",background:'url("images/auth/home-bg2.jpg")'}, "-=0.5")
         .to("#login-bg", 5, {
-            backgroundPosition:"0 80%",
+            backgroundPosition:"65% 0",
             autoRound:false,
             ease: Power1.ease0ut
         })

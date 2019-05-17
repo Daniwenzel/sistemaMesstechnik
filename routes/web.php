@@ -46,10 +46,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('/registerrole', 'RolePermissionController@insertRole')->name('create.role');
     });
 
-    Route::get('windfarms', 'WindFarmController@showWindfarmList')->name('windfarm');
-    Route::get('windfarms/{farm_id}', 'WindFarmController@showWindfarm')->name('windfarm.info');
-
-    Route::get('windfarms/tower/{tower_id}', 'TowerController@showTowerInfo')->name('tower.info');
+    Route::group(['prefix' => 'windfarms'], function () {
+        Route::get('/', 'WindFarmController@showWindfarmList')->name('windfarm');
+        Route::get('/{farm_id}', 'WindFarmController@showWindfarm')->name('windfarm.info');
+        Route::get('/tower/{tower_id}', 'TowerController@showTowerInfo')->name('tower.info');
+    });
 
     Route::get('openfile', 'SensorController@openFile')->name('open.file');
 

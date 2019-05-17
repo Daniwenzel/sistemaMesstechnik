@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -27,7 +26,7 @@ class UserController extends Controller
         //$user->assignRole('Engenheiro');
         $user->save();
 
-        Session::flash('message', 'Usuário criado com sucesso!');
+        Session::flash('message', 'Usuário cadastrado com sucesso!');
         return redirect()->back();
     }
 
