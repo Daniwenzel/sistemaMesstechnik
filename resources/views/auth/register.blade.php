@@ -52,7 +52,7 @@
                             </span>
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Senha" name="password" required>
                                 <div class="input-group-append">
-                                   <a style="cursor:pointer;" class="input-group-text" onclick="togglePasswordType()"><i id="passIcon" class="mdi mdi-lock"></i></a>
+                                    <a style="cursor:pointer;" class="input-group-text" onclick="togglePasswordType()"><i id="passIcon" class="mdi mdi-lock"></i></a>
                                 </div>
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -80,7 +80,24 @@
                                 </select>
                             </div>
                         </div>
-
+                        @role('Admin')
+                        <div class="form-group row">
+                            <div class="col-sm-5">
+                                <div class="form-radio">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="accountRole" id="accountRoleBasic" value="Basica" checked> Básica
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-radio">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="accountRole" id="accountRoleMaster" value="Master"> Master
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @endrole
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success mr-2">{{ __('Confirmar') }}</button>

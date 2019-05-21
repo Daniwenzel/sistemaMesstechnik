@@ -13,7 +13,7 @@
                     <div class="text-wrapper">
                         <p class="profile-name">{{ Auth::user()->name }}</p>
                         <div>
-                            <small class="designation text-muted">{{ Auth::user()->getRoleNames()->first() }}</small>
+                            <small class="designation text-muted">{{ Auth::user()->empresa->nome }}</small>
                             <span class="status-indicator online"></span>
                         </div>
                     </div>
