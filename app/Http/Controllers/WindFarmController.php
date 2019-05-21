@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Tower;
 use App\Models\WindFarm;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WindFarmController extends Controller
 {
-    public function showWindfarmList() {
+    public function showWindfarmList(Request $request) {
+
         if(Auth::user()->hasRole('Admin')) {
-            $windfarms = WindFarm::orderBy('nome', 'asc')
+            $windfarms = WindFarm::where('nome', 'like', '%'.$request['search'].'%')
+            ->orderBy('nome', 'asc')
                 ->paginate(5);
         }
         else {
             $windfarms = WindFarm::where('empresa_id', Auth::user()->empresa_id)
+                ->where('nome', 'like', '%'.$request['search'].'%')
                 ->orderBy('nome', 'asc')
                 ->paginate(2);
 

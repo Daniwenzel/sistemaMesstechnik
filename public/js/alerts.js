@@ -1,7 +1,7 @@
 function swalDeletarUsuario(usuario_id) {
     event.preventDefault();
 
-    swal.fire({
+    Swal.fire({
         title: 'Tem certeza?',
         text: "Não poderá reverter esta ação!",
         type: 'warning',
@@ -16,7 +16,7 @@ function swalDeletarUsuario(usuario_id) {
                 type: "POST",
                 url: "/user/delete/" + usuario_id
             });
-            swal.fire(
+            Swal.fire(
                 'Excluido!',
                 'Este usuário foi excluido do sistema.',
                 'success'
@@ -32,7 +32,7 @@ function swalDeletarUsuario(usuario_id) {
 function swalDeletarEmpresa(empresa_id) {
     event.preventDefault();
 
-    swal.fire({
+    Swal.fire({
         title: 'Tem certeza?',
         text: "Não poderá reverter esta ação!",
         type: 'warning',
@@ -47,7 +47,7 @@ function swalDeletarEmpresa(empresa_id) {
                 type: "POST",
                 url: "/company/delete/" + empresa_id
             });
-            swal.fire(
+            Swal.fire(
                 'Excluido!',
                 'Esta empresa foi excluida do sistema.',
                 'success'
@@ -63,7 +63,7 @@ function swalDeletarEmpresa(empresa_id) {
 function swalDeletarCargo(cargo_id) {
     event.preventDefault();
 
-    swal.fire({
+    Swal.fire({
         title: 'Tem certeza?',
         text: "Não poderá reverter esta ação!",
         type: 'warning',
@@ -78,7 +78,7 @@ function swalDeletarCargo(cargo_id) {
                 type: "POST",
                 url: "/entitlement/roledel/" + cargo_id
             });
-            swal.fire(
+            Swal.fire(
                 'Excluido!',
                 'Este Cargo foi excluido do sistema.',
                 'success'
@@ -94,7 +94,7 @@ function swalDeletarCargo(cargo_id) {
 function swalDeletarPermissao(permissao_id) {
     event.preventDefault();
 
-    swal.fire({
+    Swal.fire({
         title: 'Tem certeza?',
         text: "Não poderá reverter esta ação!",
         type: 'warning',
@@ -109,7 +109,7 @@ function swalDeletarPermissao(permissao_id) {
                 type: "POST",
                 url: "/entitlement/permdel/"+permissao_id
             });
-            swal.fire(
+            Swal.fire(
                 'Excluido!',
                 'Esta Permissão foi excluida do sistema.',
                 'success'
@@ -120,4 +120,17 @@ function swalDeletarPermissao(permissao_id) {
             })
         }
     })
+}
+
+function swalRegistrarUsuario() {
+    Swal.fire({
+        position: 'top-end',
+        type: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500,
+        onClose: function () {
+            window.location.reload();
+        }
+    });
 }

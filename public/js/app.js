@@ -96933,16 +96933,14 @@ __webpack_require__(/*! ./misc */ "./resources/js/misc.js");
 
 __webpack_require__(/*! ./off-canvas */ "./resources/js/off-canvas.js");
 
-__webpack_require__(/*! gsap/all */ "./node_modules/gsap/all.js"); //require('./login');
-
+__webpack_require__(/*! gsap/all */ "./node_modules/gsap/all.js");
 
 __webpack_require__(/*! ./transitions */ "./resources/js/transitions.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-window.swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 window.barba = __webpack_require__(/*! @barba/core */ "./node_modules/@barba/core/dist/barba.umd.js");
-window.Chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js"); // biblioteca node_modules/chart.js
-
+window.Chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -97265,24 +97263,6 @@ $(document).ready(function () {
   var tl = new TimelineMax();
   barba.init({
     transitions: [{
-      name: 'legacy-example',
-      leave: function leave(data) {
-        var done = this.async();
-        TweenMax.to(data.current.container, 1, {
-          opacity: 0,
-          onComplete: done
-        });
-        console.log('transicao lul');
-      },
-      enter: function enter(data) {
-        var done = this.async();
-        TweenMax.from(data.next.container, 1, {
-          opacity: 0,
-          onComplete: done
-        });
-        console.log('transicao fecha');
-      }
-    }, {
       name: 'page-transition',
       to: {
         namespace: ['user', 'home', 'company', 'register-company', 'roles', 'tower', 'user-config', 'windfarms', 'windfarms-info']

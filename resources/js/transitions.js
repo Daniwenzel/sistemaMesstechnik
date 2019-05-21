@@ -4,25 +4,6 @@ $(document).ready(function () {
     barba.init({
         transitions: [
             {
-                name: 'legacy-example',
-                leave: function (data) {
-                    var done = this.async();
-                    TweenMax.to(data.current.container, 1, {
-                        opacity: 0,
-                        onComplete: done,
-                    });
-                    console.log('transicao lul');
-                },
-                enter: function (data) {
-                    var done = this.async();
-                    TweenMax.from(data.next.container, 1, {
-                        opacity: 0,
-                        onComplete: done,
-                    });
-                    console.log('transicao fecha');
-                }
-            },
-            {
                 name: 'page-transition',
                 to: {
                     namespace: [

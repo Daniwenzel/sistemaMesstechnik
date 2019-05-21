@@ -15,7 +15,7 @@ class CompanyController extends Controller
     public function showRegisterCompany()
     {
         if (Auth::user()->hasRole('Admin')) {
-            return view('register-company');
+            return view('companyregister');
         } else {
             return view('errors/unallowed');
         }
@@ -26,7 +26,7 @@ class CompanyController extends Controller
         $validated = $request->validated();
 
         $empresa = new Company([
-            'nome' => $request['name'],
+            'nome' => $request['nome'],
             'cnpj' => $request['cnpj'],
             'telefone' => $request['phone'],
             'email' => $request['email']

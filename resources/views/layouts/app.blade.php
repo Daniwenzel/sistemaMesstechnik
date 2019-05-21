@@ -18,12 +18,6 @@
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/sweetalert2.css') }}" rel="stylesheet" type="text/css">
 
-    <style>
-        .hidden {
-            visibility: hidden;
-        }
-    </style>
-
 </head>
 
 <body data-barba="wrapper">
@@ -56,6 +50,7 @@
 <script src="{{ asset('js/alerts.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/chart.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/login.js') }}" type="text/javascript" defer></script>
+<script src="{{ asset('js/password.js') }}" type="text/javascript" defer></script>
 
 </body>
 </html>

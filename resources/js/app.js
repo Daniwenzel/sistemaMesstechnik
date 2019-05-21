@@ -10,13 +10,12 @@ require('./dashboard');
 require('./misc');
 require('./off-canvas');
 require('gsap/all');
-//require('./login');
 require('./transitions');
 
 window.Vue = require('vue');
-window.swal = require('sweetalert2');
+window.Swal = require('sweetalert2');
 window.barba = require('@barba/core');
-window.Chart = require('chart.js'); // biblioteca node_modules/chart.js
+window.Chart = require('chart.js');
 
 /**
  * The following block of code may be used to automatically register your

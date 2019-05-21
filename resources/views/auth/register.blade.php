@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Session::has('message'))
-        <div class="alert alert-success">
-            <ul>
-                <li>{!! Session::get('message') !!}</li>
-            </ul>
+    @if (session('message'))
+        <div class="alert alert-success" role="alert">
+            {{ session('message') }}
         </div>
     @endif
 
@@ -53,7 +51,9 @@
                               <i class="mdi mdi-key"></i>
                             </span>
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Senha" name="password" required>
-
+                                <div class="input-group-append">
+                                   <a style="cursor:pointer;" class="input-group-text" onclick="togglePasswordType()"><i id="passIcon" class="mdi mdi-lock"></i></a>
+                                </div>
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>

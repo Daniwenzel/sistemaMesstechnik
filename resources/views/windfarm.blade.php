@@ -2,6 +2,18 @@
 
 @section('content')
     <div data-barba-namespace="windfarms">
+        <form method="get" action="{{ route('windfarm') }}" class="navbar-form navbar-left mt-4">
+            <div class="form-group">
+                <div class="input-group">
+                    <input name="search" type="text" class="form-control" placeholder="Procurar..." aria-label="Username" aria-describedby="colored-addon3">
+                    <div class="input-group-append bg-primary border-primary">
+                        <button type="submit" class="btn input-group-text bg-transparent">
+                            <i class="mdi mdi-account-search text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
         @foreach($windfarms as $windfarm)
             <div class="row text-md-center">
                 <div class="col-md-12 stretch-card grid-margin">

@@ -3,11 +3,9 @@
 @section('content')
     <div data-barba-namespace="register-company">
 
-        @if(Session::has('message'))
-            <div class="alert alert-success">
-                <ul>
-                    <li>{!! Session::get('message') !!}</li>
-                </ul>
+        @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
             </div>
         @endif
         <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
@@ -20,15 +18,15 @@
                             <div class="form-group row">
                                 <div class="input-group">
                                     <span class="input-group-text btn-inverse-primary">
-                                        <label for="name">
+                                        <label for="nome">
                                             <i class="mdi mdi-account"></i>
                                         </label>
                                     </span>
-                                    <input id="name" type="text" placeholder="Nome" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" required autofocus>
+                                    <input id="nome" type="text" placeholder="Nome" name="nome" class="form-control{{ $errors->has('nome') ? ' is-invalid' : '' }}" required autofocus>
 
-                                    @if ($errors->has('name'))
+                                    @if ($errors->has('nome'))
                                         <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('nome') }}</strong>
                                     </span>
                                     @endif
                                 </div>
@@ -41,7 +39,7 @@
                                             <i class="mdi mdi-barcode-scan"></i>
                                         </label>
                                     </span>
-                                    <input id="cnpj" type="text" placeholder="CNPJ" name="cnpj" class="cnpj form-control{{ $errors->has('cnpj') ? ' is-invalid' : '' }}">
+                                    <input id="cnpj" type="text" placeholder="CNPJ" name="cnpj" class="form-control{{ $errors->has('cnpj') ? ' is-invalid' : '' }}">
 
                                     @if ($errors->has('cnpj'))
                                         <span class="invalid-feedback" role="alert">
