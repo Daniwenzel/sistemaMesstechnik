@@ -52,7 +52,7 @@
                             </span>
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Senha" name="password" required>
                                 <div class="input-group-append">
-                                   <a style="cursor:pointer;" class="input-group-text" onclick="togglePasswordType()"><i id="passIcon" class="mdi mdi-lock"></i></a>
+                                    <a class="input-group-text cursor-pointer" onclick="togglePasswordType()"><i id="passIcon" class="mdi mdi-lock"></i></a>
                                 </div>
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">

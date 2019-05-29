@@ -13467,6 +13467,10 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
   visibility: hidden;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /* Miscellaneous Mixins */
 
 .new-accounts ul.chats li.chat-persons a div.user p.u-designation,

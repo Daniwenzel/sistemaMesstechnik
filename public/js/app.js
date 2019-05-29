@@ -96927,8 +96927,6 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! ./dashboard */ "./resources/js/dashboard.js");
-
 __webpack_require__(/*! ./misc */ "./resources/js/misc.js");
 
 __webpack_require__(/*! ./off-canvas */ "./resources/js/off-canvas.js");
@@ -97091,84 +97089,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/dashboard.js":
-/*!***********************************!*\
-  !*** ./resources/js/dashboard.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function ($) {
-  'use strict';
-
-  $(function () {
-    if ($('#dashboard-area-chart').length) {
-      var lineChartCanvas = $("#dashboard-area-chart").get(0).getContext("2d");
-      var data = {
-        labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
-        datasets: [{
-          label: 'Product',
-          data: [0, 11, 6, 10, 8, 0],
-          backgroundColor: 'rgba(0, 128, 207, 0.4)',
-          borderWidth: 1,
-          fill: true
-        }, {
-          label: 'Product',
-          data: [0, 7, 11, 8, 11, 0],
-          backgroundColor: 'rgba(2, 178, 248, 0.4)',
-          borderWidth: 1,
-          fill: true
-        }, {
-          label: 'Support',
-          data: [0, 14, 10, 14, 6, 0],
-          backgroundColor: 'rgba(73, 221, 255, 0.4)',
-          borderWidth: 1,
-          fill: true
-        }]
-      };
-      var options = {
-        responsive: true,
-        maintainAspectRatio: true,
-        scales: {
-          yAxes: [{
-            display: false
-          }],
-          xAxes: [{
-            display: false,
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        },
-        legend: {
-          display: false
-        },
-        elements: {
-          point: {
-            radius: 3
-          }
-        },
-        layout: {
-          padding: {
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0
-          }
-        },
-        stepsize: 1
-      };
-      var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
-        data: data,
-        options: options
-      });
-    }
-  });
-})(jQuery);
-
-/***/ }),
-
 /***/ "./resources/js/misc.js":
 /*!******************************!*\
   !*** ./resources/js/misc.js ***!
@@ -97268,18 +97188,10 @@ $(document).ready(function () {
         namespace: ['user', 'home', 'company', 'register-company', 'roles', 'tower', 'user-config', 'windfarms', 'windfarms-info']
       },
       sync: true,
-      beforeAppear: function beforeAppear() {
-        console.log('beforeappear');
-      },
-      appear: function appear() {
-        console.log('appear');
-      },
-      afterAppear: function afterAppear() {
-        console.log('afterappear');
-      },
-      beforeLeave: function beforeLeave() {
-        console.log('beforeleave');
-      },
+      beforeAppear: function beforeAppear() {},
+      appear: function appear() {},
+      afterAppear: function afterAppear() {},
+      beforeLeave: function beforeLeave() {},
       leave: function leave() {
         tl.to('.main-panel', 0.1, {
           opacity: 0
@@ -97292,14 +97204,9 @@ $(document).ready(function () {
           ease: Bounce.easeOut,
           y: "-50%"
         }, "-=0.8");
-        console.log('leave');
       },
-      afterLeave: function afterLeave() {
-        console.log('afterleave');
-      },
-      beforeEnter: function beforeEnter() {
-        console.log('beforeenter');
-      },
+      afterLeave: function afterLeave() {},
+      beforeEnter: function beforeEnter() {},
       enter: function enter() {
         tl.to('.main-panel', 1, {
           opacity: 1
@@ -97312,11 +97219,8 @@ $(document).ready(function () {
           ease: Expo.easeOut,
           x: "100%"
         }, "-=1");
-        console.log('enter');
       },
-      afterEnter: function afterEnter() {
-        console.log('afterenter');
-      }
+      afterEnter: function afterEnter() {}
     }]
   });
 });

@@ -43,7 +43,7 @@ class UserController extends Controller
             $empresas = Company::all('id', 'nome')
                 ->where('id', Auth::user()->empresa_id);
         }
-        return view('auth/register', compact('empresas'));
+        return view('auth.register', compact('empresas'));
     }
 
     // Mostrar tela de usuários cadastrados

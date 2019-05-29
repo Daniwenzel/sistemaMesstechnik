@@ -6,7 +6,6 @@
  */
 
 require('./bootstrap');
-require('./dashboard');
 require('./misc');
 require('./off-canvas');
 require('gsap/all');

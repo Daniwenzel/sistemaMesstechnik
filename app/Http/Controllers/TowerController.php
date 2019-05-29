@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Anemometro;
 use App\Models\Barometro;
 use App\Models\Bateria;
-use App\Models\Sensor;
 use App\Models\Temperatura;
 use App\Models\Tower;
 use App\Models\Umidade;
 use App\Models\Windvane;
 use Illuminate\Support\Carbon;
+//use Illuminate\Support\Str;
 
 class TowerController extends Controller
 {
@@ -23,7 +23,7 @@ class TowerController extends Controller
 
         $torre = Tower::find($tower_id);
 
-        $sensores = Sensor::where('torre_id', $tower_id)->get();
+        $sensores = $torre->sensores;
 
         //$yesterday = date("Y-m-d", strtotime( '-1 days' ) );
         $yesterday = Carbon::createFromDate(2018, 6, 20)->format('Y-m-d'); // usar yesterday fixo para exposicao
@@ -31,38 +31,61 @@ class TowerController extends Controller
         /*$leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);*/
 
         if (count($sensores) !== 0) {
-            foreach ($sensores as $sensor) { // Percorre a lista de sensores daquela torre
-                // e compara o seu tipo (anemometro, windvane...)
+            foreach ($sensores as $sensor) { /* Percorre a lista de sensores daquela torre
+                                                e compara o seu tipo (anemometro, windvane...)*/
 
                 if ($sensor->barometro->first()) {
                     $barometros[$sensor->nome] = Barometro::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
-                        ->get();
+                        ->where('nome', 'like','%'.'Avg')
+                        ->pluck('leitura')
+                        ->toArray();
                 } elseif ($sensor->anemometro->first()) {
                     $anemometros[$sensor->nome] = Anemometro::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
-                        ->get();
+                        ->where('nome', 'like','%'.'Avg')
+                        ->pluck('leitura')
+                        ->toArray();
                 } elseif ($sensor->windvane->first()) {
                     $windvanes[$sensor->nome] = Windvane::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
-                        ->get();
+                        ->where('nome', 'like','%'.'Avg')
+                        ->pluck('leitura')
+                        ->toArray();
                 } elseif ($sensor->temperatura->first()) {
-                    $temperaturas[$sensor->id] = Temperatura::whereDate('created_at', $yesterday)
+                    $temperaturas[$sensor->nome] = Temperatura::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
-                        ->get();
+                        ->where('nome', 'like','%'.'Avg')
+                        ->pluck('leitura')
+                        ->toArray();
                 } elseif ($sensor->umidade->first()) {
-                    $umidades[$sensor->id] = Umidade::whereDate('created_at', $yesterday)
+                    $umidades[$sensor->nome] = Umidade::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
-                        ->get();
+                        ->where('nome', 'like','%'.'Avg')
+                        ->pluck('leitura')
+                        ->toArray();
                 } elseif ($sensor->bateria->first()) {
-                    $baterias[$sensor->id] = Bateria::whereDate('created_at', $yesterday)
+                    $baterias[$sensor->nome] = Bateria::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
-                        ->get();
+                        ->where('nome', 'like','%'.'Avg')
+                        ->pluck('leitura')
+                        ->toArray();
                 }
-
             }
 
-            //dd($anemometros);
+            /* $filter = $anemometros['AN_120_']->filter(function($value, $key) {
+                 if (Str::endsWith($value['nome'], 'Avg')) {
+                     return true;
+                 }
+             });*/
+
+            $barometros = empty($barometros) ? [] : $barometros;
+            $anemometros = empty($anemometros) ? [] : $anemometros;
+            $windvanes = empty($windvanes) ? [] : $windvanes;
+            $temperaturas = empty($temperaturas) ? [] : $temperaturas;
+            $umidades = empty($umidades) ? [] : $umidades;
+            $baterias = empty($baterias) ? [] : $baterias;
+
             return view('towerinfo', compact([
                 'torre',
                 'yesterday',

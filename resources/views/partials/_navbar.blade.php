@@ -9,7 +9,7 @@
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center ">
         <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown nav-profile" style="cursor: pointer">
+            <li class="nav-item dropdown nav-profile cursor-pointer">
                 <a class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                     <span class="profile-text">Olá, {{ Auth::user()->name  }} !</span>
                     @if(Auth::user()->getFirstMedia('profile'))
