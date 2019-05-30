@@ -26,8 +26,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/config/{user_id}', 'UserController@showUserConfig')->name('show.config');
         Route::post('/edit/{user_id}', 'UserController@editUserConfig')->name('edit.config');
         Route::post('/avatar/{user_id}', 'UserController@editUserAvatar')->name('edit.avatar');
-        Route::get('/register', 'UserController@showRegisterUser')->name('show.register');
-        Route::post('/register', 'UserController@registerUser')->name('create.register');
+        Route::get('/register', 'UserController@showRegisterUser')->name('show.register')->middleware('master');
+        Route::post('/register', 'UserController@registerUser')->name('create.register')->middleware('master');
         Route::post('/delete/{user_id}', 'UserController@deleteUser')->name('delete.user');
     });
 

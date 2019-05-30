@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Cargos</h4>
-                        <button type="button" class="btn btn-outline-info btn-md btn-block" data-toggle="modal" data-target=".modal-role-md">
+                        <button type="button" class="btn btn-outline-info btn-md btn-block mt-4" data-toggle="modal" data-target=".modal-role-md">
                             <i class="mdi mdi-worker mdi-24px"></i>Registrar Cargo
                         </button>
                         <div class="modal fade modal-role-md badge-inverse-success" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive mt-5">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive mt-5">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>

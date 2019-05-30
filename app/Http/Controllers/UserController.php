@@ -5,14 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\Company;
 use App\User;
-use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use UxWeb\SweetAlert\SweetAlert;
 
 class UserController extends Controller
 {
@@ -22,13 +19,11 @@ class UserController extends Controller
         $empresa = Company::where('nome', $request['empresa'])->first();
 
         $user = new User($request->validated());
-        $user->password = Hash::make($user->password);
+        $user->password = bcrypt($user->password);
         $user->empresa_id = $empresa->id;
 
-        //$user->assignRole('Engenheiro');
+        $user->assignRole($request['accountRole']);
         $user->save();
-
-        alert()->message('Message', 'Optional Title');
 
         Session::flash('message', 'Usuário cadastrado com sucesso!');
         return redirect()->back();
