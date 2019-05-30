@@ -60,7 +60,7 @@
                                             {{ $cargo->updated_at }}
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarCargo({{ $cargo->id }})" id="{{$cargo->id}}-btn" data-toggle="modal">
+                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarCargo({{ $cargo->id }})" id="{{$cargo->id}}-btn" data-toggle="modal" disabled>
                                                 <i class="mdi mdi-delete"></i>
                                             </button>
                                         </td>
