@@ -38,7 +38,7 @@
             </div>
         </div>
     @else
-        <div data-barba="container" data-barba-namespace="login">
+        <div data-barba="container">
             @yield('content')
         </div>
     @endauth

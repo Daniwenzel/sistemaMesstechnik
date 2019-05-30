@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -46,8 +47,8 @@ class ResetPassword extends ResetPasswordNotification
                     ->line('Este é o E-mail para recuperação de senha.')
                     ->line('Clique no botão abaixo para resetar sua senha.')
                     ->action('Resetar Senha', url(config('app.url').route('password.reset', ['token' => $this->token], false)))
-                    ->line('Este link irá expirar em ', config('auth.passwords.users.expire') , ' minutos!')
-                    ->line('Caso não tenha requisitado, nenhuma ação é necessária.');
+                    ->line(Lang::getFromJson('Este link irá expirar em :count minutos', ['count' => config('auth.passwords.users.expire')]))
+                    ->line('Se não requisitou esta ação, ignore o e-mail.');
     }
 
     /**
