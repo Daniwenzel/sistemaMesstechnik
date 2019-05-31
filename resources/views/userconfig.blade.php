@@ -106,22 +106,4 @@
             </div>
         </div>
     </div>
-    <!-- <select class="custom-select text-md-center" multiple>
-         foreach($allroles as $role)
-         <--<option selected>Open this select menu</option>
-             <option>{ $role->name }}</option>
-         endforeach
-     </select>
-     <select class="custom-select text-md-center" multiple>
-         foreach($allpermissions as $permission)
-         <option selected>Open this select menu</option>
-             <option>{ $permission->name }}</option>
-         endforeach
-     </select>
-
-
-     <button type="submit" class="btn btn-success mr-2">Submit</button>
-      <button class="btn btn-light">Cancel</button>-->
-
-
 @endsection
