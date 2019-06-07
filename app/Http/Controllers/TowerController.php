@@ -31,9 +31,7 @@ class TowerController extends Controller
         /*$leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);*/
 
         if (count($sensores) !== 0) {
-            foreach ($sensores as $sensor) { /* Percorre a lista de sensores daquela torre
-                                                e compara o seu tipo (anemometro, windvane...)*/
-
+            foreach ($sensores as $sensor) {
                 if ($sensor->barometro->first()) {
                     $barometros[$sensor->nome] = Barometro::whereDate('created_at', $yesterday)
                         ->where('sensor_id', $sensor->id)
@@ -72,12 +70,6 @@ class TowerController extends Controller
                         ->toArray();
                 }
             }
-
-            /* $filter = $anemometros['AN_120_']->filter(function($value, $key) {
-                 if (Str::endsWith($value['nome'], 'Avg')) {
-                     return true;
-                 }
-             });*/
 
             $barometros = empty($barometros) ? [] : $barometros;
             $anemometros = empty($anemometros) ? [] : $anemometros;

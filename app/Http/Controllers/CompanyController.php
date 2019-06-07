@@ -14,36 +14,43 @@ class CompanyController extends Controller
     // Mostrar tela de registro de empresa
     public function showRegisterCompany()
     {
-        if (Auth::user()->hasRole('Admin')) {
-            return view('companyregister');
-        } else {
-            return view('errors/unallowed');
-        }
+        return view('companyregister');
     }
 
     // Registrar empresa
-    public function registerCompany(CompanyStoreRequest $request) {
-        $validated = $request->validated();
+    public function registerCompany(CompanyStoreRequest $request)
+    {
+        if ($request->isMethod('POST')) {
+            $validated = $request->validated();
 
-        $empresa = new Company([
-            'nome' => $request['nome'],
-            'cnpj' => $request['cnpj'],
-            'telefone' => $request['phone'],
-            'email' => $request['email']
-        ]);
-        $empresa->save();
+            $empresa = new Company([
+                'nome' => $validated['nome'],
+                'cnpj' => $validated['cnpj'],
+                'telefone' => $validated['phone'],
+                'email' => $validated['email']
+            ]);
+            $empresa->save();
 
-        Session::flash('message', 'Empresa cadastrada com sucesso!');
-        return redirect()->back();
+            Session::flash('message', 'Empresa cadastrada com sucesso!');
+            return redirect()->back();
+        } else {
+            return view('companyregister');
+        }
     }
 
     // Mostrar lista de empresas
     public function showCompanyList(Request $request) {
-        $search = $request['search'];
+        if (Auth::user()->hasRole('Admin')) {
 
-        $empresas = Company::where('nome','like','%'.$search.'%')->get();
+            $search = $request['search'] ? $request['search'] : '';
 
-        return view('companylist', compact('empresas'));
+            $empresas = Company::where('nome','like','%'.$search.'%')->get();
+
+            return view('companylist', compact('empresas'));
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     // Deletar empresa

@@ -29,12 +29,15 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/register', 'UserController@showRegisterUser')->name('show.register')->middleware('master');
         Route::post('/register', 'UserController@registerUser')->name('create.register')->middleware('master');
         Route::post('/delete/{user_id}', 'UserController@deleteUser')->name('delete.user');
+        Route::get('/password', 'UserController@showEditPassword')->name('user.password');
+        Route::post('/password/edit', 'UserController@editPassword')->name('edit.password');
+
     });
 
     Route::group(['prefix' => 'company'], function () {
         Route::get('/', 'CompanyController@showCompanyList')->name('company');
-        Route::post('/register', 'CompanyController@registerCompany')->name('create.company');
-        Route::get('/register', 'CompanyController@showRegisterCompany')->name('show.register.company');
+        Route::post('/register', 'CompanyController@registerCompany')->name('register.company')->middleware('admin');
+        Route::get('/register', 'CompanyController@showRegisterCompany')->name('show.register.company')->middleware('admin');
         Route::post('/delete/{company_id}', 'CompanyController@deleteCompany')->name('delete.company');
     });
 

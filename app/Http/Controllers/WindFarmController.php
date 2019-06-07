@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Tower;
 use App\Models\WindFarm;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

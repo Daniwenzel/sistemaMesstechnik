@@ -13,7 +13,7 @@
                 <div class="col-md-12">
                     <div class="card-body">
                         <h2 class="text-center mb-4">{{ __('Cadastrar Empresa') }}</h2>
-                        <form method="POST" action="{{ route('create.company') }}">
+                        <form method="POST" action="{{ route('register.company') }}">
                             @csrf
                             <div class="form-group row">
                                 <div class="input-group">
