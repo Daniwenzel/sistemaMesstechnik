@@ -82,12 +82,9 @@ class UserController extends Controller
     // Mostrar tela e configuracoes de usuario
     public static function showUserConfig($user_id) {
         $user = User::find($user_id);
-        $allpermissions = Permission::all();
-        $permission = $user->getAllPermissions();
-        $allroles = Role::all();
-        $role = $user->getRoleNames();
+        $role = $user->getRoleNames()->first();
 
-        return view('userconfig', compact(['user', 'permission', 'role', 'allpermissions', 'allroles']));
+        return view('userconfig', compact(['user', 'role']));
     }
 
     public function editUserConfig($user_id, Request $request) {
@@ -98,16 +95,23 @@ class UserController extends Controller
         $user->genero = $request->input('genero');
         $user->aniversario = $request->input('aniversario');
 
-        if($request->hasFile('avatar')) {
-            if ($request->file('avatar')->isValid()) {
-                $user
-                    ->addMedia($request->file('avatar'))
-                    ->toMediaCollection('profile');
-            }
-        }
+        $role = $request['accountRole'];
+
+        $this->switchRole($user, $role);
 
         $user->save();
-        return view('userconfig', compact('user'));
+        return view('userconfig', compact(['user', 'role']));
+    }
+
+    public function switchRole($user, $role) {
+        if($role === 'Master') {
+            $user->assignRole('Master');
+            $user->removeRole('Basica');
+        }
+        elseif ($role === 'Basica') {
+            $user->assignRole('Basica');
+            $user->removeRole('Master');
+        }
     }
 
     public function editUserAvatar($user_id, Request $request) {

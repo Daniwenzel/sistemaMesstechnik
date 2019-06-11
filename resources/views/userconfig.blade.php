@@ -10,7 +10,7 @@
                         <form method="POST" action="{{ route('edit.config', $user->id) }}">
                             @csrf
 
-                            <div class="row">
+                            <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Nome</label>
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Gênero</label>
@@ -61,6 +61,22 @@
                                             </span>
                                             @endif
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-5">
+                                    <div class="form-radio">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="accountRole" id="accountRoleBasic" value="Basica" {{ $role === 'Basica' ? 'checked' : '' }}> Básica
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-radio">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="accountRole" id="accountRoleMaster" value="Master" {{ $role === 'Master' ? 'checked' : '' }}> Master
+                                        </label>
                                     </div>
                                 </div>
                             </div>

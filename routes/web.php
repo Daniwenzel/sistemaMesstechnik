@@ -31,7 +31,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('/delete/{user_id}', 'UserController@deleteUser')->name('delete.user');
         Route::get('/password', 'UserController@showEditPassword')->name('user.password');
         Route::post('/password/edit', 'UserController@editPassword')->name('edit.password');
-
     });
 
     Route::group(['prefix' => 'company'], function () {
