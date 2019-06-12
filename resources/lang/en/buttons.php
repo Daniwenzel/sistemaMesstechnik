@@ -3,7 +3,7 @@
 return [
 
     'send_link' => 'Send Password Reset Link',
-    'hello' => 'Hello, ',
+    'hello' => 'Hello, :attribute !',
     'manage_account' => 'Manage Account',
     'change_password' => 'Change Password',
     'sign_out' => 'Sign Out',
@@ -16,5 +16,7 @@ return [
     'register_user' => 'Register User',
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
+    'male' => 'Male',
+    'female' => 'Female',
 
 ];

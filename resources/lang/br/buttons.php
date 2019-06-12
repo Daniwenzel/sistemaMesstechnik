@@ -3,10 +3,10 @@
 return [
 
     'send_link' => 'Enviar link para recuperação de senha',
-    'hello' => 'Olá, ',
+    'hello' => 'Olá, :attribute !',
     'manage_account' => 'Gerenciar Conta',
     'change_password' => 'Mudar Senha',
-    'sign_out' => 'Deslogar',
+    'sign_out' => 'Sair',
     'users' => 'Usuários',
     'wind_farm' => 'Complexos Eólicos',
     'dashboard' => 'Início',
@@ -16,5 +16,7 @@ return [
     'register_user' => 'Registrar Usuário',
     'confirm' => 'Confirmar',
     'cancel' => 'Cancelar',
+    'male' => 'Masculino',
+    'female' => 'Feminino',
 
 ];
