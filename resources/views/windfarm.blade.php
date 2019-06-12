@@ -5,7 +5,7 @@
         <form method="get" action="{{ route('windfarm') }}" class="navbar-form navbar-left mt-4">
             <div class="form-group">
                 <div class="input-group">
-                    <input name="search" type="text" class="form-control" placeholder="Procurar..." aria-label="Username" aria-describedby="colored-addon3">
+                    <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}" aria-label="Username" aria-describedby="colored-addon3">
                     <div class="input-group-append bg-primary border-primary">
                         <button type="submit" class="btn input-group-text bg-transparent card-button">
                             <i class="mdi mdi-account-search text-white"></i>

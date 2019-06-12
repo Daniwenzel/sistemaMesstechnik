@@ -23,33 +23,33 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">
                 <i class="menu-icon mdi mdi-television"></i>
-                <span class="menu-title">Dashboard</span>
+                <span class="menu-title">{{ __('buttons.dashboard') }}</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('user') }}">
                 <i class="menu-icon mdi mdi-account-box"></i>
-                <span class="menu-title">Usuários</span>
+                <span class="menu-title">{{ __('buttons.users') }}</span>
             </a>
         </li>
         @role('Admin')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('company') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>
-                <span class="menu-title">Empresas</span>
+                <span class="menu-title">{{ __('buttons.company') }}</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('role.permission') }}">
                 <i class="menu-icon mdi mdi-settings"></i>
-                <span class="menu-title">Cargos e Permissões</span>
+                <span class="menu-title">{{ __('buttons.permissions') }}</span>
             </a>
         </li>
         @endrole
         <li class="nav-item">
             <a class="nav-link" href="{{ route('windfarm') }}">
                 <i class="menu-icon mdi mdi-weather-windy"></i>
-                <span class="menu-title">Complexos Eólicos</span>
+                <span class="menu-title">{{ __('buttons.wind_farm') }}</span>
             </a>
         </li>
     </ul>

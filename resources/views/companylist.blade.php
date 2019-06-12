@@ -5,14 +5,14 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Empresas</h4>
+                    <h4 class="card-title">{{ __('labels.company') }}</h4>
                     <button type="button" class="btn btn-outline-success btn-md btn-block" onclick="window.location='{{ route("show.register.company") }}'">
-                        <i class="mdi mdi-briefcase mdi-24px"></i>Registrar Empresa
+                        <i class="mdi mdi-briefcase mdi-24px"></i>{{ __('buttons.register_company') }}
                     </button>
                     <form method="get" action="{{ route('company') }}" class="navbar-form navbar-left mt-4">
                         <div class="form-group">
                             <div class="input-group">
-                                <input name="search" type="text" class="form-control" placeholder="Procurar..." aria-label="Company" aria-describedby="colored-addon3">
+                                <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}" aria-label="Company" aria-describedby="colored-addon3">
                                 <div class="input-group-append bg-success border-primary">
                                     <button type="submit" class="btn input-group-text bg-transparent">
                                         <i class="mdi mdi-account-search text-white"></i>
@@ -26,19 +26,19 @@
                             <thead>
                             <tr>
                                 <th>
-                                    Nome
+                                    {{ __('labels.name') }}
                                 </th>
                                 <th>
-                                    CNPJ
+                                    {{ __('labels.cnpj') }}
                                 </th>
                                 <th>
-                                    Telefone
+                                    {{ __('labels.phone') }}
                                 </th>
                                 <th>
-                                    E-mail
+                                    {{ __('labels.email') }}
                                 </th>
                                 <th>
-                                    Ações
+                                    {{ __('labels.actions') }}
                                 </th>
                             </tr>
                             </thead>

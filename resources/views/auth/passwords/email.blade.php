@@ -10,7 +10,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h2 class="text-center mb-4">{{ __('Resetar Senha') }}</h2>
+                    <h2 class="text-center mb-4">{{ __('labels.recover') }}</h2>
                     <div class="auto-form-wrapper">
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary submit-btn btn-block">
-                                    {{ __('Enviar Link de Redefinição da Senha') }}
+                                    {{ __('buttons.send_link') }}
                                 </button>
                             </div>
                         </form>

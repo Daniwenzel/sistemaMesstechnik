@@ -5,12 +5,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-md-center">{{ $torre->cod_cliente }}</h2>
-                <h4 class="card-title m-3 text-md-center">Dados do dia {{ $yesterday }}</h4>
+                <h4 class="card-title m-3 text-md-center">{{ __('labels.data_recorded') }} {{ $yesterday }}</h4>
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">
                             <div class="card-body card-button-toggle">
-                                <h4 class="card-title">Anemômetros
+                                <h4 class="card-title">{{ __('labels.anemometer') }}
                                     <span class="mdi mdi-arrow-down-bold pull-right mdi-36px"></span>
                                 </h4>
                                 <canvas id="anemometroChart" style="height:250px; display:none;"></canvas>
@@ -22,7 +22,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">
                             <div class="card-body card-button-toggle">
-                                <h4 class="card-title">Windvanes
+                                <h4 class="card-title">{{ __('labels.windvane') }}
                                     <span class="mdi mdi-arrow-down-bold pull-right mdi-36px"></span>
                                 </h4>
                                 <canvas id="windvaneChart" style="height:250px; display:none;"></canvas>
@@ -34,7 +34,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">
                             <div class="card-body card-button-toggle">
-                                <h4 class="card-title">Barômetros
+                                <h4 class="card-title">{{ __('labels.barometer') }}
                                     <span class="mdi mdi-arrow-down-bold pull-right mdi-36px"></span>
                                 </h4>
                                 <canvas id="barometroChart" style="height:250px; display:none;"></canvas>
@@ -46,7 +46,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">
                             <div class="card-body card-button-toggle">
-                                <h4 class="card-title">Temperaturas
+                                <h4 class="card-title">{{ __('labels.temperature') }}
                                     <span class="mdi mdi-arrow-down-bold pull-right mdi-36px"></span>
                                 </h4>
                                 <canvas id="temperaturaChart" style="height:250px; display:none;"></canvas>
@@ -58,7 +58,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">
                             <div class="card-body card-button-toggle">
-                                <h4 class="card-title">Umidades
+                                <h4 class="card-title">{{ __('labels.humidity') }}
                                     <span class="mdi mdi-arrow-down-bold pull-right mdi-36px"></span>
                                 </h4>
                                 <canvas id="umidadeChart" style="height:250px; display:none;"></canvas>
@@ -70,7 +70,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">
                             <div class="card-body card-button-toggle">
-                                <h4 class="card-title">Baterias
+                                <h4 class="card-title">{{ __('labels.batery') }}
                                     <span class="mdi mdi-arrow-down-bold pull-right mdi-36px"></span>
                                 </h4>
                                 <canvas id="bateriaChart" style="height:250px; display:none;"></canvas>
