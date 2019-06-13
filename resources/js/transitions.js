@@ -1,6 +1,8 @@
 $(document).ready(function () {
     var tl = new TimelineMax();
 
+    barba.use(barbaPrefetch);
+
     barba.init({
         transitions: [
             {
