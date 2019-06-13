@@ -12,10 +12,12 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js/app.js')
+    .js('resources/js/inline.js', 'public/js/inline.js')
     .sass('vendor/iconfonts/font-awesome/scss/font-awesome.scss', 'public/css')
     .copy('resources/js/alerts.js', 'public/js')
     .copy('resources/js/chart.js', 'public/js')
     .copy('resources/js/password.js', 'public/js')
+    .copy('resources/js/login.js', 'public/js')
     .sass('resources/scss/style.scss', 'public/css')
     .sass('node_modules/sweetalert2/src/sweetalert2.scss', 'public/css')
     .sass('node_modules/bootstrap/scss/bootstrap.scss', 'public/css/bootstrap.css')

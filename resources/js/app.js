@@ -5,15 +5,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
 require('./misc');
 require('./off-canvas');
-require('gsap/all');
-require('./transitions');
 
 window.Vue = require('vue');
 window.Swal = require('sweetalert2');
-window.barba = require('@barba/core');
 window.Chart = require('chart.js');
 
 /**

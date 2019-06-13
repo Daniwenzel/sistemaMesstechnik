@@ -12,11 +12,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/all.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/sweetalert2.css') }}" rel="stylesheet" type="text/css">
+    <!-- Scripts -->
+    <script src="{{ asset('js/inline.js') }}" type="text/javascript"></script>
 </head>
 
 <body data-barba="wrapper">
@@ -44,10 +41,24 @@
     @endauth
 </div>
 
+<!-- Styles -->
+{{--<link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">--}}
+{{--<link href="{{ asset('css/all.css') }}" rel="stylesheet" type="text/css">--}}
+{{--<link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" type="text/css">--}}
+{{--<link href="{{ asset('css/sweetalert2.css') }}" rel="stylesheet" type="text/css">--}}
+<link rel="preload" href="{{ asset('css/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('css/style.css') }}"></noscript>
+<link rel="preload" href="{{ asset('css/all.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('css/all.css') }}"></noscript>
+<link rel="preload" href="{{ asset('css/font-awesome.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}"></noscript>
+<link rel="preload" href="{{ asset('css/sweetalert2.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('css/sweetalert2.css') }}"></noscript>
 
-<script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/alerts.js') }}" type="text/javascript" defer></script>
-<script src="{{ asset('js/chart.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/chart.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/login.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/password.js') }}" type="text/javascript" defer></script>
 <script src="{{ asset('js/toggle-graph.js') }}" type="text/javascript" defer></script>
