@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-md-center">{{ $torre->cod_cliente }}</h2>
-                <h4 class="card-title m-3 text-md-center">{{ __('labels.data_recorded') }} {{ $yesterday }}</h4>
+                <h4 class="card-title m-3 text-md-center">{{ __('labels.data_recorded', ['attribute' => $yesterday]) }}</h4>
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card bg-gradient-light cursor-pointer">

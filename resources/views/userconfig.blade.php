@@ -6,14 +6,14 @@
             <div class="col-12 grid-margin">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Cadastro de {{ $user->name }}</h4>
-                        <form method="POST" action="{{ route('edit.config', $user->id) }}">
+                        <h4 class="card-title">{{ __('labels.registration', ['attribute' => $user->name]) }}</h4>
+                        <form method="POST" action="{{ route('edit.config', $user->id) }}" class="mt-5">
                             @csrf
 
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Nome</label>
+                                        <label class="col-sm-3 col-form-label">{{ __('labels.name') }}</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" name="name" value="{{ $user->name }}"/>
                                             @if ($errors->has('name'))
@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Sobrenome</label>
+                                        <label class="col-sm-3 col-form-label">{{ __('labels.lastname') }}</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" name="last_name" value="{{ $user->last_name }}" />
                                             @if ($errors->has('last_name'))
@@ -41,18 +41,18 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Gênero</label>
+                                        <label class="col-sm-3 col-form-label">{{ __('labels.gender') }}</label>
                                         <div class="col-sm-9">
                                             <select class="form-control" name="genero" value="{{ $user->genero }}">
-                                                <option {{ $user->genero == 'Masculino' ? 'selected' : '' }}>Masculino</option>
-                                                <option {{ $user->genero == 'Feminino' ? 'selected' : '' }}>Feminino</option>
+                                                <option {{ $user->genero == 'Masculino' ? 'selected' : '' }}>{{ __('buttons.male') }}</option>
+                                                <option {{ $user->genero == 'Feminino' ? 'selected' : '' }}>{{ __('buttons.female') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Data de Nascimento</label>
+                                        <label class="col-sm-3 col-form-label">{{ __('labels.birth') }}</label>
                                         <div class="col-sm-9">
                                             <input class="form-control" placeholder="dd/mm/yyyy" name="aniversario" value="{{ $user->aniversario }}"/>
                                             @if ($errors->has('aniversario'))
@@ -64,22 +64,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-5">
+                            @role('Admin')
+                            <div class="form-group row mt-5">
+                                <div class="col-md-6">
                                     <div class="form-radio">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="accountRole" id="accountRoleBasic" value="Basica" {{ $role === 'Basica' ? 'checked' : '' }}> Básica
+                                            <input type="radio" class="form-check-input" name="accountRole" id="accountRoleBasic" value="Basica" {{ $role === 'Basica' ? 'checked' : '' }}> {{ __('labels.basic') }}
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-md-6">
                                     <div class="form-radio">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="accountRole" id="accountRoleMaster" value="Master" {{ $role === 'Master' ? 'checked' : '' }}> Master
+                                            <input type="radio" class="form-check-input" name="accountRole" id="accountRoleMaster" value="Master" {{ $role === 'Master' ? 'checked' : '' }}> {{ __('labels.master') }}
                                         </label>
                                     </div>
                                 </div>
                             </div>
+                            @endrole
                             <div class="form-group row">
                                 <button type="submit" class="btn btn-outline-success btn-fw">
                                     <i class="mdi mdi-file-document m-2"></i>Submit</button>

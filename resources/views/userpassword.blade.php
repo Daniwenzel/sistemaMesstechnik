@@ -16,12 +16,12 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                        <h4 class="card-title">Redefinir Senha</h4>
+                        <h4 class="card-title">{{ __('labels.reset_password') }}</h4>
                         <form class="mt-5" method="POST" action="{{ route('edit.password') }}">
                             @csrf
 
                             <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">
-                                <label for="new-password" class="col-md-4 control-label">Senha Atual</label>
+                                <label for="new-password" class="col-md-4 control-label">{{ __('labels.current_password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="current-password" type="password" class="form-control" name="current-password" required>
@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('new-password') ? ' has-error' : '' }}">
-                                <label for="new-password" class="col-md-4 control-label">Nova Senha</label>
+                                <label for="new-password" class="col-md-4 control-label">{{ __('labels.new_password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="new-password" type="password" class="form-control" name="new-password" required>
@@ -49,7 +49,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="new-password-confirm" class="col-md-4 control-label">Confirmar Nova Senha</label>
+                                <label for="new-password-confirm" class="col-md-4 control-label">{{ __('labels.confirm_new_password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="new-password-confirm" type="password" class="form-control" name="new-password_confirmation" required>
@@ -58,7 +58,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success btn-fw">
-                                    <i class="mdi mdi-upload"></i>Mudar Senha</button>
+                                    <i class="mdi mdi-upload"></i>{{ __('buttons.change_password') }}</button>
                             </div>
                         </form>
                     </div>
