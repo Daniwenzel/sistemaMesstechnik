@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateWindvanesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('windvanes', function (Blueprint $table) {
@@ -26,11 +21,6 @@ class CreateWindvanesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('windvanes');

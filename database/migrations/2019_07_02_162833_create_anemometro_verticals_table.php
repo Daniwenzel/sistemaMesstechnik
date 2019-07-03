@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUmidadesTable extends Migration
+class CreateAnemometroVerticalsTable extends Migration
 {
     public function up()
     {
-        Schema::create('umidades', function (Blueprint $table) {
+        Schema::create('anemometro_verticais', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nome');
             $table->double('leitura');
@@ -23,6 +23,6 @@ class CreateUmidadesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('umidades');
+        Schema::dropIfExists('anemometro_verticals');
     }
 }

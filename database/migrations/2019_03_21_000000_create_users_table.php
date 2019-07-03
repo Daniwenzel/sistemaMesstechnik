@@ -3,14 +3,11 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+use App\Models\Company;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -30,13 +27,24 @@ class CreateUsersTable extends Migration
                 ->references('id')
                 ->on('empresas');
         });
+
+        $empresa = Company::where('nome', 'Messtechnik')->first();
+
+        DB::table('users')->insert(
+            array(
+                [
+                    'id' => 1,
+                    'name' => 'Admin',
+                    'email' => 'admin@admin',
+                    'password' => bcrypt('mstk123'),
+                    'empresa_id' => $empresa->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            )
+        );
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('users');

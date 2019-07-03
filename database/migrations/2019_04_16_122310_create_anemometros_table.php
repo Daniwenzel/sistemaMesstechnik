@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAnemometrosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('anemometros', function (Blueprint $table) {
@@ -26,11 +21,6 @@ class CreateAnemometrosTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('anemometros');

@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUmidadesTable extends Migration
+class CreatePrecipitacoesTable extends Migration
 {
     public function up()
     {
-        Schema::create('umidades', function (Blueprint $table) {
+        Schema::create('precipitacoes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nome');
-            $table->double('leitura');
+            $table->double('leitura')->nullable();
             $table->unsignedBigInteger('sensor_id');
             $table->timestamps();
 
@@ -23,6 +23,6 @@ class CreateUmidadesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('umidades');
+        Schema::dropIfExists('precipitacoes');
     }
 }
