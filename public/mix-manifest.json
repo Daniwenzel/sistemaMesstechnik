@@ -1,11 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/font-awesome.css": "/css/font-awesome.css",
     "/css/style.css": "/css/style.css",
+    "/css/font-awesome.css": "/css/font-awesome.css",
     "/css/sweetalert2.css": "/css/sweetalert2.css",
-    "/css/bootstrap.css": "/css/bootstrap.css",
-    "/js/alerts.js": "/js/alerts.js",
-    "/js/chart.js": "/js/chart.js",
-    "/js/password.js": "/js/password.js",
-    "/css/all.css": "/css/all.css"
+    "/css/materialdesignicons.css": "/css/materialdesignicons.css",
+    "/js/inline.js": "/js/inline.js",
+    "/css/all.css": "/css/all.css",
+    "/css/animate.min.css": "/css/animate.min.css",
+    "/js/chart.js": "/js/chart.js"
 }
