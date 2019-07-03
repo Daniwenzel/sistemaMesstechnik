@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bateria extends Model
+class AnemometroVertical extends Model
 {
-    protected $table = 'baterias';
+    protected $table = 'anemometro_verticais';
 
     protected $fillable = [
         'nome', 'leitura', 'sensor_id', 'created_at', 'updated_at'
