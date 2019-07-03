@@ -32,6 +32,12 @@
                 <span class="menu-title">{{ __('buttons.users') }}</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('windfarm') }}">
+                <i class="menu-icon mdi mdi-weather-windy"></i>
+                <span class="menu-title">{{ __('buttons.wind_farm') }}</span>
+            </a>
+        </li>
         @role('Admin')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('company') }}">
@@ -45,12 +51,12 @@
                 <span class="menu-title">{{ __('buttons.permissions') }}</span>
             </a>
         </li>
-        @endrole
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('windfarm') }}">
-                <i class="menu-icon mdi mdi-weather-windy"></i>
-                <span class="menu-title">{{ __('buttons.wind_farm') }}</span>
+            <a class="nav-link" href="{{ route('log') }}">
+                <i class="menu-icon mdi mdi-file-alert"></i>
+                <span class="menu-title">{{ __('buttons.log') }}</span>
             </a>
         </li>
+        @endrole
     </ul>
 </nav>
