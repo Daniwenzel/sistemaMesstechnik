@@ -3,7 +3,7 @@
 return [
 
     'recover' => 'Recover Password',
-    'company' => 'Companies',
+    'company' => 'Company',
     'users' => 'Users',
     'name' => 'Name',
     'lastname' => 'Last name',
