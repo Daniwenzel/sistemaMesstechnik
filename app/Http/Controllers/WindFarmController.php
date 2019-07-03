@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tower;
+use App\Models\Company;
 use App\Models\WindFarm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class WindFarmController extends Controller
 {
@@ -20,25 +21,30 @@ class WindFarmController extends Controller
             $windfarms = WindFarm::where('empresa_id', Auth::user()->empresa_id)
                 ->where('nome', 'like', '%'.$request['search'].'%')
                 ->orderBy('nome', 'asc')
-                ->paginate(2);
-
+                ->paginate(5);
         }
 
-        return view('windfarm', compact('windfarms'));
+        return view('windfarms', compact('windfarms'));
     }
 
-    public function showWindfarm($farm_id) {
+    public function showRegisterWindfarm() {
+        $empresas = Company::all();
 
-        if(WindFarm::find($farm_id)->empresa_id !== Auth::user()->empresa_id) {
-            if(!Auth::user()->hasRole('Admin')) {
-                return view('errors/unallowed');
-            }
-        }
+        return view('windfarmregister', compact('empresas'));
+    }
 
-        $torres = Tower::where('parque_id', $farm_id)
-            ->orderBy('cod_MSTK', 'asc')
-            ->paginate(3);
+    public function registerWindfarm(Request $request) {
+        $parque = new WindFarm();
+        $empresa = Company::where('nome', $request['empresa'])->first();
 
-        return view('windfarminfo', compact('torres'));
+        $parque->nome = $request['nome'];
+        $parque->cod_EPE = $request['cod_EPE'];
+        $parque->empresa_id = $empresa->id;
+
+        Session::flash('message', 'Parque cadastrado com sucesso!');
+
+        $parque->save();
+
+        return redirect()->back();
     }
 }

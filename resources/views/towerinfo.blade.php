@@ -2,6 +2,13 @@
 
 @section('content')
     <div data-barba-namespace="tower">
+        @if (Session::has('message'))
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-primary text-md-center">{{ Session::get('message') }}</div>
+                </div>
+            </div>
+        @endif
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-md-center">{{ $torre->cod_cliente }}</h2>
@@ -81,49 +88,42 @@
             </div>
         </div>
     </div>
+@endsection
 
-
-    @push('scripts')
-        <script type="text/javascript" defer>
-
+@push('scripts')
+    <script src="{{ asset('js/chart.js') }}" type="text/javascript" defer></script>
+    <script type="text/javascript" defer>
         $(function() {
-            @foreach($anemometros as $key => $anemometro)
-                var titulo = {!! json_encode($key) !!};
-                var data = {!! json_encode($anemometro) !!};
-
-                addChartData(anChart, titulo, data);
-            @endforeach
-            @foreach($windvanes as $key => $windvane)
-                var titulo = {!! json_encode($key) !!};
-                var data = {!! json_encode($windvane) !!};
-
-                addChartData(wvChart, titulo, data);
-            @endforeach
-            @foreach($barometros as $key => $barometro)
-                var titulo = {!! json_encode($key) !!};
-                var data = {!! json_encode($barometro) !!};
-
-                addChartData(baChart, titulo, data);
-            @endforeach
-            @foreach($temperaturas as $key => $temperatura)
-                var titulo = {!! json_encode($key) !!};
-                var data = {!! json_encode($temperatura) !!};
-
-                addChartData(tempChart, titulo, data);
-            @endforeach
-            @foreach($umidades as $key => $umidade)
-                var titulo = {!! json_encode($key) !!};
-                var data = {!! json_encode($umidade) !!};
-
-                addChartData(umiChart, titulo, data);
-            @endforeach
-            @foreach($baterias as $key => $bateria)
-                var titulo = {!! json_encode($key) !!};
-                var data = {!! json_encode($bateria) !!};
-
-                addChartData(batChart, titulo, data);
+                    @foreach($anemometros as $key => $anemometro)
+            var titulo = {!! json_encode($key) !!};
+            var data = {!! json_encode($anemometro) !!};
+            addChartData(anChart, titulo, data);
+                    @endforeach
+                    @foreach($windvanes as $key => $windvane)
+            var titulo = {!! json_encode($key) !!};
+            var data = {!! json_encode($windvane) !!};
+            addChartData(wvChart, titulo, data);
+                    @endforeach
+                    @foreach($barometros as $key => $barometro)
+            var titulo = {!! json_encode($key) !!};
+            var data = {!! json_encode($barometro) !!};
+            addChartData(baChart, titulo, data);
+                    @endforeach
+                    @foreach($temperaturas as $key => $temperatura)
+            var titulo = {!! json_encode($key) !!};
+            var data = {!! json_encode($temperatura) !!};
+            addChartData(tempChart, titulo, data);
+                    @endforeach
+                    @foreach($umidades as $key => $umidade)
+            var titulo = {!! json_encode($key) !!};
+            var data = {!! json_encode($umidade) !!};
+            addChartData(umiChart, titulo, data);
+                    @endforeach
+                    @foreach($baterias as $key => $bateria)
+            var titulo = {!! json_encode($key) !!};
+            var data = {!! json_encode($bateria) !!};
+            addChartData(batChart, titulo, data);
             @endforeach
         });
-        </script>
-    @endpush
-@endsection
+    </script>
+@endpush
