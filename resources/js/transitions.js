@@ -17,7 +17,9 @@ $(document).ready(function () {
                         'tower',
                         'user-config',
                         'windfarms',
-                        'windfarms-info'
+                        'windfarms-info',
+                        'user-password',
+                        'log'
                     ],
                 },
                 sync: true,

@@ -1,4 +1,4 @@
-function togglePasswordType() {
+window.togglePasswordType = function () {
     var senha = $('#password');
     var confirmarSenha = $('#password-confirm');
     var iconeSenha = $('#passIcon');
@@ -15,4 +15,4 @@ function togglePasswordType() {
         confirmarSenha.attr('type', 'password');
         iconeSenha.removeClass('mdi-lock-open').addClass('mdi-lock');
     }
-}
+};

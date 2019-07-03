@@ -1,4 +1,4 @@
-function swalDeletarUsuario(usuario_id) {
+window.swalDeletarUsuario = function (usuario_id) {
     event.preventDefault();
 
     Swal.fire({
@@ -27,9 +27,9 @@ function swalDeletarUsuario(usuario_id) {
             })
         }
     })
-}
+};
 
-function swalDeletarEmpresa(empresa_id) {
+window.swalDeletarEmpresa = function (empresa_id) {
     event.preventDefault();
 
     Swal.fire({
@@ -58,9 +58,9 @@ function swalDeletarEmpresa(empresa_id) {
             })
         }
     })
-}
+};
 
-function swalDeletarCargo(cargo_id) {
+window.swalDeletarCargo = function (cargo_id) {
     event.preventDefault();
 
     Swal.fire({
@@ -89,9 +89,9 @@ function swalDeletarCargo(cargo_id) {
             })
         }
     })
-}
+};
 
-function swalDeletarPermissao(permissao_id) {
+window.swalDeletarPermissao = function (permissao_id) {
     event.preventDefault();
 
     Swal.fire({
@@ -107,22 +107,22 @@ function swalDeletarPermissao(permissao_id) {
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 type: "POST",
-                url: "/entitlement/permdel/"+permissao_id
+                url: "/entitlement/permdel/" + permissao_id
             });
             Swal.fire(
                 'Excluido!',
                 'Esta Permissão foi excluida do sistema.',
                 'success'
             ).then((result) => {
-                if(result.value) {
+                if (result.value) {
                     location.reload();
                 }
             })
         }
     })
-}
+};
 
-function swalRegistrarUsuario() {
+window.swalRegistrarUsuario = function () {
     Swal.fire({
         position: 'top-end',
         type: 'success',
@@ -133,4 +133,4 @@ function swalRegistrarUsuario() {
             window.location.reload();
         }
     });
-}
+};

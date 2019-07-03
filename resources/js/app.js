@@ -7,6 +7,10 @@
 
 require('./misc');
 require('./off-canvas');
+require('./login');
+require('./password');
+require('./toggle-graph');
+require('./alerts');
 
 window.Vue = require('vue');
 window.Swal = require('sweetalert2');
@@ -32,5 +36,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    mounted() {
+        console.log('app mounted');
+    }
 });
