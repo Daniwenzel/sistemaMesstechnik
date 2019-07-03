@@ -1,3 +1,4 @@
+@charset "UTF-8";
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
@@ -14,13 +15,9 @@
 @import "../../node_modules/compass-mixins/lib/animate";
 
 // Bootstrap
-@import '../../node_modules/bootstrap/scss/bootstrap';
-
-// Sweet Alert2
-@import "../../node_modules/sweetalert2/src/sweetalert2";
+@import '~bootstrap/scss/bootstrap';
 
 /* === Template mixins === */
-
 @import "mixins/animation";
 @import "mixins/background";
 @import "mixins/blockqoute";
