@@ -80,7 +80,7 @@ class UserController extends Controller
     }
 
     // Mostrar tela e configuracoes de usuario
-    public static function showUserConfig($user_id) {
+    public static function showConfigUser($user_id) {
         $user = User::find($user_id);
         $role = $user->getRoleNames()->first();
 

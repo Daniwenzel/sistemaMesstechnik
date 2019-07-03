@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'UserController@showUserList')->name('user');
-        Route::get('/config/{user_id}', 'UserController@showUserConfig')->name('show.config');
+        Route::get('/config/{user_id}', 'UserController@showConfigUser')->name('show.config');
         Route::post('/edit/{user_id}', 'UserController@editUserConfig')->name('edit.config');
         Route::post('/avatar/{user_id}', 'UserController@editUserAvatar')->name('edit.avatar');
         Route::get('/register', 'UserController@showRegisterUser')->name('show.register')->middleware('master');
@@ -48,11 +48,20 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('/registerrole', 'RolePermissionController@insertRole')->name('create.role');
     });
 
-    Route::group(['prefix' => 'windfarms'], function () {
+    Route::group(['prefix' => 'windfarm'], function () {
         Route::get('/', 'WindFarmController@showWindfarmList')->name('windfarm');
-        Route::get('/{farm_id}', 'WindFarmController@showWindfarm')->name('windfarm.info');
-        Route::get('/tower/{tower_id}', 'TowerController@showTowerInfo')->name('tower.info');
+        Route::get('/towers/{farm_id}', 'TowerController@showTowerList')->name('windfarm.info');
+        Route::get('/register', 'WindFarmController@showRegisterWindfarm')->name('show.register.windfarm');
+        Route::post('register', 'WindFarmController@registerWindfarm')->name('create.register.windfarm');
     });
+
+    Route::group(['prefix' => 'tower'], function () {
+        Route::get('/info/{tower_id}', 'TowerController@showTowerInfo')->name('tower');
+        Route::get('/register/{farm_id}', 'TowerController@showRegisterTower')->name('show.register.tower');
+        Route::post('/register/{farm_id}', 'TowerController@registerTower')->name('create.register.tower');
+    });
+
+    Route::get('/log', 'FileLogController@showFileLog')->name('log');
 
     Route::get('openfile', 'SensorController@openFile')->name('open.file');
 
