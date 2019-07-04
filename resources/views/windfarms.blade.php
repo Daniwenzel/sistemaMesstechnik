@@ -35,7 +35,7 @@
             </div>
         @endforeach
         <div class="row justify-content-md-center">
-            {{ $windfarms->links() }}
+            {{ $windfarms->appends(['search' => $filtro])->links() }}
         </div>
     </div>
 @endsection
