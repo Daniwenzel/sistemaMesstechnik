@@ -11,20 +11,19 @@ use Illuminate\Support\Facades\Session;
 class WindFarmController extends Controller
 {
     public function showWindfarmList(Request $request) {
-
+        $filtro= $request['search'];
         if(Auth::user()->hasRole('Admin')) {
-            $windfarms = WindFarm::where('nome', 'like', '%'.$request['search'].'%')
-            ->orderBy('nome', 'asc')
+            $windfarms = WindFarm::where('nome', 'ilike', '%'.$filtro.'%')
+                ->orderBy('nome', 'asc')
                 ->paginate(5);
         }
         else {
             $windfarms = WindFarm::where('empresa_id', Auth::user()->empresa_id)
-                ->where('nome', 'like', '%'.$request['search'].'%')
+                ->where('nome', 'like', '%'.$filtro.'%')
                 ->orderBy('nome', 'asc')
                 ->paginate(5);
         }
-
-        return view('windfarms', compact('windfarms'));
+        return view('windfarms', compact(['windfarms', 'filtro']));
     }
 
     public function showRegisterWindfarm() {
