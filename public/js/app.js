@@ -48031,6 +48031,14 @@ window.swalRegistrarUsuario = function () {
   });
 };
 
+window.swalMostrarMensagemLog = function (diretorio, mensagem, tipo) {
+  Swal.fire({
+    type: tipo,
+    title: diretorio,
+    text: mensagem
+  });
+};
+
 /***/ }),
 
 /***/ "./resources/js/app.js":
