@@ -21,32 +21,32 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard') }}">
+            <a class="nav-link" href="{{ route('dashboard.index') }}">
                 <i class="menu-icon mdi mdi-television"></i>
                 <span class="menu-title">{{ __('buttons.dashboard') }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('user') }}">
+            <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="menu-icon mdi mdi-account-box"></i>
                 <span class="menu-title">{{ __('buttons.users') }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('windfarm') }}">
+            <a class="nav-link" href="{{ route('windfarms.index') }}">
                 <i class="menu-icon mdi mdi-weather-windy"></i>
                 <span class="menu-title">{{ __('buttons.wind_farm') }}</span>
             </a>
         </li>
         @role('Admin')
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('company') }}">
+            <a class="nav-link" href="{{ route('companies.index') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>
                 <span class="menu-title">{{ __('buttons.company') }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('role.permission') }}">
+            <a class="nav-link" href="{{ route('rights.index') }}">
                 <i class="menu-icon mdi mdi-settings"></i>
                 <span class="menu-title">{{ __('buttons.permissions') }}</span>
             </a>

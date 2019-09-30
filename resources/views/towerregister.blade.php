@@ -69,7 +69,7 @@
                     <b class="text-danger">ATENÇÃO!</b> Para que o sistema consiga encontrar os dados correspondentes ás leituras de sensores da torre,
                     o <i>Código Arquivo de Dados</i> deve ser IDÊNTICO ao encontrado no seu respectivo arquivo de dados/configuração.
                 </p>
-                <form class="forms-sample mt-5" method="post" action="{{ route('create.register.tower', $parque->id) }}">
+                <form class="forms-sample mt-5" method="post" action="{{ route('towers.store', $parque->id) }}">
                     @csrf
                     <div class="form-group">
                         <label for="cod_cliente">Código do Cliente</label>

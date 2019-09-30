@@ -2,9 +2,8 @@
 
 @section('content')
     <div data-barba-namespace="register-company">
-
         @if (session('message'))
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success text-center" role="alert">
                 {{ session('message') }}
             </div>
         @endif
@@ -13,7 +12,7 @@
                 <div class="col-md-12">
                     <div class="card-body">
                         <h2 class="text-center mb-4">{{ __('Cadastrar Empresa') }}</h2>
-                        <form method="POST" action="{{ route('register.company') }}">
+                        <form method="POST" action="{{ route('companies.store') }}">
                             @csrf
                             <div class="form-group row">
                                 <div class="input-group">
@@ -73,7 +72,7 @@
                                             <i class="mdi mdi-at"></i>
                                         </label>
                                     </span>
-                                    <input id="email" type="email" placeholder="E-mail" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" required>
+                                    <input id="email" type="email" placeholder="E-mail" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}">
 
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">

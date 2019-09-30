@@ -19,7 +19,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form class="forms-sample" method="POST" action="{{ route('create.role') }}">
+                                    <form class="forms-sample" method="POST" action="{{ route('rights.role.store') }}">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="form-group">
@@ -90,7 +90,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form class="forms-sample" method="POST" action="{{ route('create.permission') }}">
+                                    <form class="forms-sample" method="POST" action="{{ route('rights.permission.store') }}">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="form-group">

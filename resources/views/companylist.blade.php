@@ -2,14 +2,19 @@
 
 @section('content')
     <div data-barba-namespace="company">
+        @if (session('message'))
+            <div class="alert alert-success text-center" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ __('labels.company') }}</h4>
-                    <button type="button" class="btn btn-outline-success btn-md btn-block" onclick="window.location='{{ route("show.register.company") }}'">
+                    <button type="button" class="btn btn-outline-success btn-md btn-block" onclick="window.location='{{ route("companies.create") }}'">
                         <i class="mdi mdi-briefcase mdi-24px"></i>{{ __('buttons.register_company') }}
                     </button>
-                    <form method="get" action="{{ route('company') }}" class="navbar-form navbar-left mt-4">
+                    <form method="get" action="{{ route('companies.index') }}" class="navbar-form navbar-left mt-4">
                         <div class="form-group">
                             <div class="input-group">
                                 <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}" aria-label="Company" aria-describedby="colored-addon3">

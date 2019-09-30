@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Cadastrar Parque Eólico</h4>
-                <form class="forms-sample mt-5" method="post" action="{{ route('create.register.windfarm') }}">
+                <form class="forms-sample mt-5" method="post" action="{{ route('windfarms.store') }}">
                     @csrf
                     <div class="form-group">
                         <label for="nome">Nome</label>

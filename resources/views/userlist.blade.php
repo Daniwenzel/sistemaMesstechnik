@@ -7,11 +7,11 @@
                 <div class="card-body">
                     <h4 class="card-title">{{ __('labels.users') }}</h4>
                     @hasanyrole('Admin|Master')
-                    <button type="button" class="btn btn-outline-primary btn-md btn-block" onclick="window.location='{{ route("show.register") }}'">
+                    <button type="button" class="btn btn-outline-primary btn-md btn-block" onclick="window.location='{{ route("users.create") }}'">
                         <i class="mdi mdi-account-plus mdi-24px"></i>{{ __('buttons.register_user') }}
                     </button>
                     @endhasanyrole
-                    <form method="get" action="{{ route('user') }}" class="navbar-form navbar-left mt-4">
+                    <form method="get" action="{{ route('users.index') }}" class="navbar-form navbar-left mt-4">
                         <div class="form-group">
                             <div class="input-group">
                                 <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}" aria-label="Username" aria-describedby="colored-addon3">
@@ -64,7 +64,7 @@
                                             <i class="mdi mdi-email"></i>
                                         </button>
                                         @if($usuario->id === Auth::user()->id or Auth::user()->hasAnyRole('Admin|Master'))
-                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" onclick="window.location='{{ route('show.config', $usuario->id) }}'">
+                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" onclick="window.location='{{ route('users.edit', $usuario->id) }}'">
                                                 <i class="mdi mdi-pencil"></i>
                                             </button>
                                         @endif

@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <div class="card-body">
                     <h2 class="text-center mb-4">{{ __('labels.register_user') }}</h2>
-                    <form method="POST" action="{{ route('create.register') }}">
+                    <form method="POST" action="{{ route('users.store') }}">
                         @csrf
 
                         <div class="form-group row">

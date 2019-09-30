@@ -19,50 +19,42 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('/', 'DashboardController@showDashboard')->name('dashboard');
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
 
-    Route::group(['prefix' => 'user'], function () {
-        Route::get('/', 'UserController@showUserList')->name('user');
-        Route::get('/config/{user_id}', 'UserController@showConfigUser')->name('show.config');
-        Route::post('/edit/{user_id}', 'UserController@editUserConfig')->name('edit.config');
-        Route::post('/avatar/{user_id}', 'UserController@editUserAvatar')->name('edit.avatar');
-        Route::get('/register', 'UserController@showRegisterUser')->name('show.register')->middleware('master');
-        Route::post('/register', 'UserController@registerUser')->name('create.register')->middleware('master');
-        Route::post('/delete/{user_id}', 'UserController@deleteUser')->name('delete.user');
-        Route::get('/password', 'UserController@showEditPassword')->name('user.password');
-        Route::post('/password/edit', 'UserController@editPassword')->name('edit.password');
-    });
+    Route::get('/users', 'UserController@index')->name('users.index');
+    Route::get('/users/create', 'UserController@create')->name('users.create')->middleware('master');
+    Route::post('/users', 'UserController@store')->name('users.store')->middleware('master');
+    Route::get('/users/{user_id}/edit', 'UserController@edit')->name('users.edit');
+    Route::put('/users/{user_id}', 'UserController@update')->name('users.update');
+    Route::post('/users/avatar', 'UserController@editUserAvatar')->name('edit.avatar');
+    Route::delete('/users/{user_id}', 'UserController@destroy')->name('users.destroy');
+    Route::get('/users/password', 'UserController@showEditPassword')->name('users.password');
+    Route::post('/users/password', 'UserController@editPassword')->name('password.update');
 
-    Route::group(['prefix' => 'company'], function () {
-        Route::get('/', 'CompanyController@showCompanyList')->name('company');
-        Route::post('/register', 'CompanyController@registerCompany')->name('register.company')->middleware('admin');
-        Route::get('/register', 'CompanyController@showRegisterCompany')->name('show.register.company')->middleware('admin');
-        Route::post('/delete/{company_id}', 'CompanyController@deleteCompany')->name('delete.company');
-    });
+    Route::get('/companies', 'CompanyController@index')->name('companies.index');
+    Route::post('/companies', 'CompanyController@store')->name('companies.store');
+    Route::get('/companies/create', 'CompanyController@create')->name('companies.create');
+    Route::delete('/companies/{company_id}', 'CompanyController@delete')->name('companies.delete');
 
-    Route::group(['prefix' => 'entitlement'], function () {
-        Route::get('/', 'UserController@showRolesPermissions')->name('role.permission');
-        Route::post('/registerpermission', 'RolePermissionController@insertPermission')->name('create.permission');
-        Route::post('/roledel/{role_id}', 'RolePermissionController@deleteRole')->name('delete.role');
-        Route::post('/permdel/{perm_id}', 'RolePermissionController@deletePerm')->name('delete.permission');
-        Route::post('/registerrole', 'RolePermissionController@insertRole')->name('create.role');
-    });
+    Route::get('/rights', 'RolePermissionController@index')->name('rights.index');
+    Route::post('/rights/permission', 'RolePermissionController@permissionStore')->name('rights.permission.store');
+    Route::post('/rights/role', 'RolePermissionController@roleStore')->name('rights.role.store');
+    Route::delete('/rights/permission/{perm_id}', 'RolePermissionController@permissionDelete')->name('permissions.delete');
+    Route::delete('/rights/role/{role_id}', 'RolePermissionController@roleDelete')->name('roles.delete');
 
-    Route::group(['prefix' => 'windfarm'], function () {
-        Route::get('/', 'WindFarmController@showWindfarmList')->name('windfarm');
-        Route::get('/towers/{farm_id}', 'TowerController@showTowerList')->name('windfarm.info');
-        Route::get('/register', 'WindFarmController@showRegisterWindfarm')->name('show.register.windfarm');
-        Route::post('register', 'WindFarmController@registerWindfarm')->name('create.register.windfarm');
-    });
+    Route::get('/windfarms', 'WindFarmController@index')->name('windfarms.index');
+    Route::get('/windfarms/create', 'WindFarmController@create')->name('windfarms.create');
+    Route::get('/windfarms/{farm_id}', 'WindFarmController@show')->name('windfarms.show');
+    Route::post('/windfarms', 'WindFarmController@store')->name('windfarms.store');
 
-    Route::group(['prefix' => 'tower'], function () {
-        Route::get('/info/{tower_id}', 'TowerController@showTowerInfo')->name('tower');
-        Route::get('/register/{farm_id}', 'TowerController@showRegisterTower')->name('show.register.tower');
-        Route::post('/register/{farm_id}', 'TowerController@registerTower')->name('create.register.tower');
-    });
+    Route::get('/towers/{tower_id}', 'TowerController@show')->name('towers.show');
+    Route::get('/towers/create/{farm_id}', 'TowerController@create')->name('towers.create');
+    Route::post('/towers/{farm_id}', 'TowerController@store')->name('towers.store');
 
     Route::get('/log', 'FileLogController@showFileLog')->name('log');
 
-    Route::get('openfile', 'SensorController@openFile')->name('open.file');
+//    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
+
+//    Route::get('openfile', 'SensorController@openFile')->name('open.file');
 
 });

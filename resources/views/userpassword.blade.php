@@ -17,7 +17,7 @@
                             </div>
                         @endif
                         <h4 class="card-title">{{ __('labels.reset_password') }}</h4>
-                        <form class="mt-5" method="POST" action="{{ route('edit.password') }}">
+                        <form class="mt-5" method="POST" action="{{ route('password.update') }}">
                             @csrf
 
                             <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">

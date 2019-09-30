@@ -2,11 +2,13 @@
 
 @section('content')
     <div data-barba-namespace="windfarms-info">
+        @role('Admin')
         <button type="button" class="btn btn-outline-primary btn-md btn-block" onclick="window.location=
-                '{{ route('show.register.tower', $farm_id) }}'">
+                '{{ route('towers.create', $farm_id) }}'">
             <i class="mdi mdi-wind-turbine mdi-24px"></i>{{ __('buttons.register_tower') }}
         </button>
-        <form method="get" action="{{ route('windfarm.info', $farm_id) }}" class="navbar-form navbar-left mt-4">
+        @endrole
+        <form method="get" action="{{ route('windfarms.show', $farm_id) }}" class="navbar-form navbar-left mt-4">
             <div class="form-group">
                 <div class="input-group">
                     <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}" aria-label="Username" aria-describedby="colored-addon3">
@@ -29,7 +31,7 @@
             <div class="row text-md-center">
                 @foreach($chunk as $torre)
                     <div class="col-md-4 stretch-card grid-margin">
-                        <div class="card bg-gradient-green card-img-holder text-white card-tower card-button" onclick="window.location='{{ route('tower', $torre->id ) }}'">
+                        <div class="card bg-gradient-green card-img-holder text-white card-tower card-button" onclick="window.location='{{ route('towers.show', $torre->id ) }}'">
                             <div class="card-body">
                                 <img src="{{ asset('images/circle.svg') }}" class="card-img-absolute" alt="circle-image"/>
                                 <img src="{{ asset('images/botao-transparent.png') }}" class="card-img-absolute" alt="circle-image"/>

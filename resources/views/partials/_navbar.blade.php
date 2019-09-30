@@ -1,37 +1,42 @@
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
+        <a class="navbar-brand brand-logo" href="{{ route('dashboard.index') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Imagem logo" />
         </a>
-        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}">
+        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard.index') }}">
             <img class="img-xs rounded-circle" src="{{ asset('images/auth/logo.png') }}" alt="Imagem perfil">
         </a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center ">
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown nav-profile cursor-pointer">
-                <a class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                <span class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" data-toggle="dropdown" aria-expanded="false">
                     <span class="profile-text">{{ __('buttons.hello',['attribute' => Auth::user()->name]) }}</span>
                     @if(Auth::user()->getFirstMedia('profile'))
                         <img class="img-xs rounded-circle" src="{{ Auth::user()->getFirstMedia('profile')->getUrl('avatar') }}" alt="Imagem perfil">
                     @else
                         <img class="img-xs rounded-circle" src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="Imagem perfil">
                     @endif
-                </a>
+                </span>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                    <a class="dropdown-item mt-2" href="{{ route('show.config', Auth::user()->id) }}">
-                       {{ __('buttons.manage_account') }}
+                    <a class="dropdown-item mt-2" href="{{ route('users.edit', Auth::user()->id) }}">
+                        {{ __('buttons.manage_account') }}
                     </a>
-                    <a class="dropdown-item" href="{{ route('user.password') }}">
+                    <a class="dropdown-item" href="{{ route('users.password') }}">
                         {{ __('buttons.change_password') }}
                     </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                        {{ csrf_field() }}
-                        <a class="dropdown-item" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit()">
+                    <form method="POST" action="{{ route('logout') }}" name="LogoutForm">
+                        @csrf
+                        <span class="dropdown-item" onclick="LogoutForm.submit()">
                             {{ __('buttons.sign_out') }}
-                        </a>
+                        </span>
+
+                        {{--                        id="logout-form"--}}
+                        {{--                        <a class="dropdown-item" onclick="event.preventDefault();--}}
+                        {{--                        document.getElementById('logout-form').submit()">--}}
+                        {{--                            {{ __('buttons.sign_out') }}--}}
+                        {{--                        </a>--}}
                     </form>
                 </div>
             </li>

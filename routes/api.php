@@ -17,3 +17,5 @@ use Illuminate\Http\Request;
     return $request->user();
 });
 */
+
+Route::post('/postdata', 'FileLogController@postData')->name('data');
