@@ -14,9 +14,9 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/inline.js', 'public/js')
     .sass('resources/scss/style.scss', 'public/css')
-    .sass('node_modules/font-awesome/scss/font-awesome.scss', 'public/css')
-    .sass('node_modules/sweetalert2/src/sweetalert2.scss', 'public/css')
-    .sass('node_modules/@mdi/font/scss/materialdesignicons.scss', 'public/css')
+    // .sass('node_modules/font-awesome/scss/font-awesome.scss', 'public/css')
+    // .sass('node_modules/sweetalert2/src/sweetalert2.scss', 'public/css')
+    // .sass('node_modules/@mdi/font/scss/materialdesignicons.scss', 'public/css')
     .styles([
         'public/css/font-awesome.css',
         'public/css/sweetalert2.css',

@@ -14,9 +14,9 @@
         "clean": "rm -rf ./node_modules"
     },
     "dependencies": {
-        "@barba/core": "^2.3.10",
-        "@barba/prefetch": "^2.1.4",
-        "@mdi/font": "^3.6.95",
+        "@barba/core": "^2.3.12",
+        "@barba/prefetch": "^2.1.5",
+        "@mdi/font": "^3.7.95",
         "animate.css": "^3.7.2",
         "chart.js": "^2.8.0",
         "flag-icon-css": "2.9.0",
@@ -25,7 +25,7 @@
         "gulp-sourcemaps": "^2.6.3",
         "mdi": "2.1.19",
         "simple-line-icons": "2.4.1",
-        "sweetalert2": "^8.12.1"
+        "sweetalert2": "^8.13.1"
     },
     "devDependencies": {
         "axios": "^0.19",
@@ -42,7 +42,7 @@
         "popper.js": "^1.15.0",
         "resolve-url-loader": "^2.3.1",
         "run-sequence": "^1.2.2",
-        "sass": "^1.21.0",
+        "sass": "^1.22.3",
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
