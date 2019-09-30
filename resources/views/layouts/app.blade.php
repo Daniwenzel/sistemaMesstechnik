@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="Description" content="Company: Messtechnik, Product: Wind measurement farms,
-    monitoring wind conditions, anemometric tower, anemometro, barometro, windvane, datalogger,
-     Location: Brazil">
+    <meta name="Description" content="Medição de potencial eólico, monitoramento do vento, produtos e serviços para a instalação
+    e manutenção de estações de medição anemométrica">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,6 +19,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/inline.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/image.js') }}" type="text/javascript"></script>
+
 </head>
 
 <body data-barba="wrapper">
