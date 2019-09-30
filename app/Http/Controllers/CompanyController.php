@@ -1,61 +1,67 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Messtechnik\Http\Controllers;
 
-use App\Http\Requests\CompanyStoreRequest;
-use App\Models\Company;
+use Messtechnik\Http\Requests\CompanyStoreRequest;
+use Messtechnik\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
+/*
+    Todos os métodos que realizam a manutenção da informação das empresas estão protegidos
+    contra o acesso inesperado de um usuário comum do sistema através da middleware 'admin' na
+    definição das rotas
+*/
 
 class CompanyController extends Controller
 {
 
-    // Mostrar tela de registro de empresa
-    public function showRegisterCompany()
+    public function __construct()
     {
+        $this->middleware('admin');
+    }
+
+    /**
+     * Mostra a view da lista de empresas cadastradas
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request) {
+        $empresas = Company::where('nome','ilike','%'.$request['search'].'%')->get();
+
+        return view('companylist', compact('empresas'));
+    }
+
+    /**
+     * Mostra a view para cadastrar uma empresa
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create() {
         return view('companyregister');
     }
 
-    // Registrar empresa
-    public function registerCompany(CompanyStoreRequest $request)
-    {
-        if ($request->isMethod('POST')) {
-            $validated = $request->validated();
+    /**
+     * Cadastra uma nova empresa
+     *
+     * @param CompanyStoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(CompanyStoreRequest $request) {
+        Company::create($request->validated())->save();
 
-            $empresa = new Company([
-                'nome' => $validated['nome'],
-                'cnpj' => $validated['cnpj'],
-                'telefone' => $validated['phone'],
-                'email' => $validated['email']
-            ]);
-            $empresa->save();
-
-            Session::flash('message', 'Empresa cadastrada com sucesso!');
-            return redirect()->back();
-        } else {
-            return view('companyregister');
-        }
+        Session::flash('message', 'Empresa cadastrada com sucesso!');
+        return redirect()->back();
     }
 
-    // Mostrar lista de empresas
-    public function showCompanyList(Request $request) {
-        if (Auth::user()->hasRole('Admin')) {
-
-            $search = $request['search'] ? $request['search'] : '';
-
-            $empresas = Company::where('nome','like','%'.$search.'%')->get();
-
-            return view('companylist', compact('empresas'));
-        }
-        else {
-            return view('errors.403');
-        }
+    /**
+     * Deleta uma empresa
+     *
+     * @param $company_id
+     */
+    public function delete($company_id) {
+        $empresa = Company::find($company_id);
+        $empresa->delete();
     }
-
-    // Deletar empresa
-    public function deleteCompany($company_id) {
-        Company::find($company_id)->delete();
-    }
-
 }

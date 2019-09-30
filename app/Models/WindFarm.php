@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,11 +8,15 @@ class WindFarm extends Model
 {
     protected $table = 'parque_eolicos';
 
+    protected $fillable = [
+        'nome', 'cod_EPE', 'empresa_id'
+    ];
+
     public function torres() {
-        return $this->hasMany('App\Models\Tower', 'parque_id');
+        return $this->hasMany('Messtechnik\Models\Tower', 'parque_id');
     }
 
     public function empresa() {
-        return $this->belongsTo('App\Models\Company','empresa_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\Company','empresa_id', 'id');
     }
 }

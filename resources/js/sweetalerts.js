@@ -44,18 +44,35 @@ window.swalDeletarEmpresa = function (empresa_id) {
         if (result.value) {
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: "POST",
-                url: "/company/delete/" + empresa_id
-            });
-            Swal.fire(
-                'Excluido!',
-                'Esta empresa foi excluida do sistema.',
-                'success'
-            ).then((result) => {
-                if (result.value) {
-                    location.reload();
+                type: "GET",
+                url: "/company/delete/"+empresa_id,
+                success: function (response) {
+                    Swal.fire(
+                        'Excluido!',
+                        'Empresa deletada com sucesso!',
+                        'success'
+                    )
+                        .then((result) => {
+                            console.log(result);
+                            if (result.value) {
+                                location.reload();
+                            }
+                        });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    Swal.fire(
+                        'Error!',
+                        'Não foi possível concluir esta ação.',
+                        'error'
+                    )
+                        .then((result) => {
+                            console.log(result);
+                            if (result.value) {
+                                location.reload();
+                            }
+                        });
                 }
-            })
+            });
         }
     })
 };

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Messtechnik;
 
-use App\Notifications\ResetPassword;
+use Messtechnik\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\Models\Media;
@@ -20,7 +20,7 @@ class User extends Authenticatable implements HasMedia
     protected $table = 'users';
 
     public function empresa() {
-        return $this->belongsTo('App\Models\Company','empresa_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\Company','empresa_id', 'id');
     }
 
     protected $fillable = [

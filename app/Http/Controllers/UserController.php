@@ -1,22 +1,50 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Messtechnik\Http\Controllers;
 
-use App\Http\Requests\UserStoreRequest;
-use App\Models\Company;
-use App\User;
+use Messtechnik\Http\Requests\UserStoreRequest;
+use Messtechnik\Models\Company;
+use Messtechnik\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
-    // Registrar usuário
-    public function registerUser(UserStoreRequest $request) {
+    /**
+     * Para o admin, retorna uma lista com todos os usuarios,
+     * para um usuário comum, retorna uma lista dos usuarios da mesma empresa.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request) {
+        $search = $request['search'];
+
+        Auth::user()->hasRole('Admin') ?
+            $usuarios = User::where('name','ilike','%'.$search.'%')
+                ->with('empresa')
+                ->orWhereHas('empresa', function($query) use ($search) {
+                    $query->where('nome', 'ilike','%'.$search.'%');
+                })
+                ->paginate(10) :
+            $usuarios = User::with('empresa')
+                ->where('empresa_id', Auth::user()->empresa_id)
+                ->where('name','like','%'.$search.'%')
+                ->paginate(10);
+
+        return view('userlist', compact('usuarios'));
+    }
+
+    /**
+     * Registra um novo usuário
+     *
+     * @param UserStoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(UserStoreRequest $request) {
         $empresa = Company::where('nome', $request['empresa'])->first();
 
         $user = new User($request->validated());
@@ -30,64 +58,49 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    // Mostrar tela de cadastro de usuário
-    public function showRegisterUser() {
-        if (Auth::user()->hasRole('Admin')) {
-            $empresas = Company::all('id', 'nome');
-        }
-        else {
-            $empresas = Company::all('id', 'nome')
-                ->where('id', Auth::user()->empresa_id);
-        }
+    /**
+     * Mostra a view para registrar novo usuário
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create() {
+        Auth::user()->hasRole('Admin') ?
+            $empresas = Company::all('id', 'nome') :
+            $empresas = Company::all('id', 'nome')->where('id', Auth::user()->empresa_id);
+
         return view('auth.register', compact('empresas'));
     }
 
-    // Mostrar tela de usuários cadastrados
-    public function showUserList(Request $request) {
-        $search = $request['search'];
-
-        if (Auth::user()->hasRole('Admin')) {
-            $usuarios = User::where('name','like','%'.$search.'%')
-                ->with('empresa')
-                ->orWhereHas('empresa', function($query) use ($search) {
-                    $query->where('nome', 'like','%'.$search.'%');
-                })
-                ->paginate(10);
-        }
-        else {
-            $usuarios = User::with('empresa')
-                ->where('empresa_id', Auth::user()->empresa_id)
-                ->where('name','like','%'.$search.'%')
-                ->paginate(10);
-        }
-
-        return view('userlist', compact('usuarios'));
-    }
-
-    // Mostrar tela lista de cargos e permissoes
-    public function showRolesPermissions() {
-        if (Auth::user()->hasRole('Admin')) {
-            $permissoes = Permission::all();
-            $cargos = Role::all();
-
-            return view('rolepermission', compact(['permissoes', 'cargos']));
-        }
-    }
-
-    // Deletar usuario
-    public function deleteUser($user_id) {
+    /**
+     * Deletar usuário
+     *
+     * @param $user_id
+     */
+    public function destroy($user_id) {
         User::find($user_id)->delete();
     }
 
-    // Mostrar tela e configuracoes de usuario
-    public static function showConfigUser($user_id) {
+    /**
+     * Mostra a view para editar um usuário
+     *
+     * @param $user_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public static function edit($user_id) {
         $user = User::find($user_id);
         $role = $user->getRoleNames()->first();
 
         return view('userconfig', compact(['user', 'role']));
     }
 
-    public function editUserConfig($user_id, Request $request) {
+    /**
+     * Editar os dados cadastrais de um usuário
+     *
+     * @param $user_id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function update($user_id, Request $request) {
         $user = User::find($user_id);
 
         $user->name = $request->input('name');
@@ -95,14 +108,24 @@ class UserController extends Controller
         $user->genero = $request->input('genero');
         $user->aniversario = $request->input('aniversario');
 
-        $role = $request['accountRole'];
-
-        $this->switchRole($user, $role);
+        if ($user->hasRole('Admin')) {
+            $user->getRoleNames()->first();
+        }
+        else {
+            $role = $request['accountRole'];
+            $this->switchRole($user, $role);
+        }
 
         $user->save();
         return view('userconfig', compact(['user', 'role']));
     }
 
+    /**
+     * Altera o tipo de conta de um usuário
+     *
+     * @param $user
+     * @param $role
+     */
     public function switchRole($user, $role) {
         if($role === 'Master') {
             $user->assignRole('Master');
@@ -114,19 +137,25 @@ class UserController extends Controller
         }
     }
 
-    public function editUserAvatar($user_id, Request $request) {
-        $user = User::find($user_id);
+    public function editUserAvatar(Request $request)
+    {
 
-        if($request->hasFile('avatar')) {
-            if ($request->file('avatar')->isValid()) {
-                $user
-                    ->addMedia($request->file('avatar'))
-                    ->toMediaCollection('profile');
-            }
-        }
-
-        return view('userconfig', compact('user'));
     }
+
+//    public function editUserAvatar($user_id, Request $request) {
+//        $user = User::find($user_id);
+//        $role = $user->getRoleNames()->first();
+//
+//        if($request->hasFile('avatar')) {
+//            if ($request->file('avatar')->isValid()) {
+//                $user
+//                    ->addMedia($request->file('avatar'))
+//                    ->toMediaCollection('profile');
+//            }
+//        }
+//
+//        return view('userconfig', compact(['user', 'role']));
+//    }
 
     public function showEditPassword() {
         return view('userpassword');

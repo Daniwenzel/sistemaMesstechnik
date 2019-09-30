@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class Windvane extends Model
     ];
 
     public function sensor() {
-        return $this->belongsTo('App\Models\Sensor', 'sensor_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\Sensor', 'sensor_id', 'id');
     }
 }

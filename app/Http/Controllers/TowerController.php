@@ -1,35 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Messtechnik\Http\Controllers;
 
-use App\Models\Anemometro;
-use App\Models\Barometro;
-use App\Models\Bateria;
-use App\Models\Temperatura;
-use App\Models\Tower;
-use App\Models\Umidade;
-use App\Models\WindFarm;
-use App\Models\Windvane;
+use Messtechnik\AnemometroVertical;
+use Messtechnik\Models\Anemometro;
+use Messtechnik\Models\Barometro;
+use Messtechnik\Models\Bateria;
+use Messtechnik\Models\Precipitacao;
+use Messtechnik\Models\Temperatura;
+use Messtechnik\Models\Tower;
+use Messtechnik\Models\Umidade;
+use Messtechnik\Models\WindFarm;
+use Messtechnik\Models\Windvane;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class TowerController extends Controller
 {
-
-    // Mostrar informações da torre selecionada
-    public function showTowerInfo($tower_id) {
-        /* Buscando pelos sensores da torre
-           Através do torre_id, mas torre_id não
-           Consta no arquivo txt lido */
-
+    public function show($tower_id) {
+        // Busca pelo registro da torre selecionada e seus sensores
         $torre = Tower::find($tower_id);
         $sensores = $torre->sensores;
 
-        //$yesterday = date("Y-m-d", strtotime( '-1 days' ) );
-        $yesterday = Anemometro::latest()->first();
-
-        // Inicia uma lista vazia para armazenar as leituras de cada sensor da torre
+        // Inicia uma lista vazia para armazenar as leituras de cada sensor
         $barometros = [];
         $anemometros = [];
         $windvanes = [];
@@ -39,48 +32,66 @@ class TowerController extends Controller
         $precipitacoes = [];
         $anemometrosVerticais = [];
 
-//        dd($sensores[0]);
-
-//        $leituras[$sensor->nome]->push(['marca' => 'images/sensors/'.$sensor->marca]);*/
 
         if (count($sensores) !== 0) {
             foreach ($sensores as $sensor) {
-                if ($sensor->barometro->first()) {
-                    $barometros[$sensor->nome] = Barometro::whereDate('updated_at', $torre->updated_at)
-                        ->where('sensor_id', $sensor->id)
-                        ->where('nome', 'like','%'.'Avg')
-                        ->pluck('leitura')
-                        ->toArray();
-                } elseif ($sensor->anemometro->first()) {
-                    $anemometros[$sensor->nome] = Anemometro::whereDate('updated_at', $torre->updated_at)
-                        ->where('sensor_id', $sensor->id)
-                        ->where('nome', 'like','%'.'Avg')
-                        ->pluck('leitura')
-                        ->toArray();
-                } elseif ($sensor->windvane->first()) {
-                    $windvanes[$sensor->nome] = Windvane::whereDate('updated_at', $torre->updated_at)
-                        ->where('sensor_id', $sensor->id)
-                        ->where('nome', 'like','%'.'Avg')
-                        ->pluck('leitura')
-                        ->toArray();
-                } elseif ($sensor->temperatura->first()) {
-                    $temperaturas[$sensor->nome] = Temperatura::whereDate('updated_at', $torre->updated_at)
-                        ->where('sensor_id', $sensor->id)
-                        ->where('nome', 'like','%'.'Avg')
-                        ->pluck('leitura')
-                        ->toArray();
-                } elseif ($sensor->umidade->first()) {
-                    $umidades[$sensor->nome] = Umidade::whereDate('updated_at', $torre->updated_at)
-                        ->where('sensor_id', $sensor->id)
-                        ->where('nome', 'like','%'.'Avg')
-                        ->pluck('leitura')
-                        ->toArray();
-                } elseif ($sensor->bateria->first()) {
-                    $baterias[$sensor->nome] = Bateria::whereDate('updated_at', $torre->updated_at)
-                        ->where('sensor_id', $sensor->id)
-                        ->where('nome', 'like','%'.'Avg')
-                        ->pluck('leitura')
-                        ->toArray();
+                switch($sensor->tipo) {
+                    case 'Barometro':
+                        $barometros[$sensor->nome] = Barometro::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'Anemometro':
+                        $anemometros[$sensor->nome] = Anemometro::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'Windvane':
+                        $windvanes[$sensor->nome] = Windvane::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'Temperatura':
+                        $temperaturas[$sensor->nome] = Temperatura::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'Umidade':
+                        $umidades[$sensor->nome] = Umidade::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'Bateria':
+                        $baterias[$sensor->nome] = Bateria::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'Precipitacao':
+                        $precipitacoes[$sensor->nome] = Precipitacao::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
+                    case 'AnemometroVertical':
+                        $anemometrosVerticais[$sensor->nome] = AnemometroVertical::whereDate('updated_at', $torre->updated_at)
+                            ->where('sensor_id', $sensor->id)
+                            ->where('nome', 'like','%'.'Avg')
+                            ->pluck('leitura')
+                            ->toArray();
+                        break;
                 }
             }
         }
@@ -91,52 +102,45 @@ class TowerController extends Controller
 
         return view('towerinfo', compact([
             'torre',
-            'yesterday',
             'barometros',
             'anemometros',
             'windvanes',
             'temperaturas',
             'umidades',
-            'baterias'
+            'baterias',
+            'precipitacoes',
+            'anemometrosVerticais'
         ]));
     }
 
-    public function showTowerList(Request $request, $farm_id)
-    {
-        // Se o usuário tentar entrar nesse escopo através do URL digitando um id que não seja o do próprio parque
-        // eólico e ele não seja um ADMIN, redireciona para a view 'sem permissão'
-        if ((WindFarm::find($farm_id)->empresa_id !== Auth::user()->empresa_id) && (!(Auth::user()->hasRole('Admin')))) {
-            return view('errors.500');
-        } else {
-            $torres = Tower::where('parque_id', $farm_id)
-                ->where('cod_cliente', 'like', '%'.$request['search'].'%')
-                ->orderBy('cod_MSTK', 'asc')
-                ->paginate(3);
-            // Caso a busca não encontre resultados ou o parque selecionado não possui torres cadastradas
-            if ($torres->isEmpty()) {
-                Session::flash('message', 'Não foi possível encontrar torres com este nome, ou o parque ainda não possui torres cadastradas.');
-            }
-            return view('towers', compact(['torres', 'farm_id']));
-        }
-    }
-
-    public function showRegisterTower($farm_id) {
+    /**
+     * Mostra a view para cadastrar uma torre
+     *
+     * @param $farm_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create($farm_id) {
         $parque = WindFarm::find($farm_id);
 
         return view('towerregister', compact('parque'));
     }
 
-    public function registerTower(Request $request, $farm_id) {
-        $torre = new Tower();
-        $torre->cod_MSTK = $request['cod_mstk'];
-        $torre->cod_cliente = $request['cod_cliente'];
-        $torre->parque_id = $farm_id;
-        $torre->cod_arquivo_dados = $request['cod_arquivo_dados'];
+    /**
+     * Cadastra uma nova torre
+     *
+     * @param Request $request
+     * @param $farm_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request, $farm_id) {
+        Tower::create([
+            'cod_MSTK' => $request['cod_mstk'],
+            'cod_cliente' => $request['cod_cliente'],
+            'parque_id' => $farm_id,
+            'cod_arquivo_dados' => $request['cod_arquivo_dados']
+        ])->save();
 
         Session::flash('message', 'Torre cadastrada com sucesso!');
-
-        $torre->save();
-
         return redirect()->back();
     }
 }

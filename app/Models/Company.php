@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,10 +13,10 @@ class Company extends Model
     ];
 
     public function users() {
-        return $this->hasMany('App\User', 'empresa_id', 'id');
+        return $this->hasMany('Messtechnik\User', 'empresa_id', 'id');
     }
 
     public function parques() {
-        return $this->hasMany('App\Models\WindFarm', 'empresa_id');
+        return $this->hasMany('Messtechnik\Models\WindFarm', 'empresa_id');
     }
 }

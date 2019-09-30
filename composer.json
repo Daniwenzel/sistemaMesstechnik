@@ -39,7 +39,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "Messtechnik\\": "app/"
         },
         "classmap": [
             "database/seeds",

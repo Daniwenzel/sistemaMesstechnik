@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Messtechnik\User;
 
 class CreatePermissionTables extends Migration
 {
@@ -84,7 +84,7 @@ class CreatePermissionTables extends Migration
         Role::create(['name' => 'Master']);
         Role::create(['name' => 'Basica']);
 
-        $user = \App\User::find(1);
+        $user = User::where('email', 'admin@admin')->first();
         $user->assignRole('Admin');
     }
 

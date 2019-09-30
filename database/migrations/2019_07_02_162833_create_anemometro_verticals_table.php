@@ -23,6 +23,6 @@ class CreateAnemometroVerticalsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('anemometro_verticals');
+        Schema::dropIfExists('anemometro_verticais');
     }
 }

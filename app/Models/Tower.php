@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,10 +13,10 @@ class Tower extends Model
     ];
 
     public function sensores() {
-        return $this->hasMany('App\Models\Sensor', 'torre_id');
+        return $this->hasMany('Messtechnik\Models\Sensor', 'torre_id');
     }
 
     public function parque() {
-        return $this->belongsTo('App\Models\WindFarm','parque_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\WindFarm','parque_id', 'id');
     }
 }

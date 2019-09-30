@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Messtechnik\Http\Controllers;
 
 
 class SensorController extends Controller

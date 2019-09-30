@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company;
+use Messtechnik\Models\Company;
+use Messtechnik\User;
 
 class CreateUsersTable extends Migration
 {
@@ -30,19 +30,15 @@ class CreateUsersTable extends Migration
 
         $empresa = Company::where('nome', 'Messtechnik')->first();
 
-        DB::table('users')->insert(
-            array(
-                [
-                    'id' => 1,
-                    'name' => 'Admin',
-                    'email' => 'admin@admin',
-                    'password' => bcrypt('mstk123'),
-                    'empresa_id' => $empresa->id,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ]
-            )
-        );
+        $user = new User([
+            'name' => 'Admin',
+            'email' => 'admin@admin',
+            'password' => bcrypt('mstk123'),
+            'empresa_id' => $empresa->id,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $user->save();
     }
 
     public function down()
