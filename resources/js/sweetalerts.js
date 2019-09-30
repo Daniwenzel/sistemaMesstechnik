@@ -13,8 +13,8 @@ window.swalDeletarUsuario = function (usuario_id) {
         if (result.value) {
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: "POST",
-                url: "/user/delete/" + usuario_id
+                type: "DELETE",
+                url: "/users/" + usuario_id
             });
             Swal.fire(
                 'Excluido!',
@@ -44,8 +44,8 @@ window.swalDeletarEmpresa = function (empresa_id) {
         if (result.value) {
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: "GET",
-                url: "/company/delete/"+empresa_id,
+                type: "DELETE",
+                url: "/companies/"+empresa_id,
                 success: function (response) {
                     Swal.fire(
                         'Excluido!',
@@ -92,8 +92,8 @@ window.swalDeletarCargo = function (cargo_id) {
         if (result.value) {
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: "POST",
-                url: "/entitlement/roledel/" + cargo_id
+                type: "DELETE",
+                url: "/rights/role/" + cargo_id
             });
             Swal.fire(
                 'Excluido!',
@@ -123,8 +123,8 @@ window.swalDeletarPermissao = function (permissao_id) {
         if (result.value) {
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: "POST",
-                url: "/entitlement/permdel/" + permissao_id
+                type: "DELETE",
+                url: "/rights/permission/" + permissao_id
             });
             Swal.fire(
                 'Excluido!',

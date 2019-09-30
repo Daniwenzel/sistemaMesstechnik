@@ -35,15 +35,23 @@ window.options = {
     scales: {
         yAxes: [{
             ticks: {
-                // valor mínimo da axis y = 800 para os barometros, caso o valor for menor que 800, o gráfico se adapta.
                 suggestedMin: 0
             }
         }],
         xAxes: [{
+            type: 'time',
+            time: {
+                parser:'hh:mm:ss',
+                stepSize: 1,
+                min: '00:00:00',
+                max: '24:00:00',
+            },
+
             ticks: {
                 minRotation: 90,
                 autoSkip: true,
-                maxTicksLimit: 24.1
+                // source: 'labels',
+                maxTicksLimit: 24
             }
         }]
     },
@@ -96,10 +104,19 @@ if (jQuery("#barometroChart").length) {
                     }
                 }],
                 xAxes: [{
+                    type: 'time',
+                    time: {
+                        parser:'hh:mm:ss',
+                        stepSize: 1,
+                        min: '00:00:00',
+                        max: '24:00:00',
+                    },
+
                     ticks: {
                         minRotation: 90,
                         autoSkip: true,
-                        maxTicksLimit: 24.1
+                        // source: 'labels',
+                        maxTicksLimit: 24
                     }
                 }]
             },

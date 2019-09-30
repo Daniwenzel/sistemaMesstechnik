@@ -10,7 +10,7 @@ require('./off-canvas');
 require('./login');
 require('./password');
 require('./toggle-graph');
-require('./alerts');
+require('./sweetalerts');
 
 window.Vue = require('vue');
 window.Swal = require('sweetalert2');
@@ -28,6 +28,8 @@ window.Chart = require('chart.js');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('news-post', require('./components/NewsPost.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

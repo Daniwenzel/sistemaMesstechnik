@@ -14,6 +14,12 @@
 @import "../../node_modules/compass-mixins/lib/compass";
 @import "../../node_modules/compass-mixins/lib/animate";
 
+// MDIcons
+@import "../../node_modules/@mdi/font/scss/materialdesignicons";
+
+// SweetAlert2
+@import "../../node_modules/sweetalert2/src/sweetalert2";
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 

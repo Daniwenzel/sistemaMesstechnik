@@ -1147,11 +1147,8 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
   font-size: 1.125em;
   font-weight: 300;
   line-height: normal;
-  word-wrap: break-word;
-}
-
-#swal2-content {
   text-align: center;
+  word-wrap: break-word;
 }
 
 .swal2-input,
@@ -1357,6 +1354,7 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
   zoom: normal;
   border: 0.25em solid transparent;
   border-radius: 50%;
+  font-family: inherit;
   line-height: 5em;
   cursor: default;
   -webkit-user-select: none;
