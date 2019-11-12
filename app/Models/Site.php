@@ -17,6 +17,6 @@ class WindFarm extends Model
     }
 
     public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Company','empresa_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\Client','empresa_id', 'id');
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Messtechnik\Http\Controllers;
 
-use Messtechnik\Models\Company;
+use Messtechnik\Models\Client;
 use Messtechnik\Models\Tower;
-use Messtechnik\Models\WindFarm;
+use Messtechnik\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -21,23 +21,23 @@ class WindFarmController extends Controller
      */
     public function index(Request $request) {
         $filtro = $request['search'];
-        $empresas = Company::all();
-        $empresa_selecionada = $request['empresa'] ? $request['empresa'] : null;
+        $clientes = Client::all();
+        $cliente_selecionado = $request['empresa'] ? $request['empresa'] : null;
 
         if(Auth::user()->hasRole('Admin')) {
-            $windfarms = WindFarm::where('nome', 'ilike', '%'.$filtro.'%')
-                ->orderBy('nome', 'asc');
-            $windfarms = is_numeric($empresa_selecionada) ?
-                $windfarms->where('empresa_id', $empresa_selecionada)->paginate(5)
-                : $windfarms->paginate(5);
+            $torres = Site::where('sitename', 'ilike', '%'.$filtro.'%')
+                ->orderBy('sitename', 'asc');
+            $torres = is_numeric($cliente_selecionado) ?
+                $torres->where('clicodigo', $cliente_selecionado)->paginate(5)
+                : $torres->paginate(5);
         }
         else {
-            $windfarms = WindFarm::where('empresa_id', Auth::user()->empresa_id)
-                ->where('nome', 'ilike', '%'.$filtro.'%')
-                ->orderBy('nome', 'asc')
+            $torres = Site::where('clicodigo', Auth::user()->cliente_codigo)
+                ->where('sitename', 'ilike', '%'.$filtro.'%')
+                ->orderBy('sitename', 'asc')
                 ->paginate(5);
         }
-        return view('windfarms', compact(['windfarms', 'filtro', 'empresas', 'empresa_selecionada']));
+        return view('windfarms', compact(['torres', 'filtro', 'clientes', 'cliente_selecionado']));
     }
 
     /**
@@ -46,7 +46,7 @@ class WindFarmController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create() {
-        $empresas = Company::all();
+        $empresas = Client::all();
 
         return view('windfarmregister', compact('empresas'));
     }
@@ -58,9 +58,9 @@ class WindFarmController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request) {
-        $empresa = Company::where('nome', $request['empresa'])->first();
+        $empresa = Client::where('nome', $request['empresa'])->first();
 
-        $parque = new WindFarm([
+        $parque = new Site([
             'nome' => $request['nome'],
             'cod_EPE' => $request['cod_EPE'],
             'empresa_id' => $empresa->id
@@ -82,7 +82,7 @@ class WindFarmController extends Controller
     {
         // Se o usuário tentar entrar nesse escopo através do URL digitando um id que não seja o do próprio parque
         // eólico e ele não seja um ADMIN, redireciona para a view 'sem permissão'
-        if ((WindFarm::find($farm_id)->empresa_id !== Auth::user()->empresa_id) && (!(Auth::user()->hasRole('Admin')))) {
+        if ((Site::find($farm_id)->empresa_id !== Auth::user()->empresa_id) && (!(Auth::user()->hasRole('Admin')))) {
             return view('errors.500');
         } else {
             $torres = Tower::where('parque_id', $farm_id)

@@ -20,7 +20,7 @@ class User extends Authenticatable implements HasMedia
     protected $table = 'users';
 
     public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Company','cliente_codigo', 'codigo');
+        return $this->belongsTo('Messtechnik\Models\Clientes','cliente_codigo', 'codigo');
     }
 
     protected $fillable = [

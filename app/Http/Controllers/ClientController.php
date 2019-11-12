@@ -3,7 +3,7 @@
 namespace Messtechnik\Http\Controllers;
 
 use Messtechnik\Http\Requests\CompanyStoreRequest;
-use Messtechnik\Models\Company;
+use Messtechnik\Models\Clientes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -28,7 +28,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $empresas = Company::where('nome','ilike','%'.$request['search'].'%')->get();
+        $empresas = Clientes::where('nome','ilike','%'.$request['search'].'%')->get();
 
         return view('companylist', compact('empresas'));
     }
@@ -49,7 +49,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CompanyStoreRequest $request) {
-        Company::create($request->validated())->save();
+        Clientes::create($request->validated())->save();
 
         Session::flash('message', 'Empresa cadastrada com sucesso!');
         return redirect()->back();
@@ -61,7 +61,7 @@ class CompanyController extends Controller
      * @param $company_id
      */
     public function delete($company_id) {
-        $empresa = Company::find($company_id);
+        $empresa = Clientes::find($company_id);
         $empresa->delete();
     }
 }
