@@ -3,7 +3,7 @@
 return [
 
     'recover' => 'Recuperar Senha',
-    'company' => 'Empresas',
+    'company' => 'Clientes',
     'users' => 'Usuários',
     'name' => 'Nome',
     'lastname' => 'Sobrenome',
