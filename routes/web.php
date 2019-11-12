@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/towers/create/{farm_id}', 'TowerController@create')->name('towers.create');
     Route::post('/towers/{farm_id}', 'TowerController@store')->name('towers.store');
 
+    Route::get('/reports', 'ReportController@index')->name('reports.index');
+
     Route::get('/log', 'FileLogController@showFileLog')->name('log');
 
 //    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
