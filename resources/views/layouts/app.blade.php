@@ -20,6 +20,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/inline.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/image.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/app.js') }}" type="text/javascript" defer></script>
 
 </head>
 
@@ -57,7 +58,7 @@
 <noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
 
 <!-- Deferred Scripts -->
-<script src="{{ asset('js/app.js') }}" type="text/javascript" defer></script>
+
 @stack('scripts')
 
 </body>

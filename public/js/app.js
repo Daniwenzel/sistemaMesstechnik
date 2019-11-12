@@ -47963,8 +47963,7 @@ __webpack_require__(/*! ./sweetalerts */ "./resources/js/sweetalerts.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-window.Chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js"); // window.SMB2 = require('smb2');
-
+window.Chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -47988,19 +47987,7 @@ var app = new Vue({
   mounted: function mounted() {
     console.log('app mounted');
   }
-}); // document.getElementById("smbOpen").addEventListener("click", function() {
-//     let smb2Client = new SMB2({
-//         share:'\\\\192.168.1.222\\staradmin',
-//         domain:'DANITESTE',
-//         username:'dani',
-//         password:'ab159456'
-//     });
-//
-//     smb2Client.readdir('arquivosdados', function(err, files){
-//         if(err) throw err;
-//         console.log(files);
-//     });
-// });
+});
 
 /***/ }),
 
@@ -48580,8 +48567,8 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/sistemaMesstechnik/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/sistemaMesstechnik/resources/scss/style.scss */"./resources/scss/style.scss");
+__webpack_require__(/*! /home/dani/Documents/Projetos/sistemaMesstechnik/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/dani/Documents/Projetos/sistemaMesstechnik/resources/scss/style.scss */"./resources/scss/style.scss");
 
 
 /***/ })

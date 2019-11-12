@@ -7,6 +7,7 @@
   padding: 0;
   width: $sidebar-width-lg;
   z-index: 11;
+  position: fixed;
   transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
   -webkit-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
   -moz-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
@@ -78,7 +79,7 @@
           margin-left: auto;
         }
         &:hover {
-          color: darken($sidebar-light-menu-color, 5%);
+          color: darken($sidebar-light-menu-color, 10%);
         }
       }
       &.active {

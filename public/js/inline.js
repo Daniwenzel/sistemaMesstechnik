@@ -49901,10 +49901,6 @@ $(document).ready(function () {
         namespace: ['user', 'home', 'company', 'register-company', 'roles', 'tower', 'user-config', 'windfarms', 'windfarms-info', 'user-password', 'log']
       },
       sync: true,
-      beforeAppear: function beforeAppear() {},
-      appear: function appear() {},
-      afterAppear: function afterAppear() {},
-      beforeLeave: function beforeLeave() {},
       leave: function leave() {
         tl.to('.main-panel', 0.1, {
           opacity: 0
@@ -49918,8 +49914,6 @@ $(document).ready(function () {
           y: "-50%"
         }, "-=0.6");
       },
-      afterLeave: function afterLeave() {},
-      beforeEnter: function beforeEnter() {},
       enter: function enter() {
         tl.to('.main-panel', 1, {
           opacity: 1
@@ -49932,8 +49926,7 @@ $(document).ready(function () {
           ease: Expo.easeOut,
           x: "100%"
         }, "-=1");
-      },
-      afterEnter: function afterEnter() {}
+      }
     }]
   });
 });
@@ -49947,7 +49940,7 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/sistemaMesstechnik/resources/js/inline.js */"./resources/js/inline.js");
+module.exports = __webpack_require__(/*! /home/dani/Documents/Projetos/sistemaMesstechnik/resources/js/inline.js */"./resources/js/inline.js");
 
 
 /***/ })

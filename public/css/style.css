@@ -30186,6 +30186,7 @@ input:focus {
   padding: 0;
   width: 255px;
   z-index: 11;
+  position: fixed;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
@@ -30268,7 +30269,7 @@ input:focus {
 }
 
 .sidebar .nav .nav-item .nav-link:hover {
-  color: #3d3d3d;
+  color: #313131;
 }
 
 .sidebar .nav .nav-item.active > .nav-link {
@@ -30472,7 +30473,6 @@ input:focus {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
-  background: #ffffff;
   width: 255px;
   height: 63px;
 }
@@ -30955,6 +30955,7 @@ html {
   transition: width 0.25s ease, margin 0.25s ease;
   width: calc(100% - 255px);
   min-height: calc(100vh - 63px);
+  margin-left: 250px;
   display: flex;
   flex-direction: column;
 }
