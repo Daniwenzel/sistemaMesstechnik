@@ -8,23 +8,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\Permission\Traits\HasPermissions;
+//use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use Notifiable, HasRoles, HasPermissions, HasMediaTrait;
+    use Notifiable, HasRoles, HasMediaTrait;
 
     protected $guard_name = 'web';
 
     protected $table = 'users';
 
     public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Company','empresa_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\Company','cliente_codigo', 'codigo');
     }
 
     protected $fillable = [
-        'name', 'email', 'password', 'empresa_id',
+        'name', 'email', 'password', 'cliente_codigo',
     ];
 
     protected $hidden = [

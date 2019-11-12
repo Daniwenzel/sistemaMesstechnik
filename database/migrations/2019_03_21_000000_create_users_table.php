@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Messtechnik\Models\Company;
+use Illuminate\Support\Facades\DB;
 use Messtechnik\User;
 
 class CreateUsersTable extends Migration
@@ -19,22 +19,24 @@ class CreateUsersTable extends Migration
             $table->date('aniversario')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedBigInteger('empresa_id');
+            $table->integer('cliente_codigo');
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('empresa_id')
-                ->references('id')
-                ->on('empresas');
+            $table->foreign('cliente_codigo')
+                ->references('codigo')
+                ->on('cliente');
         });
 
-        $empresa = Company::where('nome', 'Messtechnik')->first();
+        $empresa = DB::select('select * from cliente where razaosocial=?', ['Messtechnik']);
+
+//        dd($empresa[0]->codigo);
 
         $user = new User([
             'name' => 'Admin',
             'email' => 'admin@admin',
             'password' => bcrypt('mstk123'),
-            'empresa_id' => $empresa->id,
+            'cliente_codigo' => 1,
             'created_at' => now(),
             'updated_at' => now()
         ]);

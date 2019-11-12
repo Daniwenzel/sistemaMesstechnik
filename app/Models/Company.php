@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    protected $table = 'empresas';
+    protected $table = 'cliente';
 
     protected $fillable = [
-        'nome', 'cnpj', 'telefone', 'email',
+        'codigo', 'razaosocial', 'endereco'
     ];
 
     public function users() {
-        return $this->hasMany('Messtechnik\User', 'empresa_id', 'id');
+        return $this->hasMany('Messtechnik\User', 'cliente_codigo', 'codigo');
     }
 
     public function parques() {
