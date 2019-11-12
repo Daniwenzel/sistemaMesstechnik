@@ -13,6 +13,7 @@ return [
     'company' => 'Companies',
     'permissions' => 'Roles and Permissions',
     'log' => 'File Log',
+    'report' => 'Reports',
     'register_company' => 'Register Company',
     'register_user' => 'Register User',
     'register_tower' => 'Register Tower',
@@ -21,5 +22,4 @@ return [
     'cancel' => 'Cancel',
     'male' => 'Male',
     'female' => 'Female',
-
 ];

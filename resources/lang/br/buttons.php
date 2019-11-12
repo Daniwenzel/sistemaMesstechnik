@@ -13,6 +13,7 @@ return [
     'company' => 'Empresas',
     'permissions' => 'Cargos e Permissões',
     'log' => 'Log dos Arquivos',
+    'report' => 'Relatórios',
     'register_company' => 'Registrar Empresa',
     'register_user' => 'Registrar Usuário',
     'register_tower' => 'Registrar Torre',
