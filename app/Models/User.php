@@ -1,6 +1,6 @@
 <?php
 
-namespace Messtechnik;
+namespace Messtechnik\Models;
 
 use Messtechnik\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-//use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
@@ -19,8 +18,8 @@ class User extends Authenticatable implements HasMedia
 
     protected $table = 'users';
 
-    public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Clientes','cliente_codigo', 'codigo');
+    public function cliente() {
+        return $this->belongsTo('Messtechnik\Models\Client','cliente_codigo', 'codigo');
     }
 
     protected $fillable = [

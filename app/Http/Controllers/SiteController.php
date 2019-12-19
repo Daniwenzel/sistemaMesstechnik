@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class WindFarmController extends Controller
+class SiteController extends Controller
 {
 
     /**
@@ -46,9 +46,9 @@ class WindFarmController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create() {
-        $empresas = Client::all();
+        $clientes = Client::all();
 
-        return view('windfarmregister', compact('empresas'));
+        return view('windfarmregister', compact('clientes'));
     }
 
     /**

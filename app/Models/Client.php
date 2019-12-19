@@ -4,19 +4,21 @@ namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Clientes extends Model
+class Client extends Model
 {
     protected $table = 'cliente';
 
     protected $fillable = [
-        'codigo', 'razaosocial', 'endereco'
+        'codigo',
+        'razaosocial',
+        'endereco'
     ];
 
     public function users() {
-        return $this->hasMany('Messtechnik\User', 'cliente_codigo', 'codigo');
+        return $this->hasMany('Messtechnik\Models\User', 'cliente_codigo', 'codigo');
     }
 
-    public function parques() {
-        return $this->hasMany('Messtechnik\Models\WindFarm', 'empresa_id');
+    public function torres() {
+        return $this->hasMany('Messtechnik\Models\Site', 'empresa_id');
     }
 }

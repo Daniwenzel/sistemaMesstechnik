@@ -3,8 +3,8 @@
 namespace Messtechnik\Http\Controllers;
 
 use Messtechnik\Http\Requests\UserStoreRequest;
-use Messtechnik\Models\Company;
-use Messtechnik\User;
+use Messtechnik\Models\Client;
+use Messtechnik\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,13 +25,13 @@ class UserController extends Controller
 
         Auth::user()->hasRole('Admin') ?
             $usuarios = User::where('name','ilike','%'.$search.'%')
-                ->with('empresa')
-                ->orWhereHas('empresa', function($query) use ($search) {
-                    $query->where('nome', 'ilike','%'.$search.'%');
+                ->with('cliente')
+                ->orWhereHas('cliente', function($query) use ($search) {
+                    $query->where('razaosocial', 'ilike','%'.$search.'%');
                 })
                 ->paginate(10) :
-            $usuarios = User::with('empresa')
-                ->where('empresa_id', Auth::user()->empresa_id)
+            $usuarios = User::with('cliente')
+                ->where('cliente_codigo', Auth::user()->empresa_id)
                 ->where('name','like','%'.$search.'%')
                 ->paginate(10);
 
@@ -45,11 +45,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserStoreRequest $request) {
-        $empresa = Company::where('nome', $request['empresa'])->first();
+        $cliente = Client::where('razaosocial', $request['razaosocial'])->first();
 
         $user = new User($request->validated());
         $user->password = bcrypt($user->password);
-        $user->empresa_id = $empresa->id;
+        dd($cliente);
+        $user->cliente_codigo = $cliente->codigo;
 
         $user->assignRole($request['accountRole']);
         $user->save();
@@ -65,10 +66,11 @@ class UserController extends Controller
      */
     public function create() {
         Auth::user()->hasRole('Admin') ?
-            $empresas = Company::all('id', 'nome') :
-            $empresas = Company::all('id', 'nome')->where('id', Auth::user()->empresa_id);
+            $clientes = Client::all('codigo', 'razaosocial') :
+            $clientes = Client::all('codigo', 'razaosocial')
+                ->where('codigo', Auth::user()->cliente_codigo);
 
-        return view('auth.register', compact('empresas'));
+        return view('auth.register', compact('clientes'));
     }
 
     /**

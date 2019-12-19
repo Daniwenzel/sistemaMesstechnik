@@ -9,7 +9,9 @@ class Tower extends Model
     protected $table = 'torres';
 
     protected $fillable = [
-        'parque_id', 'cod_MSTK', 'cod_cliente'
+        'parque_id',
+        'cod_MSTK',
+        'cod_cliente'
     ];
 
     public function sensores() {
@@ -17,6 +19,6 @@ class Tower extends Model
     }
 
     public function parque() {
-        return $this->belongsTo('Messtechnik\Models\WindFarm','parque_id', 'id');
+        return $this->belongsTo('Messtechnik\Models\Site','parque_id', 'id');
     }
 }

@@ -31,16 +31,13 @@
                             <thead>
                             <tr>
                                 <th>
-                                    {{ __('labels.name') }}
+                                    {{ __('Codigo') }}
                                 </th>
                                 <th>
-                                    {{ __('labels.cnpj') }}
+                                    {{ __('Razao Social') }}
                                 </th>
                                 <th>
-                                    {{ __('labels.phone') }}
-                                </th>
-                                <th>
-                                    {{ __('labels.email') }}
+                                    {{ __('Endereço') }}
                                 </th>
                                 <th>
                                     {{ __('labels.actions') }}
@@ -48,22 +45,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($empresas as $empresa)
+                            @foreach($clientes as $cliente)
                                 <tr>
                                     <td>
-                                        {{ $empresa->nome }}
+                                        {{ $cliente->codigo }}
                                     </td>
                                     <td>
-                                        {{ $empresa->cnpj }}
+                                        {{ $cliente->razaosocial }}
                                     </td>
                                     <td>
-                                        {{ $empresa->telefone }}
+                                        {{ $cliente->endereco }}
                                     </td>
                                     <td>
-                                        {{ $empresa->email }}
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarEmpresa({{ $empresa->id }})" id="{{$empresa->id}}-btn" data-toggle="modal">
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarEmpresa({{ $cliente->codigo }})" id="{{$cliente->codigo}}-btn" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>

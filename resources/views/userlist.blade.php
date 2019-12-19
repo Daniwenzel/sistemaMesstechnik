@@ -54,7 +54,7 @@
                                         {{ $usuario->email }}
                                     </td>
                                     <td>
-                                        {{ $usuario->empresa->nome }}
+                                        {{ $usuario->cliente->razaosocial }}
                                     </td>
                                     <td>
                                         {{ $usuario->getRoleNames()->first() }}

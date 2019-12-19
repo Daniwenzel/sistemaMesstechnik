@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Messtechnik\Models\Clientes;
 
-class CreateEmpresasTable extends Migration
+class CreateClienteTable extends Migration
 {
     public function up()
     {

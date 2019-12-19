@@ -11,9 +11,9 @@
         <form method="get" action="{{ route('windfarms.index') }}" class="navbar-form navbar-left mt-3">
             <div class="form-group">
                 <select class="form-control mt-3" id="empresa" name="empresa" onchange="this.form.submit();">
-                    <option {{ $empresa_selecionada == 'all' ? 'selected' : ''}} value="all">Todas</option>
-                    @foreach($empresas as $empresa)
-                        <option {{ $empresa_selecionada == $empresa->id ? 'selected' : '' }} value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
+                    <option {{ $cliente_selecionado == 'all' ? 'selected' : ''}} value="all">Todas</option>
+                    @foreach($clientes as $cliente)
+                        <option {{ $cliente_selecionado == $cliente->codigo ? 'selected' : '' }} value="{{ $cliente->codigo }}">{{ $cliente->razaosocial }}</option>
                     @endforeach
                 </select>
             </div>
@@ -31,22 +31,22 @@
                 </div>
             </div>
         </form>
-        @foreach($windfarms as $windfarm)
+        @foreach($torres as $torre)
             <div class="row text-md-center">
                 <div class="col-md-12 stretch-card grid-margin">
                     <div class="card bg-gradient-info card-img-holder text-white card-button">
-                        <div class="card-body btn" onclick="window.location='{{ route('windfarms.show', $windfarm->id) }}'">
+                        <div class="card-body btn" onclick="window.location='{{ route('windfarms.show', $torre->codigo) }}'">
                             <img src="{{ asset('images/circle.svg') }}" class="card-img-absolute" alt="circle-image"/>
                             <img src="{{ asset('images/wind-turbine.svg') }}" class="card-img-absolute" alt="wind-turbine"/>
-                            <h4 class="font-weight-normal mb-3">{{ $windfarm->cod_EPE }}</h4>
-                            <h2 class="mb-5">{{ $windfarm->nome }}</h2>
+{{--                            <h4 class="font-weight-normal mb-3">{{ $torre->cod_EPE }}</h4>--}}
+                            <h2 class="mb-5">{{ $torre->sitename }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
         @endforeach
         <div class="row justify-content-md-center">
-            {{ $windfarms->appends(['search' => $filtro, 'empresa' => $empresa_selecionada])->links() }}
+            {{ $torres->appends(['search' => $filtro, 'torre' => $cliente_selecionado])->links() }}
         </div>
     </div>
 @endsection

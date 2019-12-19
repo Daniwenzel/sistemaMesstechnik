@@ -121,15 +121,15 @@
                                     <input type="button" id="image-upload" value="Upload" class="btn btn-outline-info btn-fw" />
                                 </div>
                             </div>
-                            <div class="row mt-5">
-                                <div class="col-md-12">
-                                    <div class="form-group row justify-content-md-center">
-                                        @if($user->getFirstMedia('profile'))
-                                            <img src="{{ $user->getFirstMedia('profile')->getUrl('preview') }}" alt="profile_image_preview"/>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="row mt-5">--}}
+{{--                                <div class="col-md-12">--}}
+{{--                                    <div class="form-group row justify-content-md-center">--}}
+{{--                                        @if($user->getFirstMedia('profile'))--}}
+{{--                                            <img src="{{ $user->getFirstMedia('profile')->getUrl('preview') }}" alt="profile_image_preview"/>--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </form>
 {{--                        <form class="mt-5" method="POST" action="{{ route('edit.avatar', $user->id) }}" enctype="multipart/form-data">--}}
 {{--                            @csrf--}}

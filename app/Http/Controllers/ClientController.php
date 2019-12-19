@@ -3,7 +3,7 @@
 namespace Messtechnik\Http\Controllers;
 
 use Messtechnik\Http\Requests\CompanyStoreRequest;
-use Messtechnik\Models\Clientes;
+use Messtechnik\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
     definição das rotas
 */
 
-class CompanyController extends Controller
+class ClientController extends Controller
 {
 
     public function __construct()
@@ -28,9 +28,9 @@ class CompanyController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $empresas = Clientes::where('nome','ilike','%'.$request['search'].'%')->get();
+        $clientes = Client::where('razaosocial','ilike','%'.$request['search'].'%')->get();
 
-        return view('companylist', compact('empresas'));
+        return view('companylist', compact('clientes'));
     }
 
     /**
@@ -49,7 +49,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CompanyStoreRequest $request) {
-        Clientes::create($request->validated())->save();
+        Client::create($request->validated())->save();
 
         Session::flash('message', 'Empresa cadastrada com sucesso!');
         return redirect()->back();
@@ -61,7 +61,7 @@ class CompanyController extends Controller
      * @param $company_id
      */
     public function delete($company_id) {
-        $empresa = Clientes::find($company_id);
+        $empresa = Client::find($company_id);
         $empresa->delete();
     }
 }

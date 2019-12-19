@@ -31,10 +31,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/users/password', 'UserController@showEditPassword')->name('users.password');
     Route::post('/users/password', 'UserController@editPassword')->name('password.update');
 
-    Route::get('/companies', 'CompanyController@index')->name('companies.index');
-    Route::post('/companies', 'CompanyController@store')->name('companies.store');
-    Route::get('/companies/create', 'CompanyController@create')->name('companies.create');
-    Route::delete('/companies/{company_id}', 'CompanyController@delete')->name('companies.delete');
+    Route::get('/companies', 'ClientController@index')->name('companies.index');
+    Route::post('/companies', 'ClientController@store')->name('companies.store');
+    Route::get('/companies/create', 'ClientController@create')->name('companies.create');
+    Route::delete('/companies/{company_id}', 'ClientController@delete')->name('companies.delete');
 
     Route::get('/rights', 'RolePermissionController@index')->name('rights.index');
     Route::post('/rights/permission', 'RolePermissionController@permissionStore')->name('rights.permission.store');
@@ -42,10 +42,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('/rights/permission/{perm_id}', 'RolePermissionController@permissionDelete')->name('permissions.delete');
     Route::delete('/rights/role/{role_id}', 'RolePermissionController@roleDelete')->name('roles.delete');
 
-    Route::get('/windfarms', 'WindFarmController@index')->name('windfarms.index');
-    Route::get('/windfarms/create', 'WindFarmController@create')->name('windfarms.create');
-    Route::get('/windfarms/{farm_id}', 'WindFarmController@show')->name('windfarms.show');
-    Route::post('/windfarms', 'WindFarmController@store')->name('windfarms.store');
+    Route::get('/windfarms', 'SiteController@index')->name('windfarms.index');
+    Route::get('/windfarms/create', 'SiteController@create')->name('windfarms.create');
+    Route::get('/windfarms/{farm_id}', 'SiteController@show')->name('windfarms.show');
+    Route::post('/windfarms', 'SiteController@store')->name('windfarms.store');
 
     Route::get('/towers/{tower_id}', 'TowerController@show')->name('towers.show');
     Route::get('/towers/create/{farm_id}', 'TowerController@create')->name('towers.create');
@@ -53,7 +53,6 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/reports', 'ReportController@index')->name('reports.index');
 
-    Route::get('/log', 'FileLogController@showFileLog')->name('log');
 
 //    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
 

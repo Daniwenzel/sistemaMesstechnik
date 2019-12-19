@@ -26,8 +26,8 @@
                     <div class="form-group">
                         <label for="empresa">Cliente</label>
                         <select class="form-control" id="empresa" name="empresa">
-                            @foreach($empresas as $empresa)
-                                <option>{{ $empresa->nome }}</option>
+                            @foreach($clientes as $cliente)
+                                <option>{{ $cliente->razaosocial }}</option>
                             @endforeach
                         </select>
                     </div>

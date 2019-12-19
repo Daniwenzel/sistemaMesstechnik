@@ -20,7 +20,8 @@
                             <span class="input-group-text btn-inverse-primary">
                               <i class="mdi mdi-account"></i>
                             </span>
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('labels.name') }}" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                       placeholder="{{ __('labels.name') }}" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
@@ -74,8 +75,8 @@
                                     <i class="mdi mdi-briefcase"></i>
                                 </span>
                                 <select class="form-control" id="empresa" name="empresa">
-                                    @foreach($empresas as $empresa)
-                                        <option>{{ $empresa->nome }}</option>
+                                    @foreach($clientes as $cliente)
+                                        <option>{{ $cliente->razaosocial }}</option>
                                     @endforeach
                                 </select>
                             </div>

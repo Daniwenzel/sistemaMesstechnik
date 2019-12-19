@@ -68,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Messtechnik\User::class,
+            'model' => Messtechnik\Models\User::class,
         ],
 
         // 'users' => [

@@ -10,7 +10,7 @@ use Messtechnik\Models\Precipitacao;
 use Messtechnik\Models\Temperatura;
 use Messtechnik\Models\Tower;
 use Messtechnik\Models\Umidade;
-use Messtechnik\Models\WindFarm;
+use Messtechnik\Models\Site;
 use Messtechnik\Models\Windvane;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -120,7 +120,7 @@ class TowerController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create($farm_id) {
-        $parque = WindFarm::find($farm_id);
+        $parque = Site::find($farm_id);
 
         return view('towerregister', compact('parque'));
     }
