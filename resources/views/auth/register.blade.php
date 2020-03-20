@@ -80,7 +80,6 @@
                                 </select>
                             </div>
                         </div>
-                        @role('Admin')
                         <div class="form-group row">
                             <div class="col-sm-5">
                                 <div class="form-radio">
@@ -97,7 +96,6 @@
                                 </div>
                             </div>
                         </div>
-                        @endrole
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success mr-2">{{ __('buttons.confirm') }}</button>

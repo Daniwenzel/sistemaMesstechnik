@@ -2,7 +2,6 @@
 
 namespace Messtechnik\Http\Controllers;
 
-
 class DashboardController extends Controller
 {
 

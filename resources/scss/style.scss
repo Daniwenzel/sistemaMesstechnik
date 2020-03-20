@@ -20,6 +20,9 @@
 // SweetAlert2
 @import "../../node_modules/sweetalert2/src/sweetalert2";
 
+// DateRangePicker
+@import "../../node_modules/daterangepicker/daterangepicker.css";
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
@@ -65,6 +68,8 @@
 @import "components/new-account";
 @import "components/preview";
 @import "components/tables";
+@import "components/loader";
+@import "components/hover-tabs";
 /*-------------------------------------------------------------------*/
 
 /* === Landing screens === */

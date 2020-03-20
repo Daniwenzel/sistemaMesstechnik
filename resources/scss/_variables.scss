@@ -21,9 +21,47 @@ $dodger-blue: #3498db;
 $green-gradient: linear-gradient(120deg, #90ff83, #3cec2c, #3abe2a, #179108);
 $blue-teal-gradient: linear-gradient(120deg, #00e4d0, #5983e8);
 $blue-teal-gradient-light: linear-gradient(120deg, rgba(0, 228, 208, 0.7), rgba(89, 131, 232, 0.7));
-$theme-colors: ( primary: #308ee0, secondary: #e5e5e5, success: #00ce68, info: #8862e0, warning: #ffaf00, danger: #e65251, light: #f3f5f6, dark: #424964);
-$colors: ( blue: $blue, indigo: $indigo, purple: $purple, pink: $pink, red: $red, orange: $orange, yellow: $yellow, green: $green, teal: $teal, cyan: $cyan, white: $white, white-smoke: #f3f5f6, gray: $gray-600, gray-light: #8ba2b5, gray-lightest: #f7f7f9, gray-dark: #292b2c);
-$social-colors: ( twitter: #1da1f2, facebook: #3b579d, google: #dc4a38, linkedin: #0177b4, pinterest: #cc2127, youtube: #e52d27, github: #333333, behance: #1769ff, dribbble: #ea4c89, reddit: #ff4500);
+$theme-colors: ( 
+	primary: #308ee0,
+	secondary: #e5e5e5,
+	success: #00ce68,
+	info: #8862e0,
+	warning: #ffaf00,
+	danger: #e65251,
+	light: #f3f5f6,
+	dark: #424964
+);
+$colors: ( 
+	blue: $blue,
+	indigo: $indigo,
+	purple: $purple,
+	pink: $pink,
+	red: $red,
+	orange: $orange,
+	yellow: $yellow,
+	green: $green,
+	teal: $teal,
+	cyan: $cyan,
+	white: $white,
+	white-smoke: #f3f5f6,
+	gray: $gray-600,
+	gray-light: #8ba2b5,
+	gray-lightest: #f7f7f9,
+	gray-dark: #292b2c
+);
+$social-colors: ( 
+	twitter: #1da1f2,
+	facebook: #3b579d,
+	google: #dc4a38,
+	linkedin: #0177b4,
+	pinterest: #cc2127,
+	youtube: #e52d27,
+	github: #333333,
+	behance: #1769ff,
+	dribbble: #ea4c89,
+	reddit: #ff4500
+);
+
 ////////// COLOR SYSTEM //////////
 $theme-gradient-colors: (
         primary:         linear-gradient(to right, #da8cff, #9a55ff),
@@ -46,9 +84,9 @@ $border-color: #f2f2f2;
 $line-height-base: 1.5;
 $border-width: 1px;
 ////////// TEMPLATE VARIABLES //////////
+
 ////////// FONTS //////////
-$type-1: 'Poppins',
-sans-serif;
+$type-1: 'Poppins',sans-serif;
 $type-2: $type-1;
 $default-font-size: 13px;
 $text-muted: #c2c2c2;
@@ -58,6 +96,7 @@ $type1-regular:    'ubuntu-regular', sans-serif;
 $type1-medium:    'ubuntu-medium', sans-serif;
 $type1-bold:     'ubuntu-bold', sans-serif;
 ////////// FONT VARIABLES //////////
+
 ////////// MEASUREMENT AND PROPERTY VARIABLES //////////
 $boxed-container-width: 1200px;
 $border-property: 1px solid $border-color;
@@ -69,6 +108,7 @@ $card-description-color: #76838f;
 $grid-gutter-width: 40px;
 $action-transition-duration: 0.25s;
 $action-transition-timing-function: ease;
+
 ////////// SIDEBAR ////////
 $sidebar-width-lg: 255px;
 $sidebar-width-mini: 185px;
@@ -116,12 +156,14 @@ $sidebar-icon-only-submenu-padding: 0 0 0 1.5rem;
 $sidebar-icon-only-submenu-width: 200px;
 $rtl-sidebar-submenu-padding: 0 3.45rem 0 0;
 ///////// SIDEBAR ////////
+
 ///////// NAVBAR ////////
 $navbar-height: 63px;
 $navbar-light-color: #202339;
 $navbar-font-size: $sidebar-menu-font-size;
 $navbar-icon-font-size: 1.25rem;
 ///////// NAVBAR ////////
+
 ///////// BUTTONS ////////
 $button-fixed-width: 120px;
 $btn-padding-y: 0.56rem;
@@ -144,6 +186,7 @@ $btn-border-radius-lg: .1875rem;
 $social-btn-padding: 13px;
 $social-btn-icon-size: 1rem;
 ///////// BUTTONS ////////
+
 /////////  FORMS /////////
 $input-bg: color(white);
 $input-border-radius: 2px;
@@ -159,12 +202,14 @@ $input-padding-y-lg: .94rem;
 $input-padding-x-lg: 1.94rem;
 $input-line-height-lg: 1;
 ///////// FORMS /////////
+
 ////////  DROPDOWNS ///////
 $dropdown-border-color: $border-color;
 $dropdown-divider-bg: $border-color;
 $dropdown-link-color: $body-color;
 $dropdown-header-color: $body-color;
 ////////  DROPDOWNS ///////
+
 //////// TABLES ////////
 $table-accent-bg: $content-bg;
 $table-hover-bg: $content-bg;
@@ -173,6 +218,7 @@ $table-border-color: $border-color;
 $table-inverse-bg: #2a2b32;
 $table-inverse-color: color(white);
 //////// TABLES ////////
+
 ////////// MEASUREMENT AND PROPERTY VARIABLES //////////
 $boxed-container-width: 1200px;
 $border-property: 1px solid $border-color;
@@ -183,6 +229,7 @@ $grid-gutter-width: 25px;
 $action-transition-duration: 0.25s;
 $action-transition-timing-function: ease;
 ////////// OTHER VARIABLES //////////
+
 ////////// BREAD CRUMBS VARIABLES //////////
 // default styles
 $breadcrumb-padding-y: 0.56rem;
@@ -196,6 +243,7 @@ $breadcrumb-divider-color: $gray-600;
 $breadcrumb-active-color: $gray-700;
 $breadcrumb-divider: "/";
 ////////// BREAD CRUMBS VARIABLES //////////
+
 ////////// MODALS VARIABLES //////////
 $modal-inner-padding: 15px;
 $modal-dialog-margin: 10px;

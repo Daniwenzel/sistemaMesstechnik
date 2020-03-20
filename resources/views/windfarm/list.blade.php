@@ -2,7 +2,6 @@
 
 @section('content')
     <div data-barba-namespace="windfarms">
-        @role('Admin')
         <form method="get" action="{{ route('windfarms.create') }}">
             <button type="submit" class="btn btn-outline-primary btn-md btn-block">
                 <i class="mdi mdi-wind-turbine mdi-24px"></i>{{ __('buttons.register_windfarm') }}
@@ -18,7 +17,6 @@
                 </select>
             </div>
         </form>
-        @endrole
         <form method="get" action="{{ route('windfarms.index') }}" class="navbar-form navbar-left mt-3">
             <div class="form-group">
                 <div class="input-group">

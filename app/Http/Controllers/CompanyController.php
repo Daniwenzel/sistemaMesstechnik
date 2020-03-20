@@ -7,19 +7,8 @@ use Messtechnik\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-/*
-    Todos os métodos que realizam a manutenção da informação das empresas estão protegidos
-    contra o acesso inesperado de um usuário comum do sistema através da middleware 'admin' na
-    definição das rotas
-*/
-
 class CompanyController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('admin');
-    }
 
     /**
      * Mostra a view da lista de empresas cadastradas
@@ -28,9 +17,9 @@ class CompanyController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $empresas = Company::where('nome','ilike','%'.$request['search'].'%')->get();
+        $empresas = Company::where('RAZAOSOCIAL','like','%'.$request['search'].'%')->get();
 
-        return view('companylist', compact('empresas'));
+        return view('company.list', compact('empresas'));
     }
 
     /**
@@ -39,7 +28,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create() {
-        return view('companyregister');
+        return view('company.register');
     }
 
     /**

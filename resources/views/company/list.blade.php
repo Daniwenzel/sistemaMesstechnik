@@ -40,9 +40,6 @@
                                     {{ __('labels.phone') }}
                                 </th>
                                 <th>
-                                    {{ __('labels.email') }}
-                                </th>
-                                <th>
                                     {{ __('labels.actions') }}
                                 </th>
                             </tr>
@@ -51,19 +48,16 @@
                             @foreach($empresas as $empresa)
                                 <tr>
                                     <td>
-                                        {{ $empresa->nome }}
+                                        {{ $empresa->CODIGO }}
                                     </td>
                                     <td>
-                                        {{ $empresa->cnpj }}
+                                        {{ $empresa->RAZAOSOCIAL }}
                                     </td>
                                     <td>
-                                        {{ $empresa->telefone }}
+                                        {{ $empresa->ENDERECO }}
                                     </td>
                                     <td>
-                                        {{ $empresa->email }}
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarEmpresa({{ $empresa->id }})" id="{{$empresa->id}}-btn" data-toggle="modal">
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger" onclick="swalDeletarEmpresa({{ $empresa->CODIGO }})" id="{{$empresa->CODIGO}}-btn" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </td>
@@ -75,5 +69,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- data.barba.namespace -->
 @endsection

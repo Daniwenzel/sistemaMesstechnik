@@ -5,22 +5,18 @@ namespace Messtechnik;
 use Messtechnik\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-//use Spatie\Permission\Traits\HasPermissions;
-use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasMedia
+
+class User extends Authenticatable
 {
-    use Notifiable, HasRoles, HasMediaTrait;
+    use Notifiable;
 
     protected $guard_name = 'web';
 
-    protected $table = 'users';
+    protected $table = 'USERS';
 
     public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Company','cliente_codigo', 'codigo');
+        return $this->belongsTo('Messtechnik\Models\Company','cliente_codigo', 'CODIGO');
     }
 
     protected $fillable = [
@@ -28,7 +24,7 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'PASSWORD', 'remember_token',
     ];
 
     protected $casts = [

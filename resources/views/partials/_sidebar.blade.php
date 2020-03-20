@@ -48,17 +48,10 @@
                 <span class="menu-title">{{ __('buttons.wind_farm') }}</span>
             </a>
         </li>
-        @role('Admin')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('companies.index') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>
                 <span class="menu-title">{{ __('buttons.company') }}</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('rights.index') }}">
-                <i class="menu-icon mdi mdi-settings"></i>
-                <span class="menu-title">{{ __('buttons.permissions') }}</span>
             </a>
         </li>
         <li class="nav-item">
@@ -73,6 +66,5 @@
                 <span class="menu-title">{{ __('buttons.report') }}</span>
             </a>
         </li>
-        @endrole
     </ul>
 </nav>

@@ -64,7 +64,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @role('Admin')
                             <div class="form-group row mt-5">
                                 <div class="col-md-4">
                                     <div class="form-radio">
@@ -96,7 +95,6 @@
                                     </div>
                                 @endif
                             </div>
-                            @endrole
                             <div class="form-group row">
                                 <button type="submit" class="btn btn-outline-success btn-fw">
                                     <i class="mdi mdi-file-document m-2"></i>Submit</button>

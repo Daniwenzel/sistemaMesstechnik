@@ -2,12 +2,10 @@
 
 @section('content')
     <div data-barba-namespace="windfarms-info">
-        @role('Admin')
         <button type="button" class="btn btn-outline-primary btn-md btn-block" onclick="window.location=
                 '{{ route('towers.create', $farm_id) }}'">
             <i class="mdi mdi-wind-turbine mdi-24px"></i>{{ __('buttons.register_tower') }}
         </button>
-        @endrole
         <form method="get" action="{{ route('windfarms.show', $farm_id) }}" class="navbar-form navbar-left mt-4">
             <div class="form-group">
                 <div class="input-group">

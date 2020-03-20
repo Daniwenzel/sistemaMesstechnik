@@ -84,6 +84,24 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+        'firebird' => [
+            'driver'   => 'firebird',
+            'host'     => env('DB_HOST', 'localhost'),
+            'database' => env('DB_DATABASE', '/path_to/database.fdb'),
+            'username' => env('DB_USERNAME', 'sysdba'),
+            'password' => env('DB_PASSWORD', 'masterkey'),
+            'charset'  => env('DB_CHARSET', 'UTF8'),
+            'role'     => null,
+        ],
+        'firebird2' => [
+            'driver'   => 'firebird',
+            'host'     => env('DB_HOST2', 'localhost'),
+            'database' => env('DB_DATABASE2', '/path_to/database.fdb'),
+            'username' => env('DB_USERNAME2', 'sysdba'),
+            'password' => env('DB_PASSWORD2', 'masterkey'),
+            'charset'  => env('DB_CHARSET2', 'UTF8'),
+            'role'     => null,
+        ],
 
     ],
 

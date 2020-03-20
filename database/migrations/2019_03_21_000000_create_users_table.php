@@ -3,15 +3,15 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
-use Messtechnik\User;
+//use Illuminate\Support\Facades\DB;
+//use Messtechnik\User;
 
 class CreateUsersTable extends Migration
 {
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('USERS', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name');
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
@@ -24,27 +24,28 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->foreign('cliente_codigo')
-                ->references('codigo')
-                ->on('cliente');
+                ->references('CODIGO')
+                ->on('CLIENTE');
         });
 
-        $empresa = DB::select('select * from cliente where razaosocial=?', ['Messtechnik']);
+       // $empresa = DB::select('select * from cliente where razaosocial=?', ['TESTE']);
 
 //        dd($empresa[0]->codigo);
 
-        $user = new User([
-            'name' => 'Admin',
-            'email' => 'admin@admin',
-            'password' => bcrypt('mstk123'),
-            'cliente_codigo' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        $user->save();
+//        $usuario = new User([
+//            'id' => 1,
+//            'name' => 'Admin',
+//            'email' => 'admin@admin',
+//            'password' => bcrypt('mstk123'),
+//            'cliente_codigo' => 1,
+//            'created_at' => now(),
+//            'updated_at' => now()
+//        ]);
+//        $user->save();
     }
 
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('USERS');
     }
 }

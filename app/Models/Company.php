@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    protected $table = 'cliente';
+    protected $table = 'CLIENTE';
 
     protected $fillable = [
-        'codigo', 'razaosocial', 'endereco'
+        'CODIGO', 'RAZAOSOCIAL', 'ENDERECO'
     ];
 
     public function users() {
-        return $this->hasMany('Messtechnik\User', 'cliente_codigo', 'codigo');
+        return $this->hasMany('Messtechnik\User', 'cliente_codigo', 'CODIGO');
     }
 
-    public function parques() {
-        return $this->hasMany('Messtechnik\Models\WindFarm', 'empresa_id');
-    }
+//    public function parques() {
+//        return $this->hasMany('Messtechnik\Models\WindFarm', 'empresa_id');
+//    }
 }

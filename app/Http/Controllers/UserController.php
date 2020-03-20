@@ -23,19 +23,19 @@ class UserController extends Controller
     public function index(Request $request) {
         $search = $request['search'];
 
-        Auth::user()->hasRole('Admin') ?
-            $usuarios = User::where('name','ilike','%'.$search.'%')
-                ->with('empresa')
-                ->orWhereHas('empresa', function($query) use ($search) {
-                    $query->where('nome', 'ilike','%'.$search.'%');
-                })
-                ->paginate(10) :
+//        Auth::user()->hasRole('Admin') ?
+//            $usuarios = User::where('name','ilike','%'.$search.'%')
+//                ->with('empresa')
+//                ->orWhereHas('empresa', function($query) use ($search) {
+//                    $query->where('nome', 'ilike','%'.$search.'%');
+//                })
+//                ->paginate(10) :
             $usuarios = User::with('empresa')
                 ->where('empresa_id', Auth::user()->empresa_id)
                 ->where('name','like','%'.$search.'%')
                 ->paginate(10);
 
-        return view('userlist', compact('usuarios'));
+        return view('user.list', compact('usuarios'));
     }
 
     /**
@@ -51,7 +51,6 @@ class UserController extends Controller
         $user->password = bcrypt($user->password);
         $user->empresa_id = $empresa->id;
 
-        $user->assignRole($request['accountRole']);
         $user->save();
 
         Session::flash('message', 'Usuário cadastrado com sucesso!');
@@ -64,8 +63,8 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create() {
-        Auth::user()->hasRole('Admin') ?
-            $empresas = Company::all('id', 'nome') :
+//        Auth::user()->hasRole('Admin') ?
+//            $empresas = Company::all('id', 'nome') :
             $empresas = Company::all('id', 'nome')->where('id', Auth::user()->empresa_id);
 
         return view('auth.register', compact('empresas'));
@@ -88,9 +87,9 @@ class UserController extends Controller
      */
     public static function edit($user_id) {
         $user = User::find($user_id);
-        $role = $user->getRoleNames()->first();
+//        $role = $user->getRoleNames()->first();
 
-        return view('userconfig', compact(['user', 'role']));
+        return view('user.config', compact(['user']));
     }
 
     /**
@@ -108,16 +107,16 @@ class UserController extends Controller
         $user->genero = $request->input('genero');
         $user->aniversario = $request->input('aniversario');
 
-        if ($user->hasRole('Admin')) {
-            $user->getRoleNames()->first();
-        }
-        else {
-            $role = $request['accountRole'];
-            $this->switchRole($user, $role);
-        }
+//        if ($user->hasRole('Admin')) {
+//            $user->getRoleNames()->first();
+//        }
+//        else {
+//            $role = $request['accountRole'];
+//            $this->switchRole($user, $role);
+//        }
 
         $user->save();
-        return view('userconfig', compact(['user', 'role']));
+        return view('user.config', compact(['user']));
     }
 
     /**
@@ -126,16 +125,16 @@ class UserController extends Controller
      * @param $user
      * @param $role
      */
-    public function switchRole($user, $role) {
-        if($role === 'Master') {
-            $user->assignRole('Master');
-            $user->removeRole('Basica');
-        }
-        elseif ($role === 'Basica') {
-            $user->assignRole('Basica');
-            $user->removeRole('Master');
-        }
-    }
+//    public function switchRole($user, $role) {
+//        if($role === 'Master') {
+//            $user->assignRole('Master');
+//            $user->removeRole('Basica');
+//        }
+//        elseif ($role === 'Basica') {
+//            $user->assignRole('Basica');
+//            $user->removeRole('Master');
+//        }
+//    }
 
     public function editUserAvatar(Request $request)
     {
@@ -154,11 +153,11 @@ class UserController extends Controller
 //            }
 //        }
 //
-//        return view('userconfig', compact(['user', 'role']));
+//        return view('user.config', compact(['user', 'role']));
 //    }
 
     public function showEditPassword() {
-        return view('userpassword');
+        return view('user.password');
     }
 
     public function editPassword(Request $request) {

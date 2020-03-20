@@ -100,7 +100,7 @@ class TowerController extends Controller
             Session::flash('message', 'Não foi possível encontrar registros de sensores para essa torre.');
         }
 
-        return view('towerinfo', compact([
+        return view('tower/info', compact([
             'torre',
             'barometros',
             'anemometros',
@@ -122,7 +122,7 @@ class TowerController extends Controller
     public function create($farm_id) {
         $parque = WindFarm::find($farm_id);
 
-        return view('towerregister', compact('parque'));
+        return view('tower/register', compact('parque'));
     }
 
     /**

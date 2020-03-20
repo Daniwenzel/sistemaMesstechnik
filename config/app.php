@@ -1,7 +1,5 @@
 <?php
 
-use Spatie\Permission\PermissionServiceProvider;
-
 return [
 
     /*
@@ -42,6 +40,12 @@ return [
     */
 
     'debug' => env('APP_DEBUG', false),
+
+    'debug_blacklist' => [
+        '_COOKIE' => array_diff(array_keys($_COOKIE), array()),
+        '_SERVER' => array_diff(array_keys($_SERVER), array('APP_URL', 'QUERY_STRING')),
+        '_ENV' => array_diff(array_keys($_ENV), array()),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -169,8 +173,7 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Debugbar\ServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
-
+        Firebird\FirebirdServiceProvider::class,
 
         /*
          * Application Service Providers...

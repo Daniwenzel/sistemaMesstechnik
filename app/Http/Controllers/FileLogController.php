@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Messtechnik\Http\Controllers;
 
-use App\Models\ArquivoLog;
+use Messtechnik\Models\ArquivoLog;
 use Illuminate\Http\Request;
 
 class FileLogController extends Controller

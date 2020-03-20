@@ -49,7 +49,9 @@
             </div>
         </main>
     @endauth
+
 </div>
+
 
 <!-- Deferred Styles -->
 <link rel="preload" href="{{ asset('css/all.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">

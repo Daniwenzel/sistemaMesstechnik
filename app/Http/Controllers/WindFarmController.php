@@ -37,7 +37,7 @@ class WindFarmController extends Controller
                 ->orderBy('nome', 'asc')
                 ->paginate(5);
         }
-        return view('windfarms', compact(['windfarms', 'filtro', 'empresas', 'empresa_selecionada']));
+        return view('windfarm.list', compact(['windfarms', 'filtro', 'empresas', 'empresa_selecionada']));
     }
 
     /**
@@ -48,7 +48,7 @@ class WindFarmController extends Controller
     public function create() {
         $empresas = Company::all();
 
-        return view('windfarmregister', compact('empresas'));
+        return view('windfarm.register', compact('empresas'));
     }
 
     /**
@@ -93,7 +93,7 @@ class WindFarmController extends Controller
             if ($torres->isEmpty()) {
                 Session::flash('message', 'Não foi possível encontrar torres com este nome, ou o parque ainda não possui torres cadastradas.');
             }
-            return view('towers', compact(['torres', 'farm_id']));
+            return view('tower.list', compact(['torres', 'farm_id']));
         }
     }
 }
