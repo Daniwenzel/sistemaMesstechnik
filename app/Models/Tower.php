@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tower extends Model
 {
-    protected $connection = 'firebird2';
-
     protected $table = 'SITE';
 
     protected $fillable = [
