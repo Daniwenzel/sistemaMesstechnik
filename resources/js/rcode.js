@@ -4,6 +4,8 @@ $(document).ready(function () {
 
     var primeiraTorre = $('#primeiraTorre').val();
     var segundaTorre = $('#segundaTorre').val();
+    var periodo = $('#dateFilter').val();
+
     while (primeiraTorre.length < 6) primeiraTorre = "0" + primeiraTorre;
     while (segundaTorre.length < 6) segundaTorre = "0" + segundaTorre;
 
@@ -17,7 +19,8 @@ $(document).ready(function () {
         url: "/reports/ajaxCompare",
         data: {
           primeiraTorre: primeiraTorre,
-          segundaTorre: segundaTorre
+          segundaTorre: segundaTorre,
+          periodo: periodo
         },
         success: function(data) {
           window.location= '/reports/plots/'+primeiraTorre+'-'+segundaTorre;
@@ -27,6 +30,45 @@ $(document).ready(function () {
           alert(xhr.responseText);
         },
       });
+    }
+    else {
+      alert('Campos de torres vazios');
+    }
+  });
+
+  $("#generateTowers").click(function (e) {
+    e.preventDefault();
+
+    var primeiraTorre = $('#primeiraTorre').val();
+    var periodo = $('#dateFilter').val();
+
+    while (primeiraTorre.length < 6) primeiraTorre = "0" + primeiraTorre;
+
+    // Chama função de correlação (através do ajax) apenas se os campos tiverem algum valor
+    if (primeiraTorre) {
+      if (periodo) {
+        $.ajax({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type: "GET",
+          url: "/reports/ajaxGenerate",
+          data: {
+            primeiraTorre: primeiraTorre,
+            periodo: periodo
+          },
+          success: function(data) {
+            window.location= '/reports/plots/'+primeiraTorre;
+          },
+          error: function error(xhr, status, _error) {
+            console.log('o erro foi no ajax EXTERNO');
+            alert(xhr.responseText);
+          },
+        });
+      }
+      else {
+        alert('Campo do período vazio');
+      }
     }
     else {
       alert('Campos de torres vazios');

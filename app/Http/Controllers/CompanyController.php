@@ -17,9 +17,9 @@ class CompanyController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $empresas = Company::where('RAZAOSOCIAL','like','%'.$request['search'].'%')->get();
+        // $empresas = Company::where('RAZAOSOCIAL','like','%'.$request['search'].'%')->get();
 
-        return view('company.list', compact('empresas'));
+        return view('errors.wip');
     }
 
     /**

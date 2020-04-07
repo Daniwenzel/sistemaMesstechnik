@@ -11,38 +11,39 @@ class ReportController extends Controller
         return view('report.index');
     }
 
-    public function showCompare() {
-    	$torres = DB::table('SITE')
+    protected function getTorreByEstacao(string $estacao) {
+        return DB::table('SITE')
+        ->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO')
+        ->where('SITE.ESTACAO','=',$estacao)
+        ->get();
+    }
+
+    protected function getTorresList() {
+        return DB::table('SITE')
     	->join('CLIENTE', 'SITE.CLICODIGO', '=', 'CLIENTE.CODIGO')
     	->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTE.RAZAOSOCIAL')
     	->orderBy('CLIENTE.RAZAOSOCIAL')
     	->get();
+    }
+
+    public function showCompare() {
+    	$torres = $this->getTorresList();
 
     	$grouped = $torres->groupBy('RAZAOSOCIAL');
         $grouped->toArray();
 
-        // dd($torres);
-
         return view('report.correlation', compact('torres','grouped'));
-    }
-
-    protected function getTorreByEstacao(string $estacao) {
-        $torre = DB::table('SITE')
-                    ->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO')
-                    ->where('SITE.ESTACAO','=',$estacao)
-                    ->get();
-        return $torre;
     }
 
     public function compare(Request $request) {
         $torreUm = $this->getTorreByEstacao($request->primeiraTorre);
         $torreDois = $this->getTorreByEstacao($request->segundaTorre);
-     
+
         if($torreUm->first() && $torreDois->first()) {
             // Checar alterações no diretório do projeto, mover script para a pasta public caso não
             // for uma quebra de *segurança*. Usar função getcwd() se script estiver na public.
-            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scripts/script.R ".
-            $torreUm->first()->ESTACAO." ".$torreDois->first()->ESTACAO." 2>&1";
+            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scripts/scriptCompare.R ".
+            $torreUm->first()->ESTACAO." ".$torreDois->first()->ESTACAO." ".$request->periodo." 2>&1";
 
             // $cmd = "Rscript ".getcwd()."/rcode/scripts/script.R ".
             // $torreUm->ESTACAO." ".$torreDois->ESTACAO." 2>&1"; // getcwd() retorna /var/www/sistemaMesstechnik/public
@@ -94,5 +95,32 @@ class ReportController extends Controller
             }
         }
         return view('report.list', compact(['files', 'nomes']));
+    }
+
+    public function showGenerate() {
+        $torres = $this->getTorresList();
+
+    	$grouped = $torres->groupBy('RAZAOSOCIAL')->toArray();
+        // $grouped->toArray();
+
+        return view('report.generate', compact('torres','grouped'));
+    }
+
+    public function generate(Request $request) {
+        $torreUm = $this->getTorreByEstacao($request->primeiraTorre);
+
+        if($torreUm->first()) {
+            // Checar alterações no diretório do projeto, mover script para a pasta public caso não
+            // for uma quebra de *segurança*. Usar função getcwd() se script estiver na public.
+            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scripts/scriptGenerate.R ".
+            $torreUm->first()->ESTACAO." ".$request->periodo." 2>&1";
+
+            return json_encode(shell_exec($cmd));
+        }
+        else {
+            header('HTTP/1.1 500 Internal Server Error');
+            header('Content-Type: application/json; charset=UTF-8');
+            die(json_encode("Codigos invalidos! Uma ou ambas as torres nao foram encontradas."));
+        }
     }
 }

@@ -14,6 +14,7 @@
         "igorescobar/jquery-mask-plugin": "^1.14",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-permission": "^3.11",
         "uxweb/sweet-alert": "^2.0"
     },
     "require-dev": {

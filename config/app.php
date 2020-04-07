@@ -174,6 +174,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Firebird\FirebirdServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Application Service Providers...

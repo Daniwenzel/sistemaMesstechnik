@@ -31,7 +31,7 @@ class UserController extends Controller
 //                })
 //                ->paginate(10) :
             $usuarios = User::with('empresa')
-                ->where('empresa_id', Auth::user()->empresa_id)
+                ->where('clicodigo', Auth::user()->clicodigo)
                 ->where('name','like','%'.$search.'%')
                 ->paginate(10);
 

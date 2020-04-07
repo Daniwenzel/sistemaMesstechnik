@@ -61,11 +61,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_HOST2', '127.0.0.1'),
+            'port' => env('DB_PORT2', '5432'),
+            'database' => env('DB_DATABASE2', 'forge'),
+            'username' => env('DB_USERNAME2', 'forge'),
+            'password' => env('DB_PASSWORD2', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
@@ -92,16 +92,7 @@ return [
             'password' => env('DB_PASSWORD', 'masterkey'),
             'charset'  => env('DB_CHARSET', 'UTF8'),
             'role'     => null,
-        ],
-        'firebird2' => [
-            'driver'   => 'firebird',
-            'host'     => env('DB_HOST2', 'localhost'),
-            'database' => env('DB_DATABASE2', '/path_to/database.fdb'),
-            'username' => env('DB_USERNAME2', 'sysdba'),
-            'password' => env('DB_PASSWORD2', 'masterkey'),
-            'charset'  => env('DB_CHARSET2', 'UTF8'),
-            'role'     => null,
-        ],
+        ]
 
     ],
 

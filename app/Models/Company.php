@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
+    protected $connection = 'firebird';
+
     protected $table = 'CLIENTE';
 
     protected $fillable = [
@@ -13,10 +15,10 @@ class Company extends Model
     ];
 
     public function users() {
-        return $this->hasMany('Messtechnik\User', 'cliente_codigo', 'CODIGO');
+        return $this->hasMany('Messtechnik\User', 'clicodigo', 'CODIGO');
     }
 
-//    public function parques() {
-//        return $this->hasMany('Messtechnik\Models\WindFarm', 'empresa_id');
-//    }
+   public function torres() {
+       return $this->hasMany('Messtechnik\Models\Site', 'CLICODIGO', 'CODIGO');
+   }
 }

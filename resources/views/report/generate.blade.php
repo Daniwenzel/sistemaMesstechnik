@@ -17,13 +17,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="segundaTorre" class="col-md-4 control-label">{{ __('Código da segunda torre') }}</label>
-                            <div class="col-md-6">
-                                <input id="segundaTorre" type="text" class="form-control" name="segundaTorre" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label for="dateFilter" class="col-md-4 control-label">{{ __('Data') }}</label>
                             <div class="col-md-6">
                                 <input id="dateFilter" type="text" class="form-control" name="datefilter" autocomplete="off" required>
@@ -32,7 +25,7 @@
                         
                         <div class="form-group">
                             <!--<button type="submit" class="btn btn-success btn-fw">-->
-                            <button id="compareTowers" name="compareTowers">
+                            <button id="generateTowers" name="generateTowers">
                                 <i class="mdi mdi-upload"></i>{{ __('Chamar R') }}</button>
                         </div>
                     </form>

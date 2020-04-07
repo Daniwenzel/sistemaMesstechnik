@@ -4,50 +4,53 @@ namespace Messtechnik;
 
 use Messtechnik\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     protected $guard_name = 'web';
 
-    protected $table = 'USERS';
+    protected $table = 'users';
+
+    protected $connection = 'pgsql'; 
 
     public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Company','cliente_codigo', 'CODIGO');
+        return $this->belongsTo('Messtechnik\Models\Company','clicodigo', 'CODIGO');
     }
 
     protected $fillable = [
-        'name', 'email', 'password', 'cliente_codigo',
+        'name', 'email', 'password', 'clicodigo',
     ];
 
     protected $hidden = [
-        'PASSWORD', 'remember_token',
+        'password', 'remember_token',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function registerMediaCollections()
-    {
-        $this
-            ->addMediaCollection('profile')
-            ->singleFile();
-    }
+    // public function registerMediaCollections()
+    // {
+    //     $this
+    //         ->addMediaCollection('profile')
+    //         ->singleFile();
+    // }
 
-    public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('avatar')
-            ->width(50)
-            ->performOnCollections('profile');
+    // public function registerMediaConversions(Media $media = null)
+    // {
+    //     $this->addMediaConversion('avatar')
+    //         ->width(50)
+    //         ->performOnCollections('profile');
 
-        $this->addMediaConversion('preview')
-            ->width(400)
-            ->performOnCollections('profile');
-    }
+    //     $this->addMediaConversion('preview')
+    //         ->width(400)
+    //         ->performOnCollections('profile');
+    // }
 
     public function sendPasswordResetNotification($token)
     {

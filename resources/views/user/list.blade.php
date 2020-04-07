@@ -6,11 +6,11 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ __('labels.users') }}</h4>
-                    @hasanyrole('Admin|Master')
+                    @role('Admin')
                     <button type="button" class="btn btn-outline-primary btn-md btn-block" onclick="window.location='{{ route("users.create") }}'">
                         <i class="mdi mdi-account-plus mdi-24px"></i>{{ __('buttons.register_user') }}
                     </button>
-                    @endhasanyrole
+                    @endrole
                     <form method="get" action="{{ route('users.index') }}" class="navbar-form navbar-left mt-4">
                         <div class="form-group">
                             <div class="input-group">
@@ -63,16 +63,19 @@
                                         <button type="button" class="btn btn-icons btn-rounded btn-outline-success">
                                             <i class="mdi mdi-email"></i>
                                         </button>
-                                        @if($usuario->id === Auth::user()->id or Auth::user()->hasAnyRole('Admin|Master'))
-                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" onclick="window.location='{{ route('users.edit', $usuario->id) }}'">
+                                        @if($usuario->id === Auth::user()->id or Auth::user()->hasRole('Admin'))
+                                            <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" 
+                                            onclick="window.location='{{ route('users.edit', $usuario->id) }}'">
                                                 <i class="mdi mdi-pencil"></i>
                                             </button>
                                         @endif
-                                        @hasanyrole('Admin|Master')
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger {{ Auth::user()->id === $usuario->id ? 'hidden' : '' }}" onclick="swalDeletarUsuario({{ $usuario->id }})" id="{{$usuario->id}}-btn" data-toggle="modal">
+                                        @role('Admin')
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger 
+                                        {{ Auth::user()->id === $usuario->id ? 'hidden' : '' }}"
+                                        onclick="swalDeletarUsuario({{ $usuario->id }})" id="{{$usuario->id}}-btn" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
-                                        @endhasanyrole
+                                        @endrole
                                     </td>
                                 </tr>
                             @endforeach

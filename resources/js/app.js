@@ -14,12 +14,12 @@ require('./sweetalerts');
 require('./rcode');
 require('./hover-tabs');
 require('./datepicker');
-// require('daterangepicker');
+
 
 window.Vue = require('vue');
 window.Swal = require('sweetalert2');
 window.Chart = require('chart.js');
-window.Daterangepicker = require('daterangepicker');
+// window.Daterangepicker = require('daterangepicker');
 
 /**
  * The following block of code may be used to automatically register your

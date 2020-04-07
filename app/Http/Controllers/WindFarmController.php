@@ -20,24 +20,25 @@ class WindFarmController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $filtro = $request['search'];
-        $empresas = Company::all();
-        $empresa_selecionada = $request['empresa'] ? $request['empresa'] : null;
+        // $filtro = $request['search'];
+        // $empresas = Company::all();
+        // $empresa_selecionada = $request['empresa'] ? $request['empresa'] : null;
 
-        if(Auth::user()->hasRole('Admin')) {
-            $windfarms = WindFarm::where('nome', 'ilike', '%'.$filtro.'%')
-                ->orderBy('nome', 'asc');
-            $windfarms = is_numeric($empresa_selecionada) ?
-                $windfarms->where('empresa_id', $empresa_selecionada)->paginate(5)
-                : $windfarms->paginate(5);
-        }
-        else {
-            $windfarms = WindFarm::where('empresa_id', Auth::user()->empresa_id)
-                ->where('nome', 'ilike', '%'.$filtro.'%')
-                ->orderBy('nome', 'asc')
-                ->paginate(5);
-        }
-        return view('windfarm.list', compact(['windfarms', 'filtro', 'empresas', 'empresa_selecionada']));
+        // if(Auth::user()->hasRole('Admin')) {
+        //     $windfarms = WindFarm::where('nome', 'ilike', '%'.$filtro.'%')
+        //         ->orderBy('nome', 'asc');
+        //     $windfarms = is_numeric($empresa_selecionada) ?
+        //         $windfarms->where('empresa_id', $empresa_selecionada)->paginate(5)
+        //         : $windfarms->paginate(5);
+        // }
+        // else {
+        //     $windfarms = WindFarm::where('empresa_id', Auth::user()->empresa_id)
+        //         ->where('nome', 'ilike', '%'.$filtro.'%')
+        //         ->orderBy('nome', 'asc')
+        //         ->paginate(5);
+        // }
+        // return view('windfarm.list', compact(['windfarms', 'filtro', 'empresas', 'empresa_selecionada']));
+        return view('errors.wip');
     }
 
     /**
