@@ -42,10 +42,10 @@ class ReportController extends Controller
         if($torreUm->first() && $torreDois->first()) {
             // Checar alterações no diretório do projeto, mover script para a pasta public caso não
             // for uma quebra de *segurança*. Usar função getcwd() se script estiver na public.
-            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scripts/scriptCompare.R ".
+            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scriptCompare.R ".
             $torreUm->first()->ESTACAO." ".$torreDois->first()->ESTACAO." ".$request->periodo." 2>&1";
 
-            // $cmd = "Rscript ".getcwd()."/rcode/scripts/script.R ".
+            // $cmd = "Rscript ".getcwd()."/rcode/script.R ".
             // $torreUm->ESTACAO." ".$torreDois->ESTACAO." 2>&1"; // getcwd() retorna /var/www/sistemaMesstechnik/public
 
             return json_encode(shell_exec($cmd));
@@ -112,7 +112,7 @@ class ReportController extends Controller
         if($torreUm->first()) {
             // Checar alterações no diretório do projeto, mover script para a pasta public caso não
             // for uma quebra de *segurança*. Usar função getcwd() se script estiver na public.
-            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scripts/scriptGenerate.R ".
+            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scriptGenerate.R ".
             $torreUm->first()->ESTACAO." ".$request->periodo." 2>&1";
 
             return json_encode(shell_exec($cmd));
@@ -121,6 +121,28 @@ class ReportController extends Controller
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
             die(json_encode("Codigos invalidos! Uma ou ambas as torres nao foram encontradas."));
+        }
+    }
+
+    public function generateEpe(Request $request) {       
+        if ($request->hasFile('arquivoEpe') && $request->file('arquivoEpe')->isValid()) {
+            $file = $request->file('arquivoEpe');
+            $nomeArquivo = $file->getClientOriginalName();
+
+            $upload = $file->storeAs('epe', $nomeArquivo, 'public');
+
+            if (!$upload) {
+                header('HTTP/1.1 500 Internal Server Error');
+                header('Content-Type: application/json; charset=UTF-8');
+                die(json_encode("Codigos invalidos! A torre nao foi encontrada."));
+            }
+            else {
+                $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scriptEpe.R ".
+                $nomeArquivo." 2>&1";
+
+                shell_exec($cmd);
+                return redirect()->route('reports.plots', array('folder' => substr($nomeArquivo,0,6)));
+            }
         }
     }
 }

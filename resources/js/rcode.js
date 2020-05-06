@@ -75,6 +75,73 @@ $(document).ready(function () {
     }
   });
 
+  /*$('form[name="enviarArquivoEpe"]').submit(function(e){ 
+
+    var arqEpe = new FormData();
+    arqEpe.append('arquivo', $('#arquivoEpe')[0].files[0])
+    /*jQuery.each($('input[name^="arquivoEpe"]')[0].files, function(i, file) {
+      arqEpe.append(i, file);
+    });
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      processData: false,
+      type: "POST",
+      url: "/reports/epe",
+      data: {
+        arquivoEpe: arqEpe
+      },
+      contentType: 'multipart/form-data',
+      beforeSend: function (x) {
+        if (x && x.overrideMimeType) {
+            x.overrideMimeType("multipart/form-data");
+        }
+      },
+      mimeType: 'multipart/form-data', 
+      success: function(data) {
+        alert(data);
+      },
+      error: function error(xhr, status, _error) {
+        console.log('Algo deu errado');
+        alert(xhr.responseText);
+      },
+    });
+  });*/
+
+
+ /* $('button[name="enviarEpeBtn"]').click(function(e){
+    e.preventDefault();
+
+    var data = new FormData($('form[name="enviarArquivoEpe"]')[0]);     
+
+    jQuery.each($('input[name^="arquivoEpe"]')[0].files, function(i, file) {
+      data.append(i, file);
+    });
+
+    //var arquivoEpe = $('input[name^="arquivoEpe"]')[0].files[0];
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      type: "GET",
+      url: "/reports/epe",
+      data: {
+        arquivoEpe: data
+      },
+      success: function(data) {
+        console.log('deu certo');
+      },
+      error: function error(xhr, status, _error) {
+        console.log('Algo deu errado');
+        alert(xhr.responseText);
+      },
+    });
+  });*/
+
+
   // Exibe e esconde o componente de 'loading' no inicio e fim do ajax
   $(document).ajaxStart(function () {
     $("#loading").addClass('show');

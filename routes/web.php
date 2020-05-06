@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/reports/list', 'ReportController@list')->name('reports.list');
     Route::get('/reports/generate', 'ReportController@showGenerate')->name('reports.generate.show');
     Route::get('/reports/ajaxGenerate', 'ReportController@generate')->name('reports.generate');
+    Route::post('/reports/epe', 'ReportController@generateEpe')->name('reports.epe');
 
     Route::get('/log', 'FileLogController@showFileLog')->name('log');
 

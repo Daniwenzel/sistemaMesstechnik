@@ -80,7 +80,7 @@ for (i in 1:length(wvAlturas)) {
                        direction = as.numeric(unlist(windvanes[i])),
                        speed_cuts = seq(0,25,5),
                        legend_title="Velocidades [m/s]",
-                       ggtheme='minimal')+labs(title=names(windvanes[i]))
+                       ggtheme='minimal')+labs(title=paste0("Windvane ",names(windvanes[i])))
   ggsave(file = paste0("rosaventos-",i,".png"), plot = windrose, device = "png", path = plotsDir, height = 4, width = 8)
 }
 
