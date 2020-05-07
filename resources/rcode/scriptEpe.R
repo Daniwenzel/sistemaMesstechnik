@@ -9,7 +9,7 @@ library(clifro)
 args <- commandArgs(trailingOnly = TRUE)
 epeArquivo <- args[1]
 #epeArquivo <- '000361_20200401_20200415.txt'
-epeDir <- '/var/www/sistemaMesstechnik/public/storage/epe/'
+epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/public/storage/epe/'
 
 arqOriginal <- file(paste0(epeDir,epeArquivo))
 arqModificado <- file(paste0(epeDir,'MOD-',epeArquivo))
@@ -39,7 +39,7 @@ nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
 #not_all_na <- function(x) any(!is.na(x))
 #sensoresAvg <- dataPrimeira %>% dplyr::select(ends_with("Avg")) %>% select_if(not_all_na) %>% add_column(DTAREG=dataPrimeira$DTAREG, .before=1)
 
-dir <- paste0("/var/www/sistemaMesstechnik/public/images/plots/")
+dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
 plotsDir <- paste0(dir,primeiraTorre$ESTACAO)
 dir.create(file.path(plotsDir), showWarnings = FALSE)
 

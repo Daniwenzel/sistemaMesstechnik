@@ -114,7 +114,7 @@ nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
 nomeSegundaTorre <- str_extract(string = segundaTorre$SITENAME, pattern = "\\([^()]+\\)")
 nomeSegundaTorre <- substring(nomeSegundaTorre,2,nchar(nomeSegundaTorre)-1)
 
-dir <- paste0("/var/www/sistemaMesstechnik/public/images/plots/")
+dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
 plotsDir <- paste0(dir,primeiraTorre$ESTACAO,"-",segundaTorre$ESTACAO)
 dir.create(file.path(plotsDir), showWarnings = FALSE)
 

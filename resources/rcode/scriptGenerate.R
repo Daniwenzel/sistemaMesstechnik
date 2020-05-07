@@ -6,14 +6,14 @@ library(chron)
 library(clifro)
 
 
-args <- commandArgs(trailingOnly = TRUE)
-codigoEstacaoPrimeiraTorre <- args[1]
-dataInicio <- args[2]
-dataFim <- args[3]
+#args <- commandArgs(trailingOnly = TRUE)
+#codigoEstacaoPrimeiraTorre <- args[1]
+#dataInicio <- args[2]
+#dataFim <- args[3]
 
-#codigoEstacaoPrimeiraTorre <- '000579'
-#dataInicio <- '2019-06-15'
-#dataFim <- '2019-06-30'
+codigoEstacaoPrimeiraTorre <- '000579'
+dataInicio <- '2019-06-15'
+dataFim <- '2019-06-30'
 
 
 con <- dbConnect(odbc::odbc(),dsn='measures')
@@ -67,7 +67,7 @@ nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
 not_all_na <- function(x) any(!is.na(x))
 sensoresAvg <- dataPrimeira %>% dplyr::select(ends_with("Avg")) %>% select_if(not_all_na) %>% add_column(DTAREG=dataPrimeira$DTAREG, .before=1)
 
-dir <- paste0("/var/www/sistemaMesstechnik/public/images/plots/")
+dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
 plotsDir <- paste0(dir,primeiraTorre$ESTACAO)
 dir.create(file.path(plotsDir), showWarnings = FALSE)
 
