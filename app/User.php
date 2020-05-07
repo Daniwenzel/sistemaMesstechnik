@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $connection = 'pgsql'; 
+    protected $connection = 'mysql'; 
 
     public function empresa() {
         return $this->belongsTo('Messtechnik\Models\Company','clicodigo', 'CODIGO');

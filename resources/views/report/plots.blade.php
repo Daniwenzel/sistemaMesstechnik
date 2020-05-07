@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <div>
+        @if(Session::has('message'))
+            <div class="alert alert-success">
+                @foreach (Session::get('message') as $message)
+                    <h4>{{ $message }}</h4>
+                @endforeach
+            </div>
+        @endif
+    </div> 
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">

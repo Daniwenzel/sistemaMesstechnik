@@ -41,8 +41,8 @@ class ReportController extends Controller
 
         if($torreUm->first() && $torreDois->first()) {
             // Checar alterações no diretório do projeto, mover script para a pasta public caso não
-            // for uma quebra de *segurança*. Usar função getcwd() se script estiver na public.
-            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scriptCompare.R ".
+            // for uma "quebra" de segurança. Usar função getcwd() se script estiver na public.
+            $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptCompare.R '.
             $torreUm->first()->ESTACAO." ".$torreDois->first()->ESTACAO." ".$request->periodo." 2>&1";
 
             // $cmd = "Rscript ".getcwd()."/rcode/script.R ".
@@ -59,14 +59,14 @@ class ReportController extends Controller
 
     // Mostra os plots/imagens da torre ou correlação de torres
     public function showPlots(string $folder) {
-        $prefixo = "/images/plots/".$folder."/";
+        $prefixo = "\images\plots\\".$folder."\\";
 
         // Adiciona o nome das imagens/plots (com extensão jpeg,jpg e png, case INSENSITIVE),
         // da pasta escolhida, para a array $imagens
         $imagens = preg_grep('~\.(jpeg|jpg|png)$~i', scandir(getcwd().$prefixo));
-        
+
         // Insere o prefixo necessário para atribuir o asset dentro da tag <img src={{asset(...)}}>
-        $fullPlotsPath = preg_filter('/^/',$prefixo, $imagens);
+        $fullPlotsPath = substr_replace($imagens, $prefixo, 0, 0);
 
     	return view('report.plots', compact('fullPlotsPath'));
     }
@@ -111,9 +111,8 @@ class ReportController extends Controller
 
         if($torreUm->first()) {
             // Checar alterações no diretório do projeto, mover script para a pasta public caso não
-            // for uma quebra de *segurança*. Usar função getcwd() se script estiver na public.
-            $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scriptGenerate.R ".
-            $torreUm->first()->ESTACAO." ".$request->periodo." 2>&1";
+            // for uma "quebra" de segurança. Usar função getcwd() se script estiver na public.
+            $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptGenerate.R '.$torreUm->first()->ESTACAO." ".$request->periodo.' 2>&1';
 
             return json_encode(shell_exec($cmd));
         }
@@ -137,11 +136,13 @@ class ReportController extends Controller
                 die(json_encode("Codigos invalidos! A torre nao foi encontrada."));
             }
             else {
-                $cmd = "Rscript /var/www/sistemaMesstechnik/resources/rcode/scriptEpe.R ".
-                $nomeArquivo." 2>&1";
+                $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptEpe.R '.$nomeArquivo." 2>&1";
 
-                shell_exec($cmd);
-                return redirect()->route('reports.plots', array('folder' => substr($nomeArquivo,0,6)));
+                $rawResponse = shell_exec($cmd);
+                $response = explode("\n", $rawResponse);
+                
+                return redirect()->route('reports.plots', array('folder' => substr($nomeArquivo,0,6)))
+                ->with('message', $response);
             }
         }
     }
