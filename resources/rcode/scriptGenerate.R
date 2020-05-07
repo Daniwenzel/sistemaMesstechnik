@@ -6,17 +6,17 @@ library(chron)
 library(clifro)
 
 
-#args <- commandArgs(trailingOnly = TRUE)
-#codigoEstacaoPrimeiraTorre <- args[1]
-#dataInicio <- args[2]
-#dataFim <- args[3]
+args <- commandArgs(trailingOnly = TRUE)
+codigoEstacaoPrimeiraTorre <- args[1]
+dataInicio <- args[2]
+dataFim <- args[3]
 
-codigoEstacaoPrimeiraTorre <- '000579'
-dataInicio <- '2019-06-15'
-dataFim <- '2019-06-30'
+#codigoEstacaoPrimeiraTorre <- '000579'
+#dataInicio <- '2019-06-15'
+#dataFim <- '2019-06-30'
 
 
-con <- dbConnect(odbc::odbc(),dsn='measures')
+con <- dbConnect(odbc::odbc(),dsn='measurs')
 
 primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoPrimeiraTorre,"'"))
 

@@ -1,15 +1,16 @@
-library(odbc)
-library(tidyverse)
-library(plotly)
-library(lubridate)
-library(chron)
-library(clifro)
-
+suppressPackageStartupMessages(suppressWarnings({
+  library(odbc)
+  library(tidyverse)
+  library(plotly)
+  library(lubridate)
+  library(chron)
+  library(clifro)
+}))
 
 args <- commandArgs(trailingOnly = TRUE)
 epeArquivo <- args[1]
-#epeArquivo <- '000361_20200401_20200415.txt'
-epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/public/storage/epe/'
+#epeArquivo <- '000473_20200416_20200430.txt'
+epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/storage/app/public/epe/'
 
 arqOriginal <- file(paste0(epeDir,epeArquivo))
 arqModificado <- file(paste0(epeDir,'MOD-',epeArquivo))
@@ -29,7 +30,7 @@ dataPrimeira$CH02 <- str_pad(dataPrimeira$CH02, 6, pad="0")
 
 dataPrimeira$DTAREG <- as.POSIXct(paste(dataPrimeira$CH01,dataPrimeira$CH02,sep=' '), format="%Y-%m-%d %H%M%S")
 
-con <- dbConnect(odbc::odbc(),dsn='measures')
+con <- dbConnect(odbc::odbc(),dsn='measurs')
 
 primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
 
@@ -82,6 +83,17 @@ for (i in 1:length(wvAlturas)) {
                        legend_title="Velocidades [m/s]",
                        ggtheme='minimal')+labs(title=paste0("Windvane ",names(windvanes[i])))
   ggsave(file = paste0("rosaventos-",i,".png"), plot = windrose, device = "png", path = plotsDir, height = 4, width = 8)
+}
+
+for(i in 1:length(unique(dataPrimeira$CH01))) {
+  quantidadeRegistros <- sum(dataPrimeira$CH01 == unique(dataPrimeira$CH01)[i])
+  if(quantidadeRegistros != 144) {
+    cat(paste0("O dia ",unique(dataPrimeira$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
+  }
+}
+ind <- duplicated(dataPrimeira[,1:2])
+for (i in 1:nrow(dataPrimeira[ind,1:2])) {
+  cat(paste0("O registro do dia ",dataPrimeira[ind,1:2][i,1]," e hora ",dataPrimeira[ind,1:2][i,2]," estao duplicados.\n"))
 }
 
 dbDisconnect(con)

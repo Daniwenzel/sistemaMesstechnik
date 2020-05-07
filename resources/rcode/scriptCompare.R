@@ -11,12 +11,12 @@ codigoEstacaoSegundaTorre <- args[2]
 dataInicio <- args[3]
 dataFim <- args[4]
 
-#codigoEstacaoPrimeiraTorre <- '000579'
-#codigoEstacaoSegundaTorre <- '000581'
-#dataInicio <- '2019-06-15'
-#dataFim <- '2019-06-30'
+#codigoEstacaoPrimeiraTorre <- '000148'
+#codigoEstacaoSegundaTorre <- '000142'
+#dataInicio <- '2020-05-01'
+#dataFim <- '2020-05-06'
 
-con <- dbConnect(odbc::odbc(),dsn='measures')
+con <- dbConnect(odbc::odbc(),dsn='measurs')
 #con <- DBI::dbConnect(odbc::odbc(),
 #                      driver='Firebird/InterBase(r) driver',
 #                      dbname='measures',
@@ -64,7 +64,6 @@ dbClearResult(res)
 
 dataPrimeira <- data.frame(datetime$dt)
 names(dataPrimeira) <- c("DTAREG")
-missingPrimeira <- data.frame()
 
 # Para cada sensor da primeira torre, busca pelas leituras
 for (i in 1:nrow(fldCodigosPrimeira)) {
@@ -80,7 +79,7 @@ for (i in 1:nrow(fldCodigosPrimeira)) {
   
   #missingPrimeira <- merge(missingPrimeira,dataPrimeira$DTAREG[is.na(dataPrimeira[,ncol(dataPrimeira)])])
   
-  rm(sensor)
+  #rm(sensor)
   dbClearResult(res)
 }
 
