@@ -76,23 +76,28 @@ class ReportController extends Controller
         // scan dentro da pasta /public/images/plots retornando o nome dos diretórios presentes
         $files = preg_grep('/^([^.])/', scandir(getcwd().'/images/plots'));
 
-        foreach($files as $file) {
+        if (!empty($files)) {
+            foreach($files as $file) {
             // Busca pelo nome das torres, havendo apenas o código presente no nome do diretório,
             // Ou atribui a string 'Torre inexistente' caso não seja possível encontrar uma torre com este código
-            if (strpos($file, '-') !== false) {
-                $arr = explode('-', $file, 2);
-                preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[0])->first()->SITENAME ?? 
-                '(Torre inexistente)', $match);
-                $nomes[$file] = $match[1];
-                preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[1])->first()->SITENAME ?? 
-                '(Torre inexistente)', $match);
-                $nomes[$file] .= ' - '.$match[1];
+                if (strpos($file, '-') !== false) {
+                    $arr = explode('-', $file, 2);
+                    preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[0])->first()->SITENAME ?? 
+                    '(Torre inexistente)', $match);
+                    $nomes[$file] = $match[1];
+                    preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[1])->first()->SITENAME ?? 
+                    '(Torre inexistente)', $match);
+                    $nomes[$file] .= ' - '.$match[1];
+                }
+                else {
+                    preg_match('#\((.*?)\)#', $this->getTorreByEstacao($file)->first()->SITENAME ?? 
+                    '(Torre inexistente)', $match);
+                    $nomes[$file] = $match[1];
+                }
             }
-            else {
-                preg_match('#\((.*?)\)#', $this->getTorreByEstacao($file)->first()->SITENAME ?? 
-                '(Torre inexistente)', $match);
-                $nomes[$file] = $match[1];
-            }
+        }
+        else {
+            $nomes = [];
         }
         return view('report.list', compact(['files', 'nomes']));
     }
@@ -114,7 +119,11 @@ class ReportController extends Controller
             // for uma "quebra" de segurança. Usar função getcwd() se script estiver na public.
             $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptGenerate.R '.$torreUm->first()->ESTACAO." ".$request->periodo.' 2>&1';
 
-            return json_encode(shell_exec($cmd));
+            $rawResponse = shell_exec($cmd);
+            $response = explode("\n", $rawResponse);
+            $request->session()->flash('message', $response);
+            
+            return;
         }
         else {
             header('HTTP/1.1 500 Internal Server Error');
@@ -136,7 +145,7 @@ class ReportController extends Controller
                 die(json_encode("Codigos invalidos! A torre nao foi encontrada."));
             }
             else {
-                $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptEpe.R '.$nomeArquivo." 2>&1";
+                $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptEpe.R '.$nomeArquivo." --vanilla 2>&1";
 
                 $rawResponse = shell_exec($cmd);
                 $response = explode("\n", $rawResponse);
