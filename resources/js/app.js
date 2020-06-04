@@ -15,10 +15,11 @@ require('./rcode');
 require('./hover-tabs');
 require('./datepicker');
 
-
 window.Vue = require('vue');
 window.Swal = require('sweetalert2');
 window.Chart = require('chart.js');
+//window.toastr = require('./../../node_modules/toastr/toastr');
+
 // window.Daterangepicker = require('daterangepicker');
 
 /**
