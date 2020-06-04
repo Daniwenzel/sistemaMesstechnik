@@ -6,36 +6,51 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ __('Digite os códigos das torres') }}</h4>
-                    <form class="mt-5" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Código da primeira torre') }}</label>
-                            <div class="col-md-6">
-                                <input id="primeiraTorre" type="text" class="form-control" name="primeiraTorre" required>
-                            </div>
-                        </div>
+                     <div class="row">
+                        <div class="col-6">
+                            <h4 class="card-title">{{ __('Utilizando arquivos EPE') }}</h4>
 
-                        <div class="form-group">
-                            <label for="segundaTorre" class="col-md-4 control-label">{{ __('Código da segunda torre') }}</label>
-                            <div class="col-md-6">
-                                <input id="segundaTorre" type="text" class="form-control" name="segundaTorre" required>
-                            </div>
+                            <form name="plotsCorrelacao" method="POST" action="{{ route('reports.compareepe') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="file" name="primeiroEpe">
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" name="segundoEpe">
+                                </div>
+                            </form>
                         </div>
+                        <div class="col-6">
+                            <h4 class="card-title">{{ __('Ou os códigos das estações') }}</h4>
+                            <div class="form-group">
+                                <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Estação da 1ª torre') }}</label>
+                                <div class="col-md-6">
+                                    <input id="primeiraTorre" type="text" class="form-control" required>
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="dateFilter" class="col-md-4 control-label">{{ __('Data') }}</label>
-                            <div class="col-md-6">
-                                <input id="dateFilter" type="text" class="form-control" name="datefilter" autocomplete="off" required>
+                            <div class="form-group">
+                                <label for="segundaTorre" class="col-md-4 control-label">{{ __('Estação da 2ª torre') }}</label>
+                                <div class="col-md-6">
+                                    <input id="segundaTorre" type="text" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dateFilter" class="col-md-4 control-label">{{ __('Data') }}</label>
+                                <div class="col-md-6">
+                                    <input id="dateFilter" type="text" class="form-control" autocomplete="off" required>
+                                </div>
                             </div>
                         </div>
-                        
+                    </div>
+                    <div class="row">
                         <div class="form-group">
-                            <!--<button type="submit" class="btn btn-success btn-fw">-->
                             <button id="compareTowers" name="compareTowers">
-                                <i class="mdi mdi-upload"></i>{{ __('Chamar R') }}</button>
+                                <i class="mdi mdi-upload">{{ __('Gerar Plots') }}</i>
+                            </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

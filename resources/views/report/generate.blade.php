@@ -8,22 +8,19 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <h4 class="card-title">{{ __('Utilize um arquivo EPE') }}</h4>
+                            <h4 class="card-title">{{ __('Utilizando arquivo EPE') }}</h4>
 
-                            <form method="POST" action="{{ route('reports.epe') }}" enctype="multipart/form-data">
+                            <form name="plotsTorre" method="POST" action="{{ route('reports.torreepe') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <input type="file" name="arquivoEpe">
                                 </div>
-                                <div class="form-group">
-                                    <button type="submit">Enviar arquivo EPE</button>
-                                </div>
                             </form>
                         </div>
                         <div class="col-6">
-                            <h4 class="card-title">{{ __('Digite o código da torre') }}</h4>
+                            <h4 class="card-title">{{ __('Ou o código estação da torre') }}</h4>
                             <div class="form-group">
-                                <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Código da primeira torre') }}</label>
+                                <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Código estação da torre') }}</label>
                                 <div class="col-md-6">
                                     <input id="primeiraTorre" type="text" class="form-control" name="primeiraTorre" required>
                                 </div>
@@ -34,13 +31,14 @@
                                     <input id="dateFilter" type="text" class="form-control" name="datefilter" autocomplete="off" required>
                                 </div>
                             </div>                           
-                            <div class="form-group">
-                                <!--<button type="submit" class="btn btn-success btn-fw">-->
-                                <button id="generateTowers" name="generateTowers">
-                                    <i class="mdi mdi-upload"></i>{{ __('Chamar R') }}</button>
-                            </div>
-<!--                        </form> -->
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <button id="generatePlots" name="generatePlots">
+                                <i class="mdi mdi-upload">{{ __('Gerar Plots') }}</i>
+                            </button>
+                        </div>            
                     </div>
                 </div>
             </div>
