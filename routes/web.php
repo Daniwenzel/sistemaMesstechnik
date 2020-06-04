@@ -31,20 +31,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/users/password', 'UserController@showEditPassword')->name('users.password');
     Route::post('/users/password', 'UserController@editPassword')->name('password.update');
 
-    Route::get('/companies', 'CompanyController@index')->name('companies.index');
-    Route::post('/companies', 'CompanyController@store')->name('companies.store');
-    Route::get('/companies/create', 'CompanyController@create')->name('companies.create');
-    Route::delete('/companies/{company_id}', 'CompanyController@delete')->name('companies.delete');
-
-    Route::get('/windfarms', 'WindFarmController@index')->name('windfarms.index');
-    Route::get('/windfarms/create', 'WindFarmController@create')->name('windfarms.create');
-    Route::get('/windfarms/{farm_id}', 'WindFarmController@show')->name('windfarms.show');
-    Route::post('/windfarms', 'WindFarmController@store')->name('windfarms.store');
-
-    Route::get('/towers/{tower_id}', 'TowerController@show')->name('towers.show');
-    Route::get('/towers/create/{farm_id}', 'TowerController@create')->name('towers.create');
-    Route::post('/towers/{farm_id}', 'TowerController@store')->name('towers.store');
-
     Route::get('/reports', 'ReportController@index')->name('reports.index');
     Route::get('/reports/compare', 'ReportController@showCompare')->name('reports.compare.show');
     Route::get('/reports/ajaxCompare', 'ReportController@compare')->name('reports.compare');
@@ -52,9 +38,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/reports/list', 'ReportController@list')->name('reports.list');
     Route::get('/reports/generate', 'ReportController@showGenerate')->name('reports.generate.show');
     Route::get('/reports/ajaxGenerate', 'ReportController@generate')->name('reports.generate');
-    Route::post('/reports/epe', 'ReportController@generateEpe')->name('reports.epe');
+    Route::post('/reports/torreepe', 'ReportController@generateEpe')->name('reports.torreepe');
+    Route::post('/reports/compareEpe', 'ReportController@compareEpe')->name('reports.compareepe');
 
-    Route::get('/log', 'FileLogController@showFileLog')->name('log');
+    Route::get('/log', 'LogController@showFileLog')->name('log');
 
 //    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
 
