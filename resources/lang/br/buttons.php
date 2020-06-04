@@ -12,7 +12,7 @@ return [
     'dashboard' => 'Início',
     'company' => 'Empresas',
     'permissions' => 'Cargos e Permissões',
-    'log' => 'Log dos Arquivos',
+    'log' => 'Log',
     'report' => 'Relatórios',
     'register_company' => 'Registrar Empresa',
     'register_user' => 'Registrar Usuário',

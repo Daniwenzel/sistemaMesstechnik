@@ -12,7 +12,7 @@ return [
     'dashboard' => 'Dashboard',
     'company' => 'Companies',
     'permissions' => 'Roles and Permissions',
-    'log' => 'File Log',
+    'log' => 'Log',
     'report' => 'Reports',
     'register_company' => 'Register Company',
     'register_user' => 'Register User',
