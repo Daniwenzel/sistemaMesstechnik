@@ -4,7 +4,7 @@ namespace Messtechnik\Http\Controllers;
 
 use Messtechnik\Http\Requests\UserStoreRequest;
 use Messtechnik\Models\Company;
-use Messtechnik\User;
+use Messtechnik\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

@@ -16,6 +16,6 @@ class Tower extends Model
         ];
 
     public function sites() {
-        return $this->belongsTo('Messtechnik\Models\Company', 'CLICODIGO', 'CODIGO');
+        return $this->belongsTo('Messtechnik\Models\Cliente', 'CLICODIGO', 'CODIGO');
     }
 }
