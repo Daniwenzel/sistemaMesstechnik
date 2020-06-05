@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/reports/torreepe', 'ReportController@generateEpe')->name('reports.torreepe');
     Route::post('/reports/compareEpe', 'ReportController@compareEpe')->name('reports.compareepe');
 
-    Route::get('/log', 'LogController@showFileLog')->name('log');
+    Route::get('/log', 'LogController@showLog')->name('log');
 
 //    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
 

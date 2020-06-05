@@ -10,43 +10,49 @@
                             <thead>
                             <tr>
                                 <th>
-                                    Data
+                                    Descrição
                                 </th>
                                 <th>
                                     Status
                                 </th>
                                 <th>
+                                    Usuário
+                                </th>
+                                <th>
                                     Diretorio
                                 </th>
                                 <th>
-                                    Arquivo
+                                    Data
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($logs as $log)
                                 @switch($log->status)
-                                    @case('success')
+                                    @case('Sucesso')
                                     <tr class="alert-success card-button" onclick="swalMostrarMensagemLog('{{ $log->diretorio }}', '{{ $log->mensagem }}', 'success')">
                                     @break
-                                    @case('warning')
+                                    @case('Aviso')
                                     <tr class="alert-warning card-button" onclick="swalMostrarMensagemLog('{{ $log->diretorio }}', '{{ $log->mensagem }}', 'warning')">
                                     @break
-                                    @case('error')
+                                    @case('Erro')
                                     <tr class="alert-danger card-button" onclick="swalMostrarMensagemLog('{{ $log->diretorio }}', '{{ $log->mensagem }}', 'error')">
-                                        @break
-                                        @endswitch
+                                    @break
+                                @endswitch
                                         <td>
-                                            {{ $log->created_at }}
+                                            {{ $log->mensagem }}
                                         </td>
                                         <td>
                                             {{ $log->status }}
                                         </td>
                                         <td>
+                                            {{ $log->usuario }}
+                                        </td>
+                                        <td>
                                             {{ $log->diretorio }}
                                         </td>
                                         <td>
-                                            {{ $log->nome }}
+                                            {{ $log->created_at }}
                                         </td>
                                     </tr>
                                     @endforeach
@@ -55,9 +61,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-md-center">
-            {{ $logs->links() }}
         </div>
     </div>
 @endsection
