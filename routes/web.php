@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/reports/compare', 'ReportController@showCompare')->name('reports.compare.show');
     Route::get('/reports/ajaxCompare', 'ReportController@compare')->name('reports.compare');
     Route::get('/reports/plots/{folder}', 'ReportController@showPlots')->name('reports.plots');
-    Route::get('/reports/list', 'ReportController@list')->name('reports.list');
+    Route::get('/reports/list', 'ReportController@showTorresList')->name('reports.list');
     Route::get('/reports/generate', 'ReportController@showGenerate')->name('reports.generate.show');
     Route::get('/reports/ajaxGenerate', 'ReportController@generate')->name('reports.generate');
     Route::post('/reports/torreepe', 'ReportController@generateEpe')->name('reports.torreepe');
