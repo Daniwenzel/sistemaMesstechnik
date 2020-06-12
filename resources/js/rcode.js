@@ -11,8 +11,8 @@ $(document).ready(function () {
     
     else {
 
-      // O primeiro codigo sempre será a torre de referencia, mas a url retornada será com o maior codigo
-      // Evitar que duas pastas da mesma correlação sejam criadas.
+      // O primeiro codigo sempre será a torre de referência, mas a url retornada será com o maior codigo
+      // Para evitar que duas pastas da mesma correlação sejam criadas.
       // ex: diretórios /../000321-000322/ e /../000322-000321/ para armazenar a mesma correlação
       var torreRef = $('#primeiraTorre').val();
       var torreSec = $('#segundaTorre').val();
@@ -24,12 +24,15 @@ $(document).ready(function () {
         return estacao;
       } 
     
+      // Busca e aplica tratamento no maior e menor código estação, para montar a url
       var codigoMaior = adicionarZeros(Math.max(torreRef,torreSec)+"");
       var codigoMenor = adicionarZeros(Math.min(torreRef,torreSec)+"");
+      var diretorio = codigoMaior+'-'+codigoMenor;
+      // Aplica tratamento nos codigos, para serem enviados através do ajax, para o script R
       torreRef = adicionarZeros(torreRef);
       torreSec = adicionarZeros(torreSec);
 
-      // Chama função de correlação (através do ajax) apenas se os campos tiverem algum valor e não forem iguais
+      // Se os campos não forem nulos e iguais, envia as informações para o Controller através do Ajax
       if ((torreRef && torreSec) && (torreRef != torreSec)) {
         if (periodo) {
           $.ajax({
@@ -41,10 +44,11 @@ $(document).ready(function () {
             data: {
               torreReferencia: torreRef,
               torreSecundaria: torreSec,
-              periodo: periodo
+              periodo: periodo,
+              diretorio: diretorio
             },
             success: function(data) {
-              window.location= '/reports/plots/'+codigoMaior+'-'+codigoMenor;
+              window.location= '/reports/plots/'+diretorio;
             },
             error: function error(xhr, status, _error) {
               console.log('o erro foi no ajax EXTERNO');
@@ -85,7 +89,8 @@ $(document).ready(function () {
             url: "/reports/ajaxGenerate",
             data: {
               primeiraTorre: primeiraTorre,
-              periodo: periodo
+              periodo: periodo,
+              diretorio: primeiraTorre
             },
             success: function(data) {
               window.location.href= '/reports/plots/'+primeiraTorre;
