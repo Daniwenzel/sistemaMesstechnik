@@ -81,8 +81,10 @@ nomeSegundaTorre <- str_extract(string = segundaTorre$SITENAME, pattern = "\\([^
 nomeSegundaTorre <- substring(nomeSegundaTorre,2,nchar(nomeSegundaTorre)-1)
 
 # Cria o diretorio da torre, caso ainda nao exista
+maiorCodigo <- max(c(codigoEstacaoPrimeiraTorre, codigoEstacaoSegundaTorre))
+menorCodigo <- min(c(codigoEstacaoPrimeiraTorre, codigoEstacaoSegundaTorre))
 dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
-plotsDir <- paste0(dir,codigoEstacaoPrimeiraTorre,'-',codigoEstacaoSegundaTorre)
+plotsDir <- paste0(dir,maiorCodigo,'-',menorCodigo)
 dir.create(file.path(plotsDir), showWarnings = FALSE)
 invisible(do.call(file.remove, list(list.files(plotsDir, full.names = TRUE))))
 
@@ -138,12 +140,12 @@ for (iW in 1:length(primeiraWvAlturas)) {
                        direction = as.numeric(unlist(primeiraWindvanes[iW])),
                        speed_cuts = seq(0,25,5),
                        legend_title="Velocidades [m/s]",
-                       ggtheme='minimal')+labs(title=paste0("Windvane ",names(primeiraWindvanes[iW])))
+                       ggtheme='minimal')+labs(title=paste0(nomePrimeiraTorre," - Windvane ",names(primeiraWindvanes[iW])))
   wr2 <- windrose(speed = as.numeric(unlist(segundaAnemometroPar)),
                          direction = as.numeric(unlist(segundaWindvanes[iW])),
                          speed_cuts = seq(0,25,5),
                          legend_title="Velocidades [m/s]",
-                         ggtheme='minimal')+labs(title=paste0("Windvane ",names(segundaWindvanes[iW])))
+                         ggtheme='minimal')+labs(title=paste0(nomeSegundaTorre," - Windvane ",names(segundaWindvanes[iW])))
   rosaVentos <- grid.arrange(wr1,wr2,ncol=2)
   # E salva a imagem da rosa dos ventos dentro da pasta da torre 
   ggsave(file=paste0("rosaventos-",iW,".png"), plot=rosaVentos, device="png", path=plotsDir, height=4, width=8)
