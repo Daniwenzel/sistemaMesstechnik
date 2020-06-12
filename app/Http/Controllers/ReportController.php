@@ -4,6 +4,9 @@ namespace Messtechnik\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Messtechnik\Models\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ReportController extends Controller
 {
@@ -13,12 +16,21 @@ class ReportController extends Controller
 
     // Busca pelo registro da torre dentro do banco de dados
     public function getTorreByEstacao(string $estacao) {
+        $result = false;
+
         $torre = DB::table('SITE')
         ->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO')
         ->where('SITE.ESTACAO','=',$estacao)
         ->get();
 
-        return $torre->first() ? $torre->first() : false;
+        if ($torre->first()) {
+            preg_match('#\((.*?)\)#', $torre->first()->SITENAME, $match);
+            $torre->first()->NOME = $match[1];
+
+            $result = $torre->first();
+        }
+
+        return $result;
     }
 
     // Retorna uma lista com todas as torres cadastradas no banco. 
@@ -40,6 +52,16 @@ class ReportController extends Controller
         return view('report.correlation', compact('torres','grouped'));
     }
 
+    // Salva uma mensagem dentro do banco com o status da ação realizada
+    public function criarLog($diretorio, $status, $mensagem) {
+        Log::create([
+            'usuario' => Auth::user()->name,
+            'diretorio' => $diretorio,
+            'status' => $status,
+            'mensagem' => $mensagem
+            ])->save();
+    }
+
     public function compare(Request $request) {
         $torreRef = $this->getTorreByEstacao($request->torreReferencia);
         $torreSec = $this->getTorreByEstacao($request->torreSecundaria);
@@ -56,9 +78,13 @@ class ReportController extends Controller
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
+            $this->criarLog($request->diretorio,'Sucesso','Correlação das torres: '.$torreRef->NOME.' e '.$torreSec->NOME.' Criada com sucesso.');
+
             return;
         }
         else {
+            $this->criarLog($request->diretorio, "Erro", "Falha ao encontrar torre(s): ".$request->torreReferencia." = ".($torreRef->NOME ?? 'Inexistente').' e '.$request->torreSecundaria." = ".($torreSec->NOME ?? 'Inexistente'));
+
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
             die(json_encode("Codigos invalidos! Uma ou ambas as torres nao foram encontradas."));
@@ -80,14 +106,15 @@ class ReportController extends Controller
     
             if (strpos($folder, '-') !== false) {
                 $arr = explode('-', $folder, 2);
-                preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[0])->SITENAME, $primeiraTorre);
-                preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[1])->SITENAME, $segundaTorre);
+                $primeiraTorre = $this->getTorreByEstacao($arr[0]); 
+                $segundaTorre = $this->getTorreByEstacao($arr[1]);
 
-                $titulo = 'Correlação torres: '.$primeiraTorre[1].' e '.$segundaTorre[1];
+                $titulo = 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME;
             }
             else {
-                preg_match('#\((.*?)\)#', $this->getTorreByEstacao($folder)->SITENAME, $primeiraTorre);
-                $titulo = 'Torre '.$primeiraTorre[1];
+                $primeiraTorre = $this->getTorreByEstacao($folder);
+
+                $titulo = 'Torre '.$primeiraTorre->NOME;
             }
             
         	return view('report.plots', compact(['fullPlotsPath','titulo']));
@@ -97,27 +124,21 @@ class ReportController extends Controller
     }
 
     // Retorna uma lista com todas as pastas dos plots (correlações ou torres) já gerados dentro do MMS
-    public function list() {
+    public function showTorresList(Request $request) {
         // scan dentro da pasta C:\xampp\htdocs\sistemaMesstechnik\public\images\plots retornando o nome dos diretórios presentes
-        $files = preg_grep('/^([^.])/', scandir(getcwd().'/images/plots'));
+        $pastas = preg_grep('/^([^.])/', scandir(getcwd().'/images/plots'));
 
-        if (!empty($files)) {
-            foreach($files as $file) {
+        if (!empty($pastas)) {
+            foreach($pastas as $pasta) {
             // Busca pelo nome das torres, havendo apenas o código presente no nome do diretório,
             // Ou atribui a string 'Torre inexistente' caso não seja possível encontrar uma torre com este código
-                if (strpos($file, '-') !== false) {
-                    $arr = explode('-', $file, 2);
-                    preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[0])->SITENAME ?? 
-                    '(Torre inexistente)', $match);
-                    $nomes[$file] = $match[1];
-                    preg_match('#\((.*?)\)#', $this->getTorreByEstacao($arr[1])->SITENAME ?? 
-                    '(Torre inexistente)', $match);
-                    $nomes[$file] .= ' - '.$match[1];
+                if (strpos($pasta, '-') !== false) {
+                    $arr = explode('-', $pasta, 2);
+
+                    $nomes[$pasta] = ($this->getTorreByEstacao($arr[0])->NOME ?? 'Torre Inexistente').' - '.($this->getTorreByEstacao($arr[1])->NOME ?? 'Torre Inexistente');
                 }
                 else {
-                    preg_match('#\((.*?)\)#', $this->getTorreByEstacao($file)->SITENAME ?? 
-                    '(Torre inexistente)', $match);
-                    $nomes[$file] = $match[1];
+                    $nomes[$pasta] = $this->getTorreByEstacao($pasta)->NOME ?? 'Torre Inexistente';
                 }
             }
         }
@@ -125,9 +146,24 @@ class ReportController extends Controller
             $nomes = [];
         }
 
-        #dd($nomes);
+        $paginator = $this->getPaginator($request, $nomes);
 
-        return view('report.list', compact(['files', 'nomes']));
+        //dd($nomes);
+
+        return view('report.list')->with('nomes', $paginator);
+    }
+
+    private function getPaginator(Request $request, $items) {
+        $total = count($items);
+        $page = $request->page ?? 1;
+        $perPage = 10;
+        $offset = ($page - 1) * $perPage;
+        $items = array_slice($items, $offset, $perPage);
+
+        return new LengthAwarePaginator($items, $total, $perPage, $page, [
+            'path' => $request->url(),
+            'query' => $request->query()
+        ]);
     }
 
     public function showGenerate() {
@@ -152,10 +188,14 @@ class ReportController extends Controller
             $rawResponse = shell_exec($cmd);
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
+
+            $this->criarLog($request->diretorio,'Sucesso','Geração dos plots da torre '.$torreUm->NOME.' Criada com sucesso.');
             
             return;
         }
         else {
+            $this->criarLog($request->diretorio,'Erro','Falha ao encontrar torre com código estação = '.$request->primeiraTorre);
+
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
             die(json_encode("Codigos invalidos! Uma ou ambas as torres nao foram encontradas."));
@@ -209,7 +249,10 @@ class ReportController extends Controller
                 $rawResponse = shell_exec($cmd);
                 $response = explode("\n", $rawResponse);
 
-                return redirect()->route('reports.plots', array('folder' => substr($nomePrimeiroArq,0,6).'-'.substr($nomeSegundoArq,0,6)))->with('message', $response);
+                $estacaoMaior = max(substr($nomePrimeiroArq, 0, 6), substr($nomeSegundoArq, 0, 6));
+                $estacaoMenor = min(substr($nomePrimeiroArq, 0, 6), substr($nomeSegundoArq, 0, 6));
+
+                return redirect()->route('reports.plots', array('folder' => $estacaoMaior.'-'.$estacaoMenor))->with('message', $response);
             }
         }
         // Caso ocorra algo inexperado, fora do fluxo normal da funcionalidade, retorna erro

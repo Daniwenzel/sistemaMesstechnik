@@ -17,4 +17,10 @@
             </div>
         </div>
     @endforeach
+    
+    <div class="container">
+        <div class="row justify-content-sm-center">
+            {{ $nomes->links() }}
+        </div>
+    </div>
 @endsection
