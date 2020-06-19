@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    protected $connection = 'firebird';
+    protected $connection = 'mysql';
 
     protected $table = 'CLIENTE';
 
-    protected $fillable = [
-        'CODIGO', 'RAZAOSOCIAL', 'ENDERECO'
-    ];
+    protected $primaryKey = 'codigo';
+
+    protected $fillable = ['codigo', 'razaosocial', 'endereco'];
 
     public function users() {
-        return $this->hasMany('Messtechnik\User', 'clicodigo', 'CODIGO');
+        return $this->hasMany('Messtechnik\User', 'clicodigo', 'codigo');
     }
 
    public function torres() {
-       return $this->hasMany('Messtechnik\Models\Site', 'CLICODIGO', 'CODIGO');
+       return $this->hasMany('Messtechnik\Models\Site', 'clicodigo', 'codigo');
    }
 }

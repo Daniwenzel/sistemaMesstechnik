@@ -4,18 +4,17 @@ namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tower extends Model
+class Site extends Model
 {
-    protected $connection = 'firebird';
+    protected $connection = 'mysql';
 
     protected $table = 'SITE';
 
-    protected $fillable = [
-        'CODIGO', 'CLICODIGO', 'DESSITE', 'LATSITE', 'LNGSITE', 'INFSITE', 'TZNSITE', 'SITENAME',
-        'ESTACAO', 'HRSENVIO', 'ULTENVIO', 'EMLENVIO01', 'EMLENVIO02', 'EMLENVIO03'
-        ];
+    protected $primaryKey = 'codigo';
+
+    protected $fillable = ['codigo', 'clicodigo', 'dessite', 'latsite', 'lngsite', 'infsite', 'tznsite', 'sitename','estacao', 'hrsenvio', 'ultenvio', 'emlenvio01', 'emlenvio02', 'emlenvio03'];
 
     public function sites() {
-        return $this->belongsTo('Messtechnik\Models\Cliente', 'CLICODIGO', 'CODIGO');
+        return $this->belongsTo('Messtechnik\Models\Cliente', 'clicodigo', 'codigo');
     }
 }

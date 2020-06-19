@@ -18,21 +18,15 @@ class User extends Authenticatable
 
     protected $connection = 'mysql'; 
 
+    protected $fillable = ['name', 'email', 'password', 'clicodigo'];
+
+    protected $hidden = ['password', 'remember_token',];
+
+    protected $casts = ['email_verified_at' => 'datetime',];
+
     public function empresa() {
-        return $this->belongsTo('Messtechnik\Models\Cliente','clicodigo', 'CODIGO');
+        return $this->belongsTo('Messtechnik\Models\Cliente','clicodigo', 'codigo');
     }
-
-    protected $fillable = [
-        'name', 'email', 'password', 'clicodigo',
-    ];
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
     // public function registerMediaCollections()
     // {

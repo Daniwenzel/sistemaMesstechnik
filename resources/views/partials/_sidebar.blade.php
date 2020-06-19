@@ -39,19 +39,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="menu-icon mdi mdi-weather-windy"></i>
-                <span class="menu-title">{{ __('buttons.wind_farm') }}</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('company.index') }}">
                 <i class="menu-icon mdi mdi-briefcase"></i>
                 <span class="menu-title">{{ __('buttons.company') }}</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('log') }}">
+            <a class="nav-link" href="{{ route('log.index') }}">
                 <i class="menu-icon mdi mdi-file-alert"></i>
                 <span class="menu-title">{{ __('buttons.log') }}</span>
             </a>

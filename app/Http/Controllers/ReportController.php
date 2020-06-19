@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Messtechnik\Models\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Messtechnik\Models\Site;
 
 class ReportController extends Controller
 {
@@ -35,11 +36,20 @@ class ReportController extends Controller
 
     // Retorna uma lista com todas as torres cadastradas no banco. 
     public function getTorresList() {
-        return DB::table('SITE')
-    	->join('CLIENTE', 'SITE.CLICODIGO', '=', 'CLIENTE.CODIGO')
-    	->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTE.RAZAOSOCIAL')
-    	->orderBy('CLIENTE.RAZAOSOCIAL')
-    	->get();
+        return DB::connection('mysql')->table('SITE')->join('CLIENTE', 'SITE.CLICODIGO', '=', 'CLIENTE.CODIGO')->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTE.RAZAOSOCIAL')->orderBy('CLIENTE.RAZAOSOCIAL')->get();
+    }
+
+    public function getPaginator(Request $request, $items) {
+        $total = count($items);
+        $page = $request->page ?? 1;
+        $perPage = 10;
+        $offset = ($page - 1) * $perPage;
+        $items = array_slice($items, $offset, $perPage);
+
+        return new LengthAwarePaginator($items, $total, $perPage, $page, [
+            'path' => $request->url(),
+            'query' => $request->query()
+        ]);
     }
 
     // Mostra a view "correlação", enviando uma lista das torres, organizadas pelo cliente
@@ -48,7 +58,7 @@ class ReportController extends Controller
 
     	$grouped = $torres->groupBy('RAZAOSOCIAL');
         $grouped->toArray();
-
+        
         return view('report.correlation', compact('torres','grouped'));
     }
 
@@ -135,35 +145,26 @@ class ReportController extends Controller
                 if (strpos($pasta, '-') !== false) {
                     $arr = explode('-', $pasta, 2);
 
-                    $nomes[$pasta] = ($this->getTorreByEstacao($arr[0])->NOME ?? 'Torre Inexistente').' - '.($this->getTorreByEstacao($arr[1])->NOME ?? 'Torre Inexistente');
+                    $nome = ($this->getTorreByEstacao($arr[0])->NOME ?? 'Torre Inexistente').' - '.($this->getTorreByEstacao($arr[1])->NOME ?? 'Torre Inexistente');
                 }
                 else {
-                    $nomes[$pasta] = $this->getTorreByEstacao($pasta)->NOME ?? 'Torre Inexistente';
+                    $nome = $this->getTorreByEstacao($pasta)->NOME ?? 'Torre Inexistente';
+                }
+                if (is_null($request->search)) {
+                    $nomes[$pasta] = $nome;
+                }
+                elseif (stripos($nome, $request->search) !== false) {
+                    $nomes[$pasta] = $nome;
                 }
             }
         }
-        else {
+        if (!isset($nomes)) {
             $nomes = [];
         }
 
         $paginator = $this->getPaginator($request, $nomes);
 
-        //dd($nomes);
-
         return view('report.list')->with('nomes', $paginator);
-    }
-
-    private function getPaginator(Request $request, $items) {
-        $total = count($items);
-        $page = $request->page ?? 1;
-        $perPage = 10;
-        $offset = ($page - 1) * $perPage;
-        $items = array_slice($items, $offset, $perPage);
-
-        return new LengthAwarePaginator($items, $total, $perPage, $page, [
-            'path' => $request->url(),
-            'query' => $request->query()
-        ]);
     }
 
     public function showGenerate() {

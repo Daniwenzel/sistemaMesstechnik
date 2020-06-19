@@ -55,11 +55,16 @@
                                             {{ $log->created_at }}
                                         </td>
                                     </tr>
-                                    @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-sm-center">
+                {{ $logs->links() }}
             </div>
         </div>
     </div>

@@ -2,6 +2,25 @@
 
 @section('content')
 
+     <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" action="{{ route('reports.list') }}" class="navbar-form navbar-left mt-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}">
+                            <div class="input-group-append bg-primary border-primary">
+                                <button type="submit" class="btn input-group-text bg-transparent card-button">
+                                    <i class="mdi mdi-magnify text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @foreach($nomes as $key => $nome)
         <div class="row text-md-center">
             <div class="col-md-12 stretch-card grid-margin" onclick="window.location='{{ route("reports.plots",['folder' => $key]) }}'">
@@ -17,7 +36,7 @@
             </div>
         </div>
     @endforeach
-    
+
     <div class="container">
         <div class="row justify-content-sm-center">
             {{ $nomes->links() }}

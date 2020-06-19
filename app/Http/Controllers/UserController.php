@@ -30,11 +30,8 @@ class UserController extends Controller
 //                    $query->where('nome', 'ilike','%'.$search.'%');
 //                })
 //                ->paginate(10) :
-            $usuarios = User::with('empresa')
-                ->where('clicodigo', Auth::user()->clicodigo)
-                ->where('name','like','%'.$search.'%')
-                ->paginate(10);
-
+        $usuarios = User::with('empresa')->where('clicodigo', Auth::user()->clicodigo)->where('name','like','%'.$search.'%')->paginate(10);
+        
         return view('user.list', compact('usuarios'));
     }
 
