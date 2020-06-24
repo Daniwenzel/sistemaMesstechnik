@@ -29,54 +29,6 @@ window.swalDeletarUsuario = function (usuario_id) {
     })
 };
 
-window.swalDeletarEmpresa = function (empresa_id) {
-    event.preventDefault();
-
-    Swal.fire({
-        title: 'Tem certeza?',
-        text: "Não poderá reverter esta ação!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmar Exclusão!'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: "DELETE",
-                url: "/companies/"+empresa_id,
-                success: function (response) {
-                    Swal.fire(
-                        'Excluido!',
-                        'Empresa deletada com sucesso!',
-                        'success'
-                    )
-                        .then((result) => {
-                            console.log(result);
-                            if (result.value) {
-                                location.reload();
-                            }
-                        });
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    Swal.fire(
-                        'Error!',
-                        'Não foi possível concluir esta ação.',
-                        'error'
-                    )
-                        .then((result) => {
-                            console.log(result);
-                            if (result.value) {
-                                location.reload();
-                            }
-                        });
-                }
-            });
-        }
-    })
-};
-
 window.swalDeletarCargo = function (cargo_id) {
     event.preventDefault();
 
@@ -159,3 +111,50 @@ window.swalMostrarMensagemLog = function(diretorio, mensagem, tipo) {
         text: mensagem,
     })
 };
+
+window.swalMostrarFormImagemTorre = async function(sitcodigo) {
+    const { value: file } = await Swal.fire({
+      title: 'Selecionar Imagem',
+      input: 'file',
+      inputAttributes: {
+        'type': 'file',
+        'name': 'imagemSite',
+        'accept': 'image/*',
+        'aria-label': 'Carregar imagem da torre'
+      }
+    })
+
+    if (file) {
+        const reader = new FileReader()
+
+        reader.onload = (e) => {
+            //var image_data = $('input[name="imagemSite"]')[0].files[0];
+            var fd = new FormData();
+            fd.append('imagem', file);
+            
+            Swal.fire({
+                title: 'Imagem a ser salva',
+                imageUrl: e.target.result,
+                imageAlt: 'Imagem carregada'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: '/site/'+sitcodigo,
+                        type: 'POST',
+                        data: fd,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        complete: function() {
+                            console.log('Enviando imagem para o servidor');
+                        }
+                    });
+                }
+            })
+        }
+        reader.readAsDataURL(file)
+    }
+}
