@@ -10,7 +10,6 @@ require('./off-canvas');
 require('./login');
 require('./password');
 require('./toggle-graph');
-require('./sweetalerts');
 require('./rcode');
 require('./hover-tabs');
 require('./datepicker');
