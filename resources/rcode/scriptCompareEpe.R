@@ -52,7 +52,7 @@ codigoEstacaoSegundaTorre <- str_pad(parse_number(segundaLinhas[1]), 6, pad="0")
 # FAZER FILTRO VERIFICAR SE ENCONTROU UM CODIGOESTACAO VALIDO, CASO NAO, SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
 
 # Lista com possiveis caracteres (tamanho fixo = 5), que precisam ser alterados para NA na leitura
-stringsNa <- c("    -","   - ","  -  "," -   ","-    ")
+stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ")
 
 # Le arquivo modificado e remove coluna "X", criada sem necessidade
 primeiraDados <- read.table(paste0(epeDir,'MOD-',primeiroArquivoEpe),header=TRUE,sep='|',dec=',',na.strings=stringsNa)

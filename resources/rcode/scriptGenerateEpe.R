@@ -33,11 +33,12 @@ codigoEstacaoTorre <- str_pad(parse_number(lines[1]), 6, pad="0")
 # FAZER FILTRO VERIFICAR SE ENCONTROU UM CODIGOESTACAO VALIDO, CASO NAO, SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
 
 # Lista com possiveis caracteres (tamanho fixo = 5), que precisam ser alterados para NA na leitura
-stringsNa <- c("    -","   - ","  -  "," -   ","-    ")
+stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ")
 
 # Le arquivo modificado e remove coluna "X", criada sem necessidade
-dados <- read.table(paste0(epeDir,'MOD-',epeArquivo),header=TRUE,sep='|',dec=',',na.strings=stringsNa)
+dados <- read.table(paste0(epeDir,'MOD-',epeArquivo),header=TRUE,sep='|',dec=',',na.strings = stringsNa)
 dados$X <- NULL
+#dados2 <- data.frame(lapply(dados, function(x) { gsub("^([ ]*-[ ]*)$", NA, x) }))
 
 # Converte o tipo da coluna CH01 para "data" e adiciona os 0's à esquerda da coluna CH02 que foram removidos durante a leitura 
 dados <- dados %>% mutate(CH01 = as.Date(as.character(CH01), "%Y%m%d"))
