@@ -16,10 +16,9 @@ $(document).ready(function () {
                         'roles',
                         'tower',
                         'user-config',
-                        'windfarms',
-                        'windfarms-info',
                         'user-password',
-                        'log'
+                        'log',
+                        'reports'
                     ],
                 },
                 sync: true,
