@@ -36,9 +36,9 @@ $(document).ready(function () {
       if ((torreRef && torreSec) && (torreRef != torreSec)) {
         if (periodo) {
           $.ajax({
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+            //headers: {
+            //  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //},
             type: "GET",
             url: "/reports/ajaxCompare",
             data: {
@@ -82,9 +82,9 @@ $(document).ready(function () {
       if (primeiraTorre) {
         if (periodo) {
           $.ajax({
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+            //headers: {
+            //  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //},
             type: "GET",
             url: "/reports/ajaxGenerate",
             data: {
