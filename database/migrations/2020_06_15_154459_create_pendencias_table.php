@@ -14,7 +14,7 @@ class CreatePendenciasTable extends Migration
     public function up()
     {
         Schema::create('pendencias', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('codigo');
             $table->integer('sitcodigo');
             $table->text('descricao');
             $table->timestamps();

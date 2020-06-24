@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAtendimentosTable extends Migration
+class CreateSitesImagensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAtendimentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('atendimentos', function (Blueprint $table) {
-            $table->bigIncrements('codigo');
+        Schema::create('imagens_site', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('path');
             $table->integer('sitcodigo');
-            $table->date('dataInicio')->nullable();
-            $table->date('dataFim')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAtendimentosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('atendimentos');
+        Schema::dropIfExists('imagens_site');
     }
 }
