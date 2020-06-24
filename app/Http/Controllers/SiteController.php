@@ -14,10 +14,10 @@ class SiteController extends Controller
 		return view('company.list', compact('clientes'));
 	}
 
-	public function showSites(int $codigo) {
-		$cliente = Cliente::find($codigo);
+	public function showClientSites($clicodigo) {
+		$cliente = Cliente::find($clicodigo);
 
-		$sites = Site::where('clicodigo', $codigo)->get();
+		$sites = Site::where('clicodigo', $clicodigo)->get();
 
 		foreach ($sites as $site) {
 			preg_match('#\((.*?)\)#', $site->sitename, $match);
@@ -25,5 +25,16 @@ class SiteController extends Controller
 		}
 
 		return view('company.info', compact('cliente', 'sites'));
+	}
+
+	public function showSite($sitcodigo) {
+		return view('tower.index', compact('sitcodigo'));
+	}
+
+	public function salvarImagemTorre($sitcodigo, Request $request) {
+		$nomeTorreEstacao = Site::find($sitcodigo)->estacao.".png";
+	    $request->file('imagem')->storeAs('site', $nomeTorreEstacao, 'public');
+
+	    return;
 	}
 }
