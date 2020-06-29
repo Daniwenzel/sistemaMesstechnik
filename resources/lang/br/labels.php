@@ -33,5 +33,5 @@ return [
     'current_password' => 'Senha Atual',
     'new_password' => 'Nova Senha',
     'confirm_new_password' => 'Confirme a Nova Senha',
-
+    'search_station_by_id' => 'Digite um codigo estação...'
 ];

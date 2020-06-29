@@ -33,6 +33,5 @@ return [
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'confirm_new_password' => 'Confirm New Password',
-
-
+    'search_station_by_id' => 'Type a station identifier...'
 ];
