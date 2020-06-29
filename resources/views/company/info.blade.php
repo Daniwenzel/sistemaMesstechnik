@@ -2,18 +2,15 @@
 
 @section('content')
     @foreach($sites as $site)
-     <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">{{ $site->nome }}</h4>
-
-                <p>{{ $site->codigo }}</p>
-                <p>{{ $site->estacao }}</p>
-                <p>{{ $site->sitename }}</p>
-                <p>{{ $site->ultenvio }}</p>
-            </div>
-        </div>
-    </div>
+        <news-post 
+            :nome='@json($site->nome)'
+            :codigo='@json($site->codigo)'
+            :estacao='@json($site->estacao)'
+            :sitename='@json($site->sitename)'
+            :ultenvio='@json($site->ultenvio)'
+            :path='@json($site->imagemPath)'
+            :route='@json(route("site.index", $site->codigo))'
+        ></news-post>
     <hr>
     @endforeach
 @endsection
