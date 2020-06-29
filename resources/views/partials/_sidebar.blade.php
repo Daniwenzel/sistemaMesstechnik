@@ -1,15 +1,5 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-<!--        <li class="nav-item">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                <a class="navbar-brand brand-logo" href="{{ route('dashboard.index') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="Imagem logo" />
-                </a>
-                <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard.index') }}">
-                    <img class="img-xs rounded-circle" src="{{ asset('images/auth/logo.png') }}" alt="Imagem perfil">
-                </a>
-            </div>
-        </li>-->
         <li class="nav-item nav-profile">
             <div class="nav-link">
                 <div class="user-wrapper">
@@ -19,8 +9,8 @@
                     <div class="text-wrapper">
                         <p class="profile-name">{{ Auth::user()->name }}</p>
                         <div>
-                            <small class="designation text-muted">{{ Auth::user()->empresa->nome }}</small>
                             <span class="status-indicator online"></span>
+                            <small class="designation text-muted">{{ Auth::user()->getRoleNames()->first() }}</small>
                         </div>
                     </div>
                 </div>
