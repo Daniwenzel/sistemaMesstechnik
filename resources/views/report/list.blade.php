@@ -8,7 +8,7 @@
                 <form method="get" action="{{ route('reports.list') }}" class="navbar-form navbar-left mt-4">
                     <div class="form-group">
                         <div class="input-group">
-                            <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search') }}">
+                            <input name="search" type="text" class="form-control" placeholder="{{ __('labels.search_station_by_id') }}">
                             <div class="input-group-append bg-primary border-primary">
                                 <button type="submit" class="btn input-group-text bg-transparent card-button">
                                     <i class="mdi mdi-magnify text-white"></i>
