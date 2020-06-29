@@ -17,4 +17,8 @@ class Site extends Model
     public function sites() {
         return $this->belongsTo('Messtechnik\Models\Cliente', 'clicodigo', 'codigo');
     }
+
+    public function imagem() {
+        return $this->hasMany('Messtechnik\Models\ImagemSite', 'sitcodigo', 'codigo');
+    }
 }

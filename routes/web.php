@@ -42,13 +42,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/reports/compareEpe', 'ReportController@compareEpe')->name('reports.compareepe');
 
     Route::get('/clients', 'SiteController@index')->name('company.index');
-
     Route::get('/clients/{clicodigo}', 'SiteController@showClientSites')->name('company.sites');
 
     Route::get('/log', 'LogController@showLog')->name('log.index');
 
     Route::get('/site/{sitcodigo}', 'SiteController@showSite')->name('site.index');
-
     Route::post('/site/{sitcodigo}', 'SiteController@salvarImagemTorre')->name('salvar.imagem.site');
 
 //    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
