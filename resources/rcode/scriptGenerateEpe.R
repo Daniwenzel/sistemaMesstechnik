@@ -21,14 +21,19 @@ epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/storage/app/public/epe/'
 # Le arquivo EPE, remove o cabeçalho e linhas não utilizadas ("dados","fimdados"), e salva em outro arquivo para que o R consiga ler
 arqOriginal <- file(paste0(epeDir,epeArquivo))
 arqModificado <- file(paste0(epeDir,'MOD-',epeArquivo))
-lines <- readLines(arqOriginal)
-dados <- lines[-c(1:27,29,length(lines))]
-writeLines(dados,arqModificado)
+linhas <- readLines(arqOriginal)
+dados <- linhas[grepl('^[[:digit:]]',linhas)]
+
+nroColunas <- str_count(dados[1],'\\|')
+cabecalho <- paste0("CH",str_pad(1:nroColunas, 2, pad = "0"),"|",collapse = '')
+
+writeLines(c(cabecalho,dados),arqModificado)
+
 close(arqOriginal)
 close(arqModificado)
 
 # Busca pelo codigo da estacao na linha 1
-codigoEstacaoTorre <- str_pad(parse_number(lines[1]), 6, pad="0")
+codigoEstacaoTorre <- str_pad(parse_number(linhas[1]), 6, pad="0")
 
 # FAZER FILTRO VERIFICAR SE ENCONTROU UM CODIGOESTACAO VALIDO, CASO NAO, SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
 
@@ -49,8 +54,12 @@ dados$DTAREG <- as.POSIXct(paste(dados$CH01,dados$CH02,sep=' '), format="%Y-%m-%
 con <- dbConnect(odbc::odbc(),dsn='measurs')
 
 torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
-nomeTorre <- str_extract(string = torre$SITENAME, pattern = "\\([^()]+\\)")
-nomeTorre <- substring(nomeTorre,2,nchar(nomeTorre)-1)
+if(nrow(torre) > 0) {
+  nomeTorre <- str_extract(string = torre$SITENAME, pattern = "\\([^()]+\\)")
+  nomeTorre <- substring(nomeTorre,2,nchar(nomeTorre)-1)
+} else {
+  nomeTorre = codigoEstacaoTorre  
+}
 
 # Cria o diretorio da torre, caso ainda nao exista
 dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
@@ -70,7 +79,7 @@ for (iC in canais) {
                         breaks = c(nomeTorre),
                         values = c(cor)) +
     scale_x_datetime(date_breaks = "12 hours" , date_labels = "%d/%b %R") +
-    labs(title=lines[iC+3],
+    labs(title=linhas[iC+3],
          x=' ',
          y=' ') +
     theme(axis.text.x=element_text(size=8, angle=45, hjust=1),
@@ -85,11 +94,11 @@ for (iC in canais) {
 
 # Cria um dataframe com as colunas 11 e 17 (medias das windvanes), e usa um regex que filtra strings dentro de parenteses (altura) nas linhas 14 e 20
 windvanes <- dados[c(11,17)]
-names(windvanes) <- c(gsub(".*\\((.*)\\).*", "\\1", lines[14]),gsub(".*\\((.*)\\).*", "\\1", lines[20]))
+names(windvanes) <- c(gsub(".*\\((.*)\\).*", "\\1", linhas[14]),gsub(".*\\((.*)\\).*", "\\1", linhas[20]))
 
 # Cria um dataframe com as colunas 7, 13 e 19 (medias dos anemometros), e usa um regex que filtra strings dentro de parenteses (altura) nas linhas 10, 16 e 22
 anemometros <- dados[c(7,13,19)]
-names(anemometros) <- c(gsub(".*\\((.*)\\).*", "\\1", lines[10]),gsub(".*\\((.*)\\).*", "\\1", lines[16]),gsub(".*\\((.*)\\).*", "\\1", lines[22]))
+names(anemometros) <- c(gsub(".*\\((.*)\\).*", "\\1", linhas[10]),gsub(".*\\((.*)\\).*", "\\1", linhas[16]),gsub(".*\\((.*)\\).*", "\\1", linhas[22]))
 
 # Extrai os valores numericos das strings de altura, substituindo caracteres (underlines, hifens, virgulas) para atender o formato numerico
 wvAlturas <- as.numeric(gsub("_|-|,",".",gsub("m","",names(windvanes))))

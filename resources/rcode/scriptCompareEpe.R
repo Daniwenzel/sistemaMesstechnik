@@ -20,26 +20,29 @@ segundoArquivoEpe <- args[2]
 # Diretório que o webserver salva os arquivos EPE carregados
 epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/storage/app/public/epe/'
 
+# Cria handlers para os arquivos originais e modificados (modificado=contem apenas a linha dos nomes "CH01|CH02.." e os dados)
 primeiroOriginal <- file(paste0(epeDir,primeiroArquivoEpe))
 primeiroModificado <- file(paste0(epeDir,'MOD-',primeiroArquivoEpe))
 segundoOriginal <- file(paste0(epeDir,segundoArquivoEpe))
 segundoModificado <- file(paste0(epeDir,'MOD-',segundoArquivoEpe))
 
+# Le o arquivo EPE original, busca pelas linhas que iniciam por um digito (ou seja, linhas de dados), ignorando o cabeçalho
+# Todas as linhas validas possuem a data no inicio
 primeiraLinhas <- readLines(primeiroOriginal)
 primeiraDados <- primeiraLinhas[grepl('^[[:digit:]]',primeiraLinhas)]
 segundaLinhas <- readLines(segundoOriginal)
 segundaDados <- segundaLinhas[grepl('^[[:digit:]]',segundaLinhas)]
 
-# Gera um cabeçalho com o numero total de colunas 
+# Gera um cabeçalho com o numero total de colunas, contando o numero de '|' da primeira linha
 primeiraNroColunas <- str_count(primeiraDados[1],'\\|')
 primeiraCabecalho <- paste0("CH",str_pad(1:primeiraNroColunas, 2, pad = "0"),"|",collapse = '')
 segundaNroColunas <- str_count(segundaDados[1],'\\|')
 segundaCabecalho <- paste0("CH",str_pad(1:segundaNroColunas, 2, pad = "0"),"|",collapse = '')
 
+# Escreve no handler do arquivo modificado, o cabecalho gerado e os dados
 writeLines(c(primeiraCabecalho,primeiraDados),primeiroModificado)
 writeLines(c(segundaCabecalho,segundaDados),segundoModificado)
 
-# Escreve o resultado no arquivo modificado e fecha os handlers
 close(primeiroOriginal)
 close(primeiroModificado)
 close(segundoOriginal)
@@ -49,12 +52,10 @@ close(segundoModificado)
 codigoEstacaoPrimeiraTorre <- str_pad(parse_number(primeiraLinhas[1]), 6, pad="0")
 codigoEstacaoSegundaTorre <- str_pad(parse_number(segundaLinhas[1]), 6, pad="0")
 
-# FAZER FILTRO VERIFICAR SE ENCONTROU UM CODIGOESTACAO VALIDO, CASO NAO, SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
-
 # Lista com possiveis caracteres (tamanho fixo = 5), que precisam ser alterados para NA na leitura
 stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ")
 
-# Le arquivo modificado e remove coluna "X", criada sem necessidade
+# Le arquivo modificado e remove coluna "X" criada
 primeiraDados <- read.table(paste0(epeDir,'MOD-',primeiroArquivoEpe),header=TRUE,sep='|',dec=',',na.strings=stringsNa)
 primeiraDados <- Filter(function(x) !all(is.na(x)), primeiraDados)
 segundaDados <- read.table(paste0(epeDir,'MOD-',segundoArquivoEpe),header=TRUE,sep='|',dec=',',na.strings=stringsNa)
@@ -73,12 +74,22 @@ segundaDados$DTAREG <- as.POSIXct(paste(segundaDados$CH01,segundaDados$CH02,sep=
 # Conexao com banco de primeiraDados, dsn nomeado measurs configurado dentro do servidor
 con <- dbConnect(odbc::odbc(),dsn='measurs')
 
+# Caso a torre nao estiver armazenada no banco de dados, utiliza o codigo estacao como identificador
 primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoPrimeiraTorre,"'"))
-nomePrimeiraTorre <- str_extract(string = primeiraTorre$SITENAME, pattern = "\\([^()]+\\)")
-nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
+if(nrow(primeiraTorre) > 0) {
+  nomePrimeiraTorre <- str_extract(string = primeiraTorre$SITENAME, pattern = "\\([^()]+\\)")
+  nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
+} else {
+  nomePrimeiraTorre = codigoEstacaoPrimeiraTorre
+}
+
 segundaTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoSegundaTorre,"'"))
-nomeSegundaTorre <- str_extract(string = segundaTorre$SITENAME, pattern = "\\([^()]+\\)")
-nomeSegundaTorre <- substring(nomeSegundaTorre,2,nchar(nomeSegundaTorre)-1)
+if(nrow(segundaTorre) > 0) {
+  nomeSegundaTorre <- str_extract(string = segundaTorre$SITENAME, pattern = "\\([^()]+\\)")
+  nomeSegundaTorre <- substring(nomeSegundaTorre,2,nchar(nomeSegundaTorre)-1)
+} else {
+  nomeSegundaTorre = codigoEstacaoSegundaTorre  
+}
 
 # Cria o diretorio da torre, caso ainda nao exista
 maiorCodigo <- max(c(codigoEstacaoPrimeiraTorre, codigoEstacaoSegundaTorre))

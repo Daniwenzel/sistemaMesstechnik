@@ -119,12 +119,14 @@ class ReportController extends Controller
                 $primeiraTorre = $this->getTorreByEstacao($arr[0]); 
                 $segundaTorre = $this->getTorreByEstacao($arr[1]);
 
-                $titulo = 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME;
+                //$titulo = 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME;
+                $titulo = $primeiraTorre && $segundaTorre ? 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME : 'Correlação torres: '.$arr[0].' e '.$arr[1];
             }
             else {
                 $primeiraTorre = $this->getTorreByEstacao($folder);
 
-                $titulo = 'Torre '.$primeiraTorre->NOME;
+               // $titulo = 'Torre '.$primeiraTorre->NOME;
+                $titulo = $primeiraTorre ? 'Torre '.$primeiraTorre->NOME : 'Torre '.$folder;
             }
             
         	return view('report.plots', compact(['fullPlotsPath','titulo']));
@@ -153,7 +155,7 @@ class ReportController extends Controller
                 if (is_null($request->search)) {
                     $nomes[$pasta] = $nome;
                 }
-                elseif (stripos($nome, $request->search) !== false) {
+                elseif (stripos($pasta, $request->search) !== false) {
                     $nomes[$pasta] = $nome;
                 }
             }
@@ -220,6 +222,7 @@ class ReportController extends Controller
                 $rawResponse = shell_exec($cmd);
                 $response = explode("\n", $rawResponse);
 
+                // Chama a função showPlots enviando a pasta (codigo estacao) como parametro, e as mensagens pela session
                 return redirect()->route('reports.plots', array('folder' => substr($nomeArquivo,0,6)))->with('message', $response);
             }
         }
