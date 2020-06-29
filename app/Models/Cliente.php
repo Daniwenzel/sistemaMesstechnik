@@ -15,7 +15,7 @@ class Cliente extends Model
     protected $fillable = ['codigo', 'razaosocial', 'endereco'];
 
     public function users() {
-        return $this->hasMany('Messtechnik\User', 'clicodigo', 'codigo');
+        return $this->hasMany('Messtechnik\Models\User', 'clicodigo', 'codigo');
     }
 
    public function torres() {
