@@ -1,17 +1,17 @@
 <template>
-    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="col-lg-12 grid-margin site-button-card">
         <div class="card card-button" @click="showSiteInfo">
             <div class="card-body">
                 <h4 class="card-title">{{ nome }}</h4>
                 <div class="row">
                     <div class="col-md-6">
-                        <p>codigo: {{ codigo }}</p>
-                        <p>estacao: {{ estacao }}</p>
-                        <p>sitename: {{ sitename }}</p>
-                        <p>ultenvio: {{ ultenvio }}</p>
+                        <p>Código: {{ codigo }}</p>
+                        <p>Estação: {{ estacao }}</p>
+                        <p>Nome do site: {{ sitename }}</p>
+                        <p>Último envio EPE: {{ ultenvio }}</p>
                     </div>
                     <div class="col-md-6">
-                        <div class="site-image-container">
+                        <div class="card-img-holder card-img-absolute">
                             <img :src="path" class="site-image">
                         </div>
                     </div>
@@ -33,6 +33,18 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .site-button-card {
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
+    }
+    .site-image-container {
+        height: 40vh;
+        width: 25vw;
+    }
+    .site-image {
+        max-width: 100%;
+	    max-height: 100%;
+    }
 </style>
