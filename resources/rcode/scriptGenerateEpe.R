@@ -15,10 +15,10 @@ epeArquivo <- args[1]
 #epeArquivo <- '000571_20200201_20200215.txt'
 
 
-# Diret�rio que o webserver salva os arquivos EPE carregados
+# Diretorio que o webserver salva os arquivos EPE carregados
 epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/storage/app/public/epe/'
 
-# Le arquivo EPE, remove o cabe�alho e linhas n�o utilizadas ("dados","fimdados"), e salva em outro arquivo para que o R consiga ler
+# Le arquivo EPE, remove o cabecalho e linhas que nao sao utilizadas ("dados","fimdados"), e salva em outro arquivo para que o R consiga ler
 arqOriginal <- file(paste0(epeDir,epeArquivo))
 arqModificado <- file(paste0(epeDir,'MOD-',epeArquivo))
 linhas <- readLines(arqOriginal)
@@ -45,7 +45,7 @@ dados <- read.table(paste0(epeDir,'MOD-',epeArquivo),header=TRUE,sep='|',dec=','
 dados$X <- NULL
 #dados2 <- data.frame(lapply(dados, function(x) { gsub("^([ ]*-[ ]*)$", NA, x) }))
 
-# Converte o tipo da coluna CH01 para "data" e adiciona os 0's � esquerda da coluna CH02 que foram removidos durante a leitura 
+# Converte o tipo da coluna CH01 para "data" e adiciona os 0's a esquerda da coluna CH02 que foram removidos durante a leitura 
 dados <- dados %>% mutate(CH01 = as.Date(as.character(CH01), "%Y%m%d"))
 dados$CH02 <- str_pad(dados$CH02, 6, pad="0")
 dados$DTAREG <- as.POSIXct(paste(dados$CH01,dados$CH02,sep=' '), format="%Y-%m-%d %H%M%S")
@@ -117,17 +117,17 @@ for (iW in 1:length(wvAlturas)) {
   ggsave(file=paste0("rosaventos-",iW,".png"), plot=rosaVentos, device="png", path=plotsDir, height=4, width=8)
 }
 
-# Se, ao final do script, o indice dos la�os 'for' dos plots alcan�ar o �ltimo valor possivel, os plots foram criados com sucesso
-if(iC == 19 && iW == length(wvAlturas)) {
+# Se, ao final do script, o indice dos lacos de repeticao 'for(iW...), for(iC...)' dos plots alcancar o ultimo valor possivel, os plots foram criados com sucesso
+if(iC == canais[length(canais)] && iW == length(wvAlturas)) {
   cat("Plots gerados com sucesso!\n")
 } else {
-  cat("Houve uma falha na gera��o dos plots.\n")
+  cat("Houve uma falha na geracao dos plots.\n")
 }
 
-# Todas os intervalos temporais possiveis dentro de 1 dia
+# Todas os possiveis periodos dentro de 1 dia de medicao
 periodos <- c('000000','001000','002000','003000','004000','005000','010000','011000','012000','013000','014000','015000','020000','021000','022000','023000','024000','025000','030000','031000','032000','033000','034000','035000','040000','041000','042000','043000','044000','045000','050000','051000','052000','053000','054000','055000','060000','061000','062000','063000','064000','065000','070000','071000','072000','073000','074000','075000','080000','081000','082000','083000','084000','085000','090000','091000','092000','093000','094000','095000','100000','101000','102000','103000','104000','105000','110000','111000','112000','113000','114000','115000','120000','121000','122000','123000','124000','125000','130000','131000','132000','133000','134000','135000','140000','141000','142000','143000','144000','145000','150000','151000','152000','153000','154000','155000','160000','161000','162000','163000','164000','165000','170000','171000','172000','173000','174000','175000','180000','181000','182000','183000','184000','185000','190000','191000','192000','193000','194000','195000','200000','201000','202000','203000','204000','205000','210000','211000','212000','213000','214000','215000','220000','221000','222000','223000','224000','225000','230000','231000','232000','233000','234000','235000')
 
-# Para cada dia do intervalo escolhido, verifica se a quantidade de registros � != 144, se for menor, busca pela data ausente, se for maior, busca por datas duplicadas
+# Para cada dia do intervalo escolhido, verifica se a quantidade de registros eh != 144, se for menor, busca pela data ausente, se for maior, busca por datas duplicadas
 for(i in 1:length(unique(dados$CH01))) {
   quantidadeRegistros <- sum(dados$CH01 == unique(dados$CH01)[i])
   if(quantidadeRegistros < 144) {
