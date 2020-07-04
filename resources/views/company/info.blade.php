@@ -2,7 +2,7 @@
 
 @section('content')
     @foreach($sites as $site)
-        <news-post 
+        <site-card 
             :nome='@json($site->nome)'
             :codigo='@json($site->codigo)'
             :estacao='@json($site->estacao)'
@@ -10,7 +10,7 @@
             :ultenvio='@json($site->ultenvio)'
             :path='@json($site->imagemPath)'
             :route='@json(route("site.index", $site->codigo))'
-        ></news-post>
+        ></site-card>
     <hr>
     @endforeach
 @endsection

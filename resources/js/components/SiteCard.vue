@@ -1,6 +1,6 @@
 <template>
-    <div class="col-lg-12 grid-margin site-button-card">
-        <div class="card card-button" @click="showSiteInfo">
+    <div class="col-lg-12 grid-margin">
+        <div class="card site-button-card" @click="showSiteInfo">
             <div class="card-body">
                 <h4 class="card-title">{{ nome }}</h4>
                 <div class="row">
@@ -39,12 +39,16 @@
         align-items: stretch;
         justify-content: stretch;
     }
+    .site-button-card:hover {
+        cursor: pointer;
+        opacity: 0.4;
+    }
     .site-image-container {
         height: 40vh;
         width: 25vw;
     }
     .site-image {
-        max-width: 100%;
-	    max-height: 100%;
+        max-width: 50%;
+	    max-height: 50%;
     }
 </style>
