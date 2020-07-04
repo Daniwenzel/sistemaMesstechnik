@@ -8,7 +8,7 @@
                 <div class="card-body">
                      <div class="row">
                         <div class="col-6">
-                            <h4 class="card-title">{{ __('Utilizando arquivos EPE') }}</h4>
+                            <h3 class="h3">{{ __('Utilizando arquivos EPE') }}</h3>
 
                             <form name="plotsCorrelacao" method="POST" action="{{ route('reports.compareepe') }}" enctype="multipart/form-data">
                                 @csrf
@@ -21,7 +21,7 @@
                             </form>
                         </div>
                         <div class="col-6">
-                            <h4 class="card-title">{{ __('Ou os códigos das estações') }}</h4>
+                            <h3 class="h3">{{ __('Utilizando códigos das estações') }}</h3>
                             <div class="form-group">
                                 <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Estação da 1ª torre') }}</label>
                                 <div class="col-md-6">
@@ -46,8 +46,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <button id="compareTowers" name="compareTowers">
-                                <i class="mdi mdi-upload">{{ __('Gerar Plots') }}</i>
+                            <button class="btn btn-inverse-success" id="compareTowers" name="compareTowers">
+                                <i class="mdi mdi-upload btn-icons">{{ __('Gerar Plots') }}</i>
                             </button>
                         </div>
                     </div>

@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <h4 class="card-title">{{ __('Utilizando arquivo EPE') }}</h4>
+                            <h3 class="h3">{{ __('Utilizando arquivo EPE') }}</h3>
 
                             <form name="plotsTorre" method="POST" action="{{ route('reports.torreepe') }}" enctype="multipart/form-data">
                                 @csrf
@@ -18,7 +18,7 @@
                             </form>
                         </div>
                         <div class="col-6">
-                            <h4 class="card-title">{{ __('Ou o código estação da torre') }}</h4>
+                            <h3 class="h3">{{ __('Utilizando código estação da torre') }}</h3>
                             <div class="form-group">
                                 <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Código estação da torre') }}</label>
                                 <div class="col-md-6">
@@ -35,8 +35,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <button id="generatePlots" name="generatePlots">
-                                <i class="mdi mdi-upload">{{ __('Gerar Plots') }}</i>
+                            <button class="btn btn-inverse-success" id="generatePlots" name="generatePlots">
+                                <i class="mdi mdi-upload btn-icons">{{ __('Gerar Plots') }}</i>
                             </button>
                         </div>            
                     </div>
