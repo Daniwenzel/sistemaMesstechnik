@@ -23,5 +23,4 @@ mix.js('resources/js/app.js', 'public/js')
         'public/css/materialdesignicons.css'
     ], 'public/css/all.css')
     .copy('node_modules/animate.css/animate.min.css', 'public/css')
-    .copy('resources/js/chart.js', 'public/js')
     .copy('resources/images', 'public/images');
