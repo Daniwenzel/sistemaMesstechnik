@@ -16,7 +16,8 @@ class CreateAtendimentosTable extends Migration
         Schema::create('atendimentos', function (Blueprint $table) {
             $table->bigIncrements('codigo');
             $table->integer('sitcodigo');
-            $table->date('dataInicio')->nullable();
+            $table->char('descricao', 255);
+            $table->date('dataInicio');
             $table->date('dataFim')->nullable();
             $table->timestamps();
         });
