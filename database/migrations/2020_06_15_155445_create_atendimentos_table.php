@@ -17,6 +17,7 @@ class CreateAtendimentosTable extends Migration
             $table->bigIncrements('codigo');
             $table->integer('sitcodigo');
             $table->char('descricao', 255);
+            $table->char('tipo', 10);
             $table->date('dataInicio');
             $table->date('dataFim')->nullable();
             $table->timestamps();

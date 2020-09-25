@@ -16,6 +16,7 @@ class CreateSitesTable extends Migration
         Schema::create('site', function (Blueprint $table) {
             $table->integer('codigo'); // == CODIGO NO FIREBIRD
             $table->integer('clicodigo')->nullable();
+            $table->string('nomemms',60)->nullable();
             $table->string('dessite',60)->nullable();
             $table->string('latsite',10)->nullable();
             $table->string('lngsite',10)->nullable();

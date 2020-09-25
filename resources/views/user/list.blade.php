@@ -70,9 +70,8 @@
                                             </button>
                                         @endif
                                         @role('Admin')
-                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger 
-                                        {{ Auth::user()->id === $usuario->id ? 'hidden' : '' }}"
-                                        onclick="swalDeletarUsuario({{ $usuario->id }})" id="{{$usuario->id}}-btn" data-toggle="modal">
+                                        <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-user-delete 
+                                        {{ Auth::user()->id === $usuario->id ? 'hidden' : '' }}" usuario="{{ $usuario->id }}" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                         @endrole

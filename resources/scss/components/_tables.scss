@@ -1,6 +1,7 @@
 /* Tables */
 .table {
   margin-bottom: 0;
+  table-layout: fixed;
 
   thead {
     th {
@@ -20,7 +21,9 @@
     vertical-align: middle;
     font-size: $default-font-size;
     line-height: 1;
-    white-space: nowrap;
+    word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+    // white-space: nowrap;
 
     img {
       @extend .img-xs;

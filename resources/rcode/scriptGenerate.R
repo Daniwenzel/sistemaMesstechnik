@@ -11,22 +11,22 @@ suppressPackageStartupMessages(suppressWarnings({
 
 # Recebe como parametros da funcao, o codigo da estacao e as datas 
 args <- commandArgs(trailingOnly = TRUE)
-codigoEstacaoTorre <- args[1]
+codEstacaoTorre <- args[1]
 dataInicio <- args[2]
 dataFim <- args[3]
 
-#codigoEstacaoTorre <- '000575'
+#codEstacaoTorre <- '000575'
 #dataInicio <- '2020-05-01'
 #dataFim <- '2020-05-15'
 
 # Conexao com banco de dados, dsn nomeado measurs configurado dentro do servidor
 con <- dbConnect(odbc::odbc(),dsn='measurs')
 
-torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
+torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codEstacaoTorre,"'"))
 
 # Cria uma pasta para a torre dentro do MMS
 dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
-plotsDir <- paste0(dir,torre$ESTACAO)
+plotsDir <- paste0(dir,codEstacaoTorre)
 dir.create(file.path(plotsDir), showWarnings = FALSE)
 invisible(do.call(file.remove, list(list.files(plotsDir, full.names = TRUE))))
 
@@ -40,15 +40,11 @@ dados <- data.frame(DTAREG = as.character(round_date(dados, "minute")))
 row.names(dados) <- NULL
 
 # Seleciona todos os codigos e nomes dos sensores da torre, que estao presentes nas leituras do periodo definido
-qrySensores <- paste0("SELECT DISTINCT(reg.FLDCODIGO),fld.FLDNAME,(SELECT epe.DESCANAL FROM EPECANAIS epe ",
-                      "JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO where med.FLDCODIGO=reg.FLDCODIGO) AS EPECANAL,",
-                      "(SELECT epe.ABRCANAL FROM EPECANAIS epe JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO WHERE ",
-                      "med.FLDCODIGO=reg.FLDCODIGO) AS ABRCANAL FROM REGDATA reg JOIN CFGFLD fld ON reg.FLDCODIGO=",
-                      "fld.CODIGO WHERE reg.DTAREG BETWEEN '",dplyr::first(dados$DTAREG),"' AND '",dplyr::last(dados$DTAREG),"' AND reg.SITCODIGO=",torre$CODIGO)
+qrySensores <- paste0("SELECT DISTINCT(reg.FLDCODIGO),fld.FLDNAME,(SELECT epe.DESCANAL FROM EPECANAIS epe JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO where med.FLDCODIGO=reg.FLDCODIGO) AS EPECANAL,(SELECT epe.ABRCANAL FROM EPECANAIS epe JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO WHERE med.FLDCODIGO=reg.FLDCODIGO) AS ABRCANAL FROM REGDATA reg JOIN CFGFLD fld ON reg.FLDCODIGO=fld.CODIGO WHERE reg.DTAREG BETWEEN '",dplyr::first(dados$DTAREG),"' AND '",dplyr::last(dados$DTAREG),"' AND reg.SITCODIGO=",torre$CODIGO)
 
 sensores <- dbGetQuery(con, qrySensores)
 
-# Filtra os sensores encontrados, mantendo sensores das medias e removendo sensores não utilizados
+# Filtra os sensores encontrados, mantendo sensores das medias e removendo sensores nao utilizados
 sensores <- dplyr::filter(sensores,grepl('Avg', FLDNAME))
 filtro_variaveis_dewi <- "Primary|Control|LBT|Vertical|Baro|Temp|Hum|Analog|Status|Frequency|Power"
 sensoresRemovidos <- sensores$FLDNAME[grepl(filtro_variaveis_dewi, sensores$FLDNAME)]
@@ -65,7 +61,7 @@ if(nrow(sensores) != 0) {
     # Nomeia a coluna com o FLDNAME do sensor
     names(sensor) <- c("DTAREG", sensores$FLDNAME[sensores$FLDCODIGO == i])
     
-    # quando o nome do sensor (coluna) já existe, altera o modo da tabela para não criar 2 colunas para o mesmo sensor (ocorre quando há + de 1 measurement)
+    # quando o nome do sensor (coluna) jï¿½ existe, altera o modo da tabela para nï¿½o criar 2 colunas para o mesmo sensor (ocorre quando hï¿½ + de 1 measurement)
     if (sensores$FLDNAME[sensores$FLDCODIGO == i] %in% names(dados)) {
       dados <- dados %>%
         pivot_longer(-DTAREG) %>%

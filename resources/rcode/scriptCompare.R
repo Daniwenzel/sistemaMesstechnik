@@ -12,32 +12,31 @@ suppressPackageStartupMessages(suppressWarnings({
 }))
 
 args <- commandArgs(trailingOnly = TRUE)
-torreRef <- str_pad(as.character(args[1]), 6, pad="0")
-torreSec <- str_pad(as.character(args[2]), 6, pad="0")
+codEstacaoTorreRef <- str_pad(as.character(args[1]), 6, pad="0")
+codEstacaoTorreSec <- str_pad(as.character(args[2]), 6, pad="0")
 dataInicio <- args[3]
 dataFim <- args[4]
 
-#torreRef <- str_pad(as.character('000473'), 6, pad="0")
-#torreSec <- str_pad(as.character('000474'), 6, pad="0")
+#codEstacaoTorreRef <- str_pad(as.character('000473'), 6, pad="0")
+#codEstacaoTorreSec <- str_pad(as.character('000474'), 6, pad="0")
 #dataInicio <- '2020-05-01'
 #dataFim <- '2020-05-15'
 
 con <- dbConnect(odbc::odbc(),dsn='measurs')
 
 # Busca pelo registro das torres, usando o codigo da estacao de cada uma
-primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",torreRef,"'"))
-segundaTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",torreSec,"'"))
+primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codEstacaoTorreRef,"'"))
+segundaTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codEstacaoTorreSec,"'"))
 
-# Fazer tratamento no nome da pasta, posicionando o maior codigo estacao por primeiro, para que nao seja criado 2 pastas
-# para a mesma correlacao (ex: 000148-000142 e 000142-000148)
+# Fazer tratamento no nome da pasta, posicionando o maior codigo estacao por primeiro, para que nao seja criado 2 pastas para a mesma correlacao (ex: 000148-000142 e 000142-000148)
 dir <- "C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/"
-maiorCodigo <- max(c(primeiraTorre$ESTACAO, segundaTorre$ESTACAO))
-menorCodigo <- min(c(primeiraTorre$ESTACAO, segundaTorre$ESTACAO))
+maiorCodigo <- max(c(codEstacaoTorreRef, codEstacaoTorreSec))
+menorCodigo <- min(c(codEstacaoTorreRef, codEstacaoTorreSec))
 plotsDir <- paste0(dir,maiorCodigo,"-",menorCodigo)
 dir.create(file.path(plotsDir), showWarnings = FALSE)
 invisible(do.call(file.remove, list(list.files(plotsDir, full.names = TRUE))))
 
-# Monta um dataframe com a sequencia de data/hora de acordo com as datas providas pelo usuario, usa como base para os dataframes de dados
+# Monta um dataframe com a sequencia de data/hora de acordo com a datas iniciais e finais providas pelo usuario, usa como base para os dataframes de dados
 dias <- seq(from = ymd(dataInicio), to = ymd(dataFim), by='days')
 horaminuto <- merge(0:23, seq(0, 50, by = 10))
 datetime <- merge(dias, chron(time = paste(horaminuto$x, ':', horaminuto$y, ':', 0)))
@@ -46,11 +45,7 @@ datetime$dt <- datetime$dt[order(datetime$dt)]
 row.names(datetime) <- NULL
 
 # Busca pelos codigos de sensores e registros EPE, de cada torre, presentes dentro do intervalo escolhido
-qrySensores <- paste0("SELECT DISTINCT(reg.FLDCODIGO),fld.FLDNAME,(SELECT epe.DESCANAL FROM EPECANAIS epe ",
-                      "JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO where med.FLDCODIGO=reg.FLDCODIGO) AS EPECANAL,",
-                      "(SELECT epe.ABRCANAL FROM EPECANAIS epe JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO WHERE ",
-                      "med.FLDCODIGO=reg.FLDCODIGO) AS ABRCANAL FROM REGDATA reg JOIN CFGFLD fld ON reg.FLDCODIGO=",
-                      "fld.CODIGO WHERE reg.DTAREG BETWEEN '",dataInicio," 00:00:00' AND '",dataFim," 23:50:00' AND reg.SITCODIGO=?")
+qrySensores <- paste0("SELECT DISTINCT(reg.FLDCODIGO),fld.FLDNAME,(SELECT epe.DESCANAL FROM EPECANAIS epe JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO where med.FLDCODIGO=reg.FLDCODIGO) AS EPECANAL,(SELECT epe.ABRCANAL FROM EPECANAIS epe JOIN MEDICAO med ON epe.CODIGO=med.EPECODIGO WHERE med.FLDCODIGO=reg.FLDCODIGO) AS ABRCANAL FROM REGDATA reg JOIN CFGFLD fld ON reg.FLDCODIGO=fld.CODIGO WHERE reg.DTAREG BETWEEN '",dataInicio," 00:00:00' AND '",dataFim," 23:50:00' AND reg.SITCODIGO=?")
 
 res <- dbSendQuery(con, qrySensores)
 dbBind(res,primeiraTorre$CODIGO)
@@ -79,7 +74,7 @@ if(nrow(primeiraSensores) != 0 & nrow(segundaSensores) != 0) {
   
   tryCatch({
     for (i in primeiraSensores$FLDCODIGO) {
-      # Para cada sensor, busca pelas suas medicoes, onde o DTAREG está entre o intervalo
+      # Para cada sensor, busca pelas suas medicoes, onde o DTAREG estï¿½ entre o intervalo
       sensor <- dbGetQuery(con, paste0("SELECT DTAREG, REGVALUE FROM REGDATA WHERE DTAREG between '",dataInicio," 00:00:00' and '",
                                        dataFim," 23:50:00' AND FLDCODIGO = ",i," ORDER BY DTAREG ASC"))
       # Remove os milisegundos da DTAREG
@@ -87,7 +82,7 @@ if(nrow(primeiraSensores) != 0 & nrow(segundaSensores) != 0) {
       # Nomeia a coluna com o FLDNAME do sensor
       names(sensor) <- c("DTAREG", primeiraSensores$FLDNAME[primeiraSensores$FLDCODIGO == i])
       
-      # quando o nome do sensor (coluna) já existe, altera o modo da tabela para NAO criar 2 colunas para o mesmo sensor (ocorre quando há + de 1 measurement)
+      # quando o nome do sensor (coluna) jï¿½ existe, altera o modo da tabela para NAO criar 2 colunas para o mesmo sensor (ocorre quando hï¿½ + de 1 measurement)
       if (primeiraSensores$FLDNAME[primeiraSensores$FLDCODIGO == i] %in% names(primeiraDados)) {
         primeiraDados <- primeiraDados %>%
           pivot_longer(-DTAREG) %>%
@@ -145,10 +140,10 @@ if(nrow(primeiraSensores) != 0 & nrow(segundaSensores) != 0) {
   tryCatch({
     for (iC in 2:ncol(primeiraDados)) {
       primeiraFld <- names(primeiraDados)[iC]
-      # O nome do segundo sensor é o FLDNAME da segundaTorre, buscando pelo FLDNAME que possui o canal EPE igual ao primeiro sensor 
+      # O nome do segundo sensor ï¿½ o FLDNAME da segundaTorre, buscando pelo FLDNAME que possui o canal EPE igual ao primeiro sensor 
       segundaFld <- segundaSensores$FLDNAME[segundaSensores$ABRCANAL == primeiraSensores$ABRCANAL[primeiraSensores$FLDNAME == primeiraFld]][1]
       
-      # Se o canal EPE for inexistente (ocorre quando é uma bateria, anemometro vertical...), utiliza o prefixo do primeiro sensor na busca
+      # Se o canal EPE for inexistente (ocorre quando ï¿½ uma bateria, anemometro vertical...), utiliza o prefixo do primeiro sensor na busca
       if(is.na(segundaFld)) {
         segundaFld <- segundaSensores$FLDNAME[startsWith(segundaSensores$FLDNAME, sub("(_|-).*$", "",primeiraFld))][1]
       }
@@ -156,10 +151,10 @@ if(nrow(primeiraSensores) != 0 & nrow(segundaSensores) != 0) {
       if(segundaFld %in% names(segundaDados)) {
         legendaPrimeiraTorre <- paste0(nomePrimeiraTorre,": ",primeiraFld)
         legendaSegundaTorre <- paste0(nomeSegundaTorre,": ",segundaFld)
-        # Atribui a descricao EPE do canal, até encontrar um dos caracteres especiais="," "[" "(" e ".", para o titulo do plot
+        # Atribui a descricao EPE do canal, atï¿½ encontrar um dos caracteres especiais="," "[" "(" e ".", para o titulo do plot
         tituloPlot <- trimws(word(primeiraSensores$EPECANAL[primeiraSensores$FLDNAME == primeiraFld][1],1,sep="\\,|\\[|\\(|\\."))
         
-        # Seta os parametros do plot e o salva dentro do diretorio da correlação
+        # Seta os parametros do plot e o salva dentro do diretorio da correlaï¿½ï¿½o
         plot <- ggplot() +
           geom_line(data = primeiraDados,aes(x=as.POSIXct(DTAREG), y=unlist(primeiraDados[, primeiraFld]),colour=legendaPrimeiraTorre),size=0.5) +
           geom_line(data = segundaDados,aes(x=as.POSIXct(DTAREG), y=unlist(segundaDados[,segundaFld]),colour=legendaSegundaTorre),size=0.5) +
@@ -185,11 +180,11 @@ if(nrow(primeiraSensores) != 0 & nrow(segundaSensores) != 0) {
         } 
       } # segundaFld %in% names(segundaDados)
       else {
-        segundaWarnings <- append(segundaWarnings,paste("O sensor",primeiraFld,",da torre",nomePrimeiraTorre,"não encontrou o sensor correspondente",segundaFld,",na torre",nomeSegundaTorre,"\n"))
+        segundaWarnings <- append(segundaWarnings,paste("O sensor",primeiraFld,",da torre",nomePrimeiraTorre,"nï¿½o encontrou o sensor correspondente",segundaFld,",na torre",nomeSegundaTorre,"\n"))
       }
     } #iC in 2:ncol(primeiraDados)
   }, error = function(err) {
-    message(paste0("Falha na geração dos plots:\n",err))
+    message(paste0("Falha na geraï¿½ï¿½o dos plots:\n",err))
     message("-\n")
   })
   

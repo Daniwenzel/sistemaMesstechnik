@@ -11,9 +11,7 @@
                         <p>Último envio EPE: {{ ultenvio }}</p>
                     </div>
                     <div class="col-md-6">
-                        <div class="card-img-holder card-img-absolute">
-                            <img :src="path" class="site-image">
-                        </div>
+                        <img :src="path" class="site-image float-right">
                     </div>
                 </div>
             </div>
@@ -43,12 +41,9 @@
         cursor: pointer;
         opacity: 0.4;
     }
-    .site-image-container {
-        height: 40vh;
-        width: 25vw;
-    }
     .site-image {
         max-width: 50%;
-	    max-height: 50%;
+        max-height: 50%;
+        right: 0;
     }
 </style>

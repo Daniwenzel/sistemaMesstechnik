@@ -17,10 +17,10 @@ mix.js('resources/js/app.js', 'public/js')
     // .sass('node_modules/font-awesome/scss/font-awesome.scss', 'public/css')
     // .sass('node_modules/sweetalert2/src/sweetalert2.scss', 'public/css')
     // .sass('node_modules/@mdi/font/scss/materialdesignicons.scss', 'public/css')
-    .styles([
-        'public/css/font-awesome.css',
-        'public/css/sweetalert2.css',
-        'public/css/materialdesignicons.css'
-    ], 'public/css/all.css')
+    // .styles([
+        // 'public/css/font-awesome.css',
+        // 'public/css/sweetalert2.css',
+        // 'public/css/materialdesignicons.css'
+    // ], 'public/css/all.css')
     .copy('node_modules/animate.css/animate.min.css', 'public/css')
     .copy('resources/images', 'public/images');

@@ -9,16 +9,17 @@ $(document).ready(function () {
                 name: 'page-transition',
                 to: {
                     namespace: [
-                        'user',
-                        'home',
-                        'company',
-                        'register-company',
-                        'roles',
-                        'tower',
-                        'user-config',
-                        'user-password',
-                        'log',
-                        'reports'
+                        'teste'
+                        // 'user',
+                        // 'home',
+                        // 'company',
+                        // 'register-company',
+                        // 'roles',
+                        // 'tower',
+                        // 'user-config',
+                        // 'user-password',
+                        // 'log',
+                        // 'reports'
                     ],
                 },
                 sync: true,
@@ -29,7 +30,7 @@ $(document).ready(function () {
                 },
                 enter: function () {
                     tl.to('.main-panel', 1, {opacity: 1});
-                    tl.to('.page-transition-top', 0.6, { ease: Expo.easeOut, x: "-100%"}, "-=1");
+                    tl.to('.page-transition-top', 0.6, { ease: Expo. easeOut, x: "-100%"}, "-=1");
                     tl.to('.page-transition-bot', 0.6, { ease: Expo.easeOut, x: "100%"}, "-=1");
                 }
             },

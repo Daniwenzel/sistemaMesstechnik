@@ -5,10 +5,11 @@ require('./password');
 require('./toggle-graph');
 require('./rcode');
 require('./hover-tabs');
-require('./datepicker');
+
+window.Plotly = require('plotly.js/dist/plotly-basic');
 
 window.Swal = require('sweetalert2');
-window.Chart = require('chart.js');
+//window.Chart = require('chart.js');
 
 window.Vue = require('vue');
 // window.barbaPrefetch = require('@barba/prefetch');

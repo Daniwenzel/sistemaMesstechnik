@@ -11,5 +11,8 @@ require('./transitions');
 require('moment');
 require('daterangepicker');
 require('./sweetalerts');
+require('./datepicker');
+
+// window.moment = require('moment');
 
 window.barba = require('@barba/core');

@@ -9,53 +9,43 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>
+                                <th style="width: 50%">
                                     Descrição
                                 </th>
-                                <th>
+                                <th style="width: 10%">
                                     Status
                                 </th>
-                                <th>
+                                <th style="width: 10%">
                                     Usuário
                                 </th>
-                                <th>
+                                <th style="width: 10%">
                                     Diretorio
                                 </th>
-                                <th>
+                                <th style="width: 20%">
                                     Data
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($logs as $log)
-                                @switch($log->status)
-                                    @case('Sucesso')
-                                    <tr class="alert-success card-button" onclick="swalMostrarMensagemLog('{{ $log->diretorio }}', '{{ $log->mensagem }}', 'success')">
-                                    @break
-                                    @case('Aviso')
-                                    <tr class="alert-warning card-button" onclick="swalMostrarMensagemLog('{{ $log->diretorio }}', '{{ $log->mensagem }}', 'warning')">
-                                    @break
-                                    @case('Erro')
-                                    <tr class="alert-danger card-button" onclick="swalMostrarMensagemLog('{{ $log->diretorio }}', '{{ $log->mensagem }}', 'error')">
-                                    @break
-                                @endswitch
-                                        <td>
-                                            {{ $log->mensagem }}
-                                        </td>
-                                        <td>
-                                            {{ $log->status }}
-                                        </td>
-                                        <td>
-                                            {{ $log->usuario }}
-                                        </td>
-                                        <td>
-                                            {{ $log->diretorio }}
-                                        </td>
-                                        <td>
-                                            {{ $log->created_at }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <tr class="alert-{{ $log->status }} card-button btn-log-show" diretorio="{{ $log->diretorio }}" mensagem="{{ $log->mensagem }}" status="{{ $log->status }}">
+                                    <td>
+                                        {{ $log->mensagem }}
+                                    </td>
+                                    <td>
+                                        {{ $log->status }}
+                                    </td>
+                                    <td>
+                                        {{ $log->usuario }}
+                                    </td>
+                                    <td>
+                                        {{ $log->diretorio }}
+                                    </td>
+                                    <td>
+                                        {{ $log->created_at }}
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -69,15 +59,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script type="text/javascript">
-        window.swalMostrarMensagemLog = function(diretorio, mensagem, tipo) {
-            Swal.fire({
-                type: tipo,
-                title: diretorio,
-                text: mensagem,
-            })
-        };
-    </script>
-@endpush

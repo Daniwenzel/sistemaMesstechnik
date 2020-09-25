@@ -18,7 +18,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard.index') }}">
-                <i class="menu-icon mdi mdi-television"></i>
+                <i class="menu-icon mdi mdi-home"></i>
                 <span class="menu-title">{{ __('buttons.dashboard') }}</span>
             </a>
         </li>
@@ -28,22 +28,28 @@
                 <span class="menu-title">{{ __('buttons.users') }}</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('company.index') }}">
+        <!-- <li class="nav-item">
+            <a class="nav-link" href=" route('company.index') ">
                 <i class="menu-icon mdi mdi-briefcase"></i>
                 <span class="menu-title">{{ __('buttons.company') }}</span>
             </a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('log.index') }}">
-                <i class="menu-icon mdi mdi-file-alert"></i>
+                <i class="menu-icon mdi mdi-clipboard-text-outline"></i>
                 <span class="menu-title">{{ __('buttons.log') }}</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('reports.index') }}">
-                <i class="menu-icon mdi mdi-graphql"></i>
+                <i class="menu-icon mdi mdi-poll"></i>
                 <span class="menu-title">{{ __('buttons.report') }}</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('stations.index') }}">
+                <i class="menu-icon mdi mdi-wind-turbine"></i>
+                <span class="menu-title">{{ __('Estações') }}</span>
             </a>
         </li>
     </ul>

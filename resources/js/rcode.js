@@ -119,3 +119,26 @@ $(document).ready(function () {
     $("#loading").removeClass('show');
   });
 });
+
+window.teste = async function() {
+  const teste = await fetch('/generateCsv')
+  const stringe = await teste.json();
+
+  TESTER = document.getElementById('tester');
+
+  Plotly.plot(TESTER, [{
+      x: [1, 2, 3, 4, 5],
+      y: [1, 2, 4, 8, 16] }], { 
+      margin: { t: 0 } }, {showSendToCloud:true} );
+  
+  /* Current Plotly.js version */
+  console.log( Plotly.BUILD );
+
+  console.log(stringe);
+}
+  // .then(function(response) {
+  //   console.log(response.arrayBuffer());
+    // console.log(response.blob());
+    // console.log(response.json());
+    // console.log(response.text());
+    // console.log(response.formData());

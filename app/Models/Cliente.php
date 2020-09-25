@@ -8,7 +8,7 @@ class Cliente extends Model
 {
     protected $connection = 'mysql';
 
-    protected $table = 'CLIENTE';
+    protected $table = 'cliente';
 
     protected $primaryKey = 'codigo';
 

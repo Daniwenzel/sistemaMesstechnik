@@ -17,6 +17,8 @@ class CreatePendenciasTable extends Migration
             $table->bigIncrements('codigo');
             $table->integer('sitcodigo');
             $table->text('descricao');
+            $table->char('gravidade', 10);
+            $table->char('status', 10);
             $table->timestamps();
         });
     }

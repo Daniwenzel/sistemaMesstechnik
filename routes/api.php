@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-*/
+// Route::middleware('auth:api')->post('/adicionarPendenciaSite', 'SiteController@adicionarPendenciaTorre')->name('adicionar.pendencia');
+
+// Route::middleware('auth:api')->post('/adicionarAtendimentoSite', 'SiteController@adicionarAtendimentoTorre')->name('adicionar.atendimento');
+
+// Route::middleware('auth:api')->post('/adicionarImagemSite', 'SiteController@salvarImagemTorre')->name('adicionar.imagem');

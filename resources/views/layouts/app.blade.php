@@ -14,9 +14,6 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
-
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/image.js') }}" type="text/javascript"></script>
@@ -53,10 +50,14 @@
 
 
 <!-- Deferred Styles -->
-<link rel="preload" href="{{ asset('css/all.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+<link rel="preload" href="{{ asset('css/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('css/style.css') }}"></noscript>
+
+<!-- <link rel="preload" href="{{ asset('css/all.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ asset('css/all.css') }}"></noscript>
 <link rel="preload" href="{{ asset('css/animate.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
+<noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript> -->
 
 <!-- Deferred Scripts -->
 

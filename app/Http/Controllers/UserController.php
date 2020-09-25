@@ -72,8 +72,8 @@ class UserController extends Controller
      *
      * @param $user_id
      */
-    public function destroy($user_id) {
-        User::find($user_id)->delete();
+    public function destroy($usuario_id) {
+        User::find($usuario_id)->delete();
     }
 
     /**

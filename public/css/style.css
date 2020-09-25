@@ -34067,6 +34067,7 @@ ul li {
 
 .table {
   margin-bottom: 0;
+  table-layout: fixed;
 }
 
 .table thead th {
@@ -34085,7 +34086,10 @@ ul li {
   vertical-align: middle;
   font-size: 13px;
   line-height: 1;
-  white-space: nowrap;
+  word-wrap: break-word;
+  /* All browsers since IE 5.5+ */
+  overflow-wrap: break-word;
+  /* Renamed property in CSS3 draft spec */
 }
 
 .table td img,

@@ -88,12 +88,12 @@ class ReportController extends Controller
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
-            $this->criarLog($request->diretorio,'Sucesso','Correlação das torres: '.$torreRef->NOME.' e '.$torreSec->NOME.' Criada com sucesso.');
+            $this->criarLog($request->diretorio,'success','Comparação das torres: '.$torreRef->NOME.' e '.$torreSec->NOME.' Criada com sucesso.');
 
             return;
         }
         else {
-            $this->criarLog($request->diretorio, "Erro", "Falha ao encontrar torre(s): ".$request->torreReferencia." = ".($torreRef->NOME ?? 'Inexistente').' e '.$request->torreSecundaria." = ".($torreSec->NOME ?? 'Inexistente'));
+            $this->criarLog($request->diretorio, "error", "Falha ao encontrar torre(s): ".$request->torreReferencia." = ".($torreRef->NOME ?? 'Inexistente').' e '.$request->torreSecundaria." = ".($torreSec->NOME ?? 'Inexistente'));
 
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
@@ -192,12 +192,12 @@ class ReportController extends Controller
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
-            $this->criarLog($request->diretorio,'Sucesso','Geração dos plots da torre '.$torreUm->NOME.' Criada com sucesso.');
+            $this->criarLog($request->diretorio,'success','Geração dos plots da torre '.$torreUm->NOME.' Criada com sucesso.');
             
             return;
         }
         else {
-            $this->criarLog($request->diretorio,'Erro','Falha ao encontrar torre com código estação = '.$request->primeiraTorre);
+            $this->criarLog($request->diretorio,'error','Falha ao encontrar torre com código estação = '.$request->primeiraTorre);
 
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
@@ -222,11 +222,15 @@ class ReportController extends Controller
                 $rawResponse = shell_exec($cmd);
                 $response = explode("\n", $rawResponse);
 
+                $folder = substr($nomeArquivo,0,6);
+
+                $this->criarLog($folder,'success','Geração arquivo EPE: '.$folder.' realizada com sucesso.');
+
                 // Chama a função showPlots enviando a pasta (codigo estacao) como parametro, e as mensagens pela session
-                return redirect()->route('reports.plots', array('folder' => substr($nomeArquivo,0,6)))->with('message', $response);
+                return redirect()->route('reports.plots', array('folder' => $folder))->with('message', $response);
             }
         }
-        // Caso ocorra algo inexperado, fora do fluxo normal da funcionalidade, retorna erro
+        // Caso ocorra algo inesperado, fora do fluxo normal da funcionalidade, retorna erro
         header('HTTP/1.1 500 Internal Server Error');
         header('Content-Type: application/json; charset=UTF-8');
         die(json_encode("Arquivo invalido! Não foi possivel salvar o arquivo.")); 
@@ -247,7 +251,7 @@ class ReportController extends Controller
 
             if ($primeiroUpload && $segundoUpload) {
                 // Atenção para alterações no diretório do projeto!
-                // Caso houver, modificar $cmd para atender as mudanças.
+                // Caso houver, modificar a string $cmd para atender as mudanças.
                 $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptCompareEpe.R '.$nomePrimeiroArq." ".$nomeSegundoArq." --vanilla 2>&1";
 
                 $rawResponse = shell_exec($cmd);
@@ -256,12 +260,27 @@ class ReportController extends Controller
                 $estacaoMaior = max(substr($nomePrimeiroArq, 0, 6), substr($nomeSegundoArq, 0, 6));
                 $estacaoMenor = min(substr($nomePrimeiroArq, 0, 6), substr($nomeSegundoArq, 0, 6));
 
-                return redirect()->route('reports.plots', array('folder' => $estacaoMaior.'-'.$estacaoMenor))->with('message', $response);
+                $folder = $estacaoMaior.'-'.$estacaoMenor;
+
+                $this->criarLog($folder,'success','Comparação arquivos EPE: '.$estacaoMaior.' e '.$estacaoMenor.' realizada com sucesso.');
+
+                return redirect()->route('reports.plots', array('folder' => $folder))->with('message', $response);
             }
         }
-        // Caso ocorra algo inexperado, fora do fluxo normal da funcionalidade, retorna erro
+        // Caso ocorra algo inesperado, retorna erro
         header('HTTP/1.1 500 Internal Server Error');
         header('Content-Type: application/json; charset=UTF-8');
         die(json_encode("Arquivo invalido! Não foi possivel salvar o arquivo."));
     }
+
+    public function generateCsv(Request $request) {
+        $file="C:\Users\adminpclnv03\Documents\dados.csv";
+        $csv= file_get_contents($file);
+        $array = array_map("str_getcsv", explode("\n", $csv));
+        // $json = json_encode($array);
+        // print_r($json);
+        
+        return response()->json($array);
+    }
+
 }

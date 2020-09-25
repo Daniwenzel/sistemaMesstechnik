@@ -50,15 +50,22 @@ dados <- dados %>% mutate(CH01 = as.Date(as.character(CH01), "%Y%m%d"))
 dados$CH02 <- str_pad(dados$CH02, 6, pad="0")
 dados$DTAREG <- as.POSIXct(paste(dados$CH01,dados$CH02,sep=' '), format="%Y-%m-%d %H%M%S")
 
-# Conexao com banco de dados, dsn nomeado measurs configurado dentro do servidor
-con <- dbConnect(odbc::odbc(),dsn='measurs')
+# Tenta conectar no database atraves do dsn measurs, e busca pelo registro do SITE usando o codigo estacao.
+tryCatch({
+  con <- dbConnect(odbc::odbc(),dsn='measurs')
+  torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
+  
+  if(nrow(torre) > 0) {
+    nomeTorre <- str_extract(string = torre$SITENAME, pattern = "\\([^()]+\\)")
+    nomeTorre <- substring(nomeTorre,2,nchar(nomeTorre)-1)
+  }
+}, error = function(err) {
+  message('Nao foi possivel conectar no banco de dados.\n')
+})
 
-torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
-if(nrow(torre) > 0) {
-  nomeTorre <- str_extract(string = torre$SITENAME, pattern = "\\([^()]+\\)")
-  nomeTorre <- substring(nomeTorre,2,nchar(nomeTorre)-1)
-} else {
-  nomeTorre = codigoEstacaoTorre  
+# Caso nao encontre, atribui codigo estacao no nomeTorre
+if(!exists('nomeTorre')) {
+  nomeTorre <- codigoEstacaoTorre
 }
 
 # Cria o diretorio da torre, caso ainda nao exista
@@ -71,26 +78,28 @@ invisible(do.call(file.remove, list(list.files(plotsDir, full.names = TRUE))))
 canais <- c(4,5,6,7,11,13,17,19)
 
 # Para cada canal, gera o plot das medicoes em relacao a data
-for (iC in canais) {
-  cor <- randomColor(luminosity = "dark")
-  plot <- ggplot() + 
-    geom_line(data = dados, aes(x=as.POSIXct(DTAREG), y=dados[,iC],colour=nomeTorre),size=0.3) +
-    scale_colour_manual("", 
-                        breaks = c(nomeTorre),
-                        values = c(cor)) +
-    scale_x_datetime(date_breaks = "12 hours" , date_labels = "%d/%b %R") +
-    labs(title=linhas[iC+3],
-         x=' ',
-         y=' ') +
-    theme(axis.text.x=element_text(size=8, angle=45, hjust=1),
-          legend.position="bottom",
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_blank(),
-          axis.line = element_line(colour = "black"))
-  # E salva uma imagem .png com o numero do canal como nome, dentro do diretorio da torre 
-  ggsave(file = paste0(names(dados[iC]),".png"), plot = plot, device = "png", path = plotsDir, height = 4, width = 8)
-}
+suppressWarnings({
+  for (iC in canais) {
+    cor <- randomColor(luminosity = "dark")
+    plot <- ggplot() + 
+      geom_line(data = dados, aes(x=as.POSIXct(DTAREG), y=dados[,iC],colour=nomeTorre),size=0.3) +
+      scale_colour_manual("", 
+                          breaks = c(nomeTorre),
+                          values = c(cor)) +
+      scale_x_datetime(date_breaks = "12 hours" , date_labels = "%d/%b %R") +
+      labs(title=linhas[iC+3],
+           x=' ',
+           y=' ') +
+      theme(axis.text.x=element_text(size=8, angle=45, hjust=1),
+            legend.position="bottom",
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.background = element_blank(),
+            axis.line = element_line(colour = "black"))
+    # E salva uma imagem .png com o numero do canal como nome, dentro do diretorio da torre 
+    ggsave(file = paste0(names(dados[iC]),".png"), plot = plot, device = "png", path = plotsDir, height = 4, width = 8)
+  }
+})
 
 # Cria um dataframe com as colunas 11 e 17 (medias das windvanes), e usa um regex que filtra strings dentro de parenteses (altura) nas linhas 14 e 20
 windvanes <- dados[c(11,17)]
@@ -142,4 +151,36 @@ for(i in 1:length(unique(dados$CH01))) {
   }
 }
 
-dbDisconnect(con)
+for (iD in 1:nrow(dados)) {
+  if((dados$CH04[iD] < 800 | dados$CH04[iD] > 1060) & !is.na(dados$CH04[iD])) {
+    cat(paste0("A leitura ", dados$CH04[iD]," esta inconsistente para o barometro (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH05[iD] < -15 | dados$CH05[iD] > 50) & !is.na(dados$CH05[iD])) {
+    cat(paste0("A leitura ", dados$CH05[iD]," esta inconsistente para o termometro (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH06[iD] < 0 | dados$CH06[iD] > 110) & !is.na(dados$CH06[iD])) {
+    cat(paste0("A leitura ", dados$CH06[iD]," esta inconsistente para o higrometro (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH07[iD] < 0 | dados$CH07[iD] > 50) & !is.na(dados$CH07[iD])) {
+    cat(paste0("A leitura ", dados$CH07[iD]," esta inconsistente para a media do anemometro superior (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH08[iD] < 0 | dados$CH08[iD] > 70) & !is.na(dados$CH08[iD])) {
+    cat(paste0("A leitura ", dados$CH08[iD]," esta inconsistente para a maxima do anemometro superior (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH13[iD] < 0 | dados$CH13[iD] > 50) & !is.na(dados$CH13[iD])) {
+    cat(paste0("A leitura ", dados$CH13[iD]," esta inconsistente para a media do anemometro inferior (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH14[iD] < 0 | dados$CH14[iD] > 70) & !is.na(dados$CH14[iD])) {
+    cat(paste0("A leitura ", dados$CH14[iD]," esta inconsistente para a maxima do anemometro inferior (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH19[iD] < 0 | dados$CH19[iD] > 50) & !is.na(dados$CH19[iD])) {
+    cat(paste0("A leitura ", dados$CH19[iD]," esta inconsistente para a media do anemometro intermediario (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+  if((dados$CH20[iD] < 0 | dados$CH20[iD] > 70) & !is.na(dados$CH20[iD])) {
+    cat(paste0("A leitura ", dados$CH20[iD]," esta inconsistente para a maxima do anemometro intermediario (",dados$CH01[iD]," ",dados$CH02[iD],")\n"))
+  }
+}
+
+if(exists('con')) {
+  dbDisconnect(con)
+}
