@@ -11,16 +11,11 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown nav-profile cursor-pointer">
                 <span class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" data-toggle="dropdown" aria-expanded="false">
-                <span class="profile-text">{{ __('buttons.hello',['attribute' => Auth::user()->name]) }}</span>
-            <!-- <span class="profile-text">{{ __('buttons.hello',['attribute' => Auth::user()->name]) }}</span>-->
-{{--                    @if(Auth::user()->getFirstMedia('profile'))--}}
-{{--                        <img class="img-xs rounded-circle" src="{{ Auth::user()->getFirstMedia('profile')->getUrl('avatar') }}" alt="Imagem perfil">--}}
-{{--                    @else--}}
+                <span class="profile-text">{{ __('buttons.hello',['attribute' => Auth::user()->nome]) }}</span>
                         <img class="img-xs rounded-circle" src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="Imagem perfil">
-{{--                    @endif--}}
-                </span>
+                    </span>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                    <a class="dropdown-item mt-2" href="{{ route('users.edit', Auth::user()->id) }}">
+                    <a class="dropdown-item mt-2" href="{{ route('users.edit', Auth::user()->codigo) }}">
                         {{ __('buttons.manage_account') }}
                     </a>
                     <a class="dropdown-item" href="{{ route('users.password') }}">

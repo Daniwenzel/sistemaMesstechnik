@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
 
-    protected $table = 'cliente';
+    protected $table = 'clientes';
 
     protected $primaryKey = 'codigo';
 
-    protected $fillable = ['codigo', 'razaosocial', 'endereco'];
+    protected $fillable = ['razaosocial', 'endereco'];
 
     public function users() {
         return $this->hasMany('Messtechnik\Models\User', 'clicodigo', 'codigo');

@@ -82,7 +82,7 @@ class UserController extends Controller
      * @param $user_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function edit($user_id) {
+    public function edit($user_id) {
         $user = User::find($user_id);
 //        $role = $user->getRoleNames()->first();
 

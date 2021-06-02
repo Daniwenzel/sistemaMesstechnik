@@ -9,7 +9,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th style="width: 50%">
+                                <th style="width: 40%">
                                     Descrição
                                 </th>
                                 <th style="width: 10%">
@@ -18,7 +18,7 @@
                                 <th style="width: 10%">
                                     Usuário
                                 </th>
-                                <th style="width: 10%">
+                                <th style="width: 20%">
                                     Diretorio
                                 </th>
                                 <th style="width: 20%">

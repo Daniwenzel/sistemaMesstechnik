@@ -23,14 +23,14 @@
                         <div class="col-6">
                             <h3 class="h3">{{ __('Utilizando códigos das estações') }}</h3>
                             <div class="form-group">
-                                <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Estação da 1ª torre') }}</label>
+                                <label for="primeiraTorre" class="col-md-4 control-label">{{ __('Código da 1ª Estação') }}</label>
                                 <div class="col-md-6">
                                     <input id="primeiraTorre" type="text" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="segundaTorre" class="col-md-4 control-label">{{ __('Estação da 2ª torre') }}</label>
+                                <label for="segundaTorre" class="col-md-4 control-label">{{ __('Código da 2ª Estação') }}</label>
                                 <div class="col-md-6">
                                     <input id="segundaTorre" type="text" class="form-control" required>
                                 </div>

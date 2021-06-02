@@ -14,11 +14,13 @@ class User extends Authenticatable
 
     protected $guard_name = 'web';
 
-    protected $table = 'users';
+    protected $table = 'usuarios';
 
-    protected $connection = 'mysql'; 
+    protected $connection = 'pgsql';
+    
+    protected $primaryKey = 'codigo';
 
-    protected $fillable = ['name', 'email', 'password', 'clicodigo'];
+    protected $fillable = ['nome', 'email', 'password', 'clicodigo'];
 
     protected $hidden = ['password', 'remember_token',];
 

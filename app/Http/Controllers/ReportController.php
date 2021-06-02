@@ -8,9 +8,12 @@ use Messtechnik\Models\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Messtechnik\Models\Site;
+use Messtechnik\Traits\Logs;
 
 class ReportController extends Controller
 {
+    use Logs;
+
     public function index() {
         return view('report.index');
     }
@@ -19,7 +22,7 @@ class ReportController extends Controller
     public function getTorreByEstacao(string $estacao) {
         $result = false;
 
-        $torre = DB::table('SITE')
+        $torre = DB::connection('mysql')->table('SITE')
         ->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO')
         ->where('SITE.ESTACAO','=',$estacao)
         ->get();
@@ -62,16 +65,6 @@ class ReportController extends Controller
         return view('report.correlation', compact('torres','grouped'));
     }
 
-    // Salva uma mensagem dentro do banco com o status da ação realizada
-    public function criarLog($diretorio, $status, $mensagem) {
-        Log::create([
-            'usuario' => Auth::user()->name,
-            'diretorio' => $diretorio,
-            'status' => $status,
-            'mensagem' => $mensagem
-            ])->save();
-    }
-
     public function compare(Request $request) {
         $torreRef = $this->getTorreByEstacao($request->torreReferencia);
         $torreSec = $this->getTorreByEstacao($request->torreSecundaria);
@@ -88,12 +81,12 @@ class ReportController extends Controller
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
-            $this->criarLog($request->diretorio,'success','Comparação das torres: '.$torreRef->NOME.' e '.$torreSec->NOME.' Criada com sucesso.');
+            $this->createLog($request->diretorio,'success','Comparação das torres: '.$torreRef->NOME.' e '.$torreSec->NOME.' Criada com sucesso.');
 
             return;
         }
         else {
-            $this->criarLog($request->diretorio, "error", "Falha ao encontrar torre(s): ".$request->torreReferencia." = ".($torreRef->NOME ?? 'Inexistente').' e '.$request->torreSecundaria." = ".($torreSec->NOME ?? 'Inexistente'));
+            $this->createLog($request->diretorio, "error", "Falha ao encontrar torre(s): ".$request->torreReferencia." = ".($torreRef->NOME ?? 'Inexistente').' e '.$request->torreSecundaria." = ".($torreSec->NOME ?? 'Inexistente'));
 
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
@@ -192,12 +185,12 @@ class ReportController extends Controller
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
-            $this->criarLog($request->diretorio,'success','Geração dos plots da torre '.$torreUm->NOME.' Criada com sucesso.');
+            $this->createLog($request->diretorio,'success','Geração dos plots da torre '.$torreUm->NOME.' Criada com sucesso.');
             
             return;
         }
         else {
-            $this->criarLog($request->diretorio,'error','Falha ao encontrar torre com código estação = '.$request->primeiraTorre);
+            $this->createLog($request->diretorio,'error', 'Falha ao encontrar torre com código estação = '.$request->primeiraTorre);
 
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
@@ -207,12 +200,12 @@ class ReportController extends Controller
 
     // Se houver um arquivo válido no request, armazena o arquivo dentro de "/storage/app/public/epe", e envia seu 'path' como parametro na chamada do scriptGenerateEpe.R
     public function generateEpe(Request $request) {
-        $arq = $request->file('arquivoEpe');
+        $arquivo = $request->file('arquivoEpe');
 
-        if ($arq->isValid()) {
-            $nomeArquivo = $arq->getClientOriginalName();
+        if ($arquivo->isValid()) {
+            $nomeArquivo = $arquivo->getClientOriginalName();
 
-            $upload = $arq->storeAs('epe', $nomeArquivo, 'public');
+            $upload = $arquivo->storeAs('epe', $nomeArquivo, 'public');
 
             if ($upload) {
                 // Atenção para alterações no diretório do projeto!
@@ -224,7 +217,7 @@ class ReportController extends Controller
 
                 $folder = substr($nomeArquivo,0,6);
 
-                $this->criarLog($folder,'success','Geração arquivo EPE: '.$folder.' realizada com sucesso.');
+                $this->createLog($folder,'success','Geração arquivo EPE: '.$folder.' realizada com sucesso.');
 
                 // Chama a função showPlots enviando a pasta (codigo estacao) como parametro, e as mensagens pela session
                 return redirect()->route('reports.plots', array('folder' => $folder))->with('message', $response);
@@ -262,7 +255,7 @@ class ReportController extends Controller
 
                 $folder = $estacaoMaior.'-'.$estacaoMenor;
 
-                $this->criarLog($folder,'success','Comparação arquivos EPE: '.$estacaoMaior.' e '.$estacaoMenor.' realizada com sucesso.');
+                $this->createLog($folder,'success','Comparação arquivos EPE: '.$estacaoMaior.' e '.$estacaoMenor.' realizada com sucesso.');
 
                 return redirect()->route('reports.plots', array('folder' => $folder))->with('message', $response);
             }

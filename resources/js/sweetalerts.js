@@ -108,10 +108,23 @@ $(document).ready(function () {
                 var tipoArquivo = document.querySelector('input[name="tipo-arquivo"]:checked').value;
 
                 form.append('codigoSite', sitcodigo);
-                form.append('arquivoAtendimento', arquivoAtendimento);
-                form.append('arquivoPendencia', arquivoPendencia);
-                form.append('imagemTorre', imagemTorre);
+                switch (tipoArquivo) {
+                    case 'atendimento':
+                        form.append('arquivo', arquivoAtendimento);
+                        break;
+                    case 'pendencia':
+                        form.append('arquivo', arquivoPendencia);
+                        break;
+                    case 'imagem':
+                        form.append('arquivo', imagemTorre);
+                        break;
+                }
                 form.append('tipoArquivo', tipoArquivo);
+
+                //form.append('arquivoAtendimento', arquivoAtendimento);
+                //form.append('arquivoPendencia', arquivoPendencia);
+                //form.append('imagemTorre', imagemTorre);
+
 
                 return fetch('/adicionarArquivoTorre', {
                     headers: {

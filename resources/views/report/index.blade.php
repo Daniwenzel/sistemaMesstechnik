@@ -38,16 +38,16 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="col-md-6 stretch-card grid-margin">
+                        <div class="col-md-6 stretch-card grid-margin" onclick="window.location='{{ url('files') }}'">
                             <div class="card bg-gradient-secondary card-img-holder text-white card-button">
                                 <div class="card-body btn">
                                     <img src="{{ asset('images/circle.svg') }}" class="card-img-absolute" alt="circle-image"/>
                                     <img src="{{ asset('images/wind-turbine.svg') }}" class="card-img-absolute" alt="wind-turbine"/>
-                                    <!-- <h4 class="font-weight-normal mb-3">{{ 'Gerar' }}</h4> 
-                                    <h2 class="mb-5">{{ 'Teste' }}</h2>
+                                    <!-- <h4 class="font-weight-normal mb-3">{{ 'Gerar' }}</h4> -->
+                                    <h2 class="mb-5">{{ 'Concatenar' }}</h2>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </div>

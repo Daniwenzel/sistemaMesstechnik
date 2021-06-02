@@ -16,10 +16,11 @@ class CreateSitesTable extends Migration
         Schema::create('site', function (Blueprint $table) {
             $table->integer('codigo'); // == CODIGO NO FIREBIRD
             $table->integer('clicodigo')->nullable();
-            $table->string('nomemms',60)->nullable();
+            $table->string('nomemstk',60)->nullable();
+            $table->string('nomecliente',60)->nullable();
             $table->string('dessite',60)->nullable();
-            $table->string('latsite',10)->nullable();
-            $table->string('lngsite',10)->nullable();
+            $table->decimal('latsite',10, 8)->nullable();
+            $table->decimal('lngsite',11, 8)->nullable();
             $table->string('infsite',30)->nullable();
             $table->smallInteger('tznsite')->nullable();
             $table->string('sitename',64)->nullable();
@@ -32,7 +33,7 @@ class CreateSitesTable extends Migration
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

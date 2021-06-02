@@ -24,6 +24,21 @@ dataFim <- args[4]
 
 con <- dbConnect(odbc::odbc(),dsn='measurs')
 
+# Em computadores que não possuem o dsn registrado, utilizar método de conexão abaixo
+# DRIVER: Verificar existencia do driver Firebird, pressionando Windows+R -> odbcad32 -> drivers
+# DBNAME: local do banco de dados, incluindo endereço IP do servidor
+# USER: nome de usuário
+# PASSWORD: senha
+# ROLE: cargo, caso exista
+
+# Mais informações em https://www.firebirdsql.org/file/documentation/html/en/refdocs/fbodbc20/firebird-odbc-driver-20-manual.html
+#con <- DBI::dbConnect(odbc::odbc(),
+#                      DRIVER="Firebird/InterBase(r) driver", 
+#                      DBNAME="192.168.1.251:/home/firebird/measurs.gdb",
+#                      USER="mstk",
+#                      PASSWORD="abc123",
+#                      ROLE="consulta")
+
 # Busca pelo registro das torres, usando o codigo da estacao de cada uma
 primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codEstacaoTorreRef,"'"))
 segundaTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codEstacaoTorreSec,"'"))

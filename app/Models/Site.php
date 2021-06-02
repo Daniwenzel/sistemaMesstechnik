@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
 
-    // Nome deve ser maiusculo, pois firebird utiliza o case nos caracteres
-    protected $table = 'SITE';
+    protected $table = 'oem';
 
     protected $primaryKey = 'codigo';
 
-    protected $fillable = ['codigo', 'clicodigo', 'dessite', 'latsite', 'lngsite', 'infsite', 'tznsite', 'sitename','estacao', 'hrsenvio', 'ultenvio', 'emlenvio01', 'emlenvio02', 'emlenvio03'];
+    protected $fillable = ['sitcodigo', 'nome_mstk', 'cliente', 'status', 'contrato_vencimento', 'cidade', 'lat', 'long', 'lat_decimal','long_decimal', 'clicodigo'];
 
     public function cliente() {
         return $this->belongsTo('Messtechnik\Models\Cliente', 'clicodigo', 'codigo');

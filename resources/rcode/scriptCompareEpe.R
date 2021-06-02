@@ -57,9 +57,9 @@ stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ", "-")
 
 # Le arquivo modificado e remove coluna "X" criada
 primeiraDados <- read.table(paste0(epeDir,'MOD-',primeiroArquivoEpe),header=TRUE,sep='|',dec=',',na.strings=stringsNa)
-primeiraDados <- Filter(function(x) !all(is.na(x)), primeiraDados)
+#primeiraDados <- Filter(function(x) !all(is.na(x)), primeiraDados)
 segundaDados <- read.table(paste0(epeDir,'MOD-',segundoArquivoEpe),header=TRUE,sep='|',dec=',',na.strings=stringsNa)
-segundaDados <- Filter(function(x) !all(is.na(x)), segundaDados)
+#segundaDados <- Filter(function(x) !all(is.na(x)), segundaDados)
 #primeiraDados$X <- NULL
 
 # Converte o tipo da coluna CH01 para "data" e adiciona os 0's a esquerda da coluna CH02 que foram removidos durante a leitura 

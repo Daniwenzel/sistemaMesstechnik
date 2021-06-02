@@ -16,8 +16,9 @@ class IntegrateSites
 				['codigo' => $site->CODIGO],
 				['clicodigo' => $site->CLICODIGO,
 				'dessite' => $site->DESSITE,
-				'latsite' => $site->LATSITE,
-				'lngsite' => $site->LNGSITE,
+				// Não atualizar latitude e longitude, pois estes valores não estão sendo salvos no database firebird (retornam NULL)
+				//'latsite' => $site->LATSITE,
+				//'lngsite' => $site->LNGSITE,
 				'infsite' => $site->INFSITE,
 				'tznsite' => $site->TZNSITE,
 				'sitename' => $site->SITENAME,

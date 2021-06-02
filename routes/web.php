@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::get('/users/create', 'UserController@create')->name('users.create');
     Route::post('/users', 'UserController@store')->name('users.store');
-    Route::get('/users/{user_id}/edit', 'UserController@edit')->name('users.edit');
+    Route::get('/users/{user_codigo}/edit', 'UserController@edit')->name('users.edit');
     Route::put('/users/{user_id}', 'UserController@update')->name('users.update');
     Route::post('/users/avatar', 'UserController@editUserAvatar')->name('edit.avatar');
     
@@ -45,11 +45,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/reports/compareEpe', 'ReportController@compareEpe')->name('reports.compareepe');
 
     // Route::get('/clients', 'SiteController@index')->name('company.index');
-    Route::get('/clients/{clicodigo}', 'SiteController@mostrarClienteSites')->name('company.sites');
+    Route::get('/clients/{client}', 'SiteController@mostrarSitesCliente')->name('company.sites');
 
     Route::get('/log', 'LogController@showLog')->name('log.index');
 
-    Route::get('/station/{sitcodigo}', 'SiteController@showSite')->name('site.index');
+    Route::get('/station/{sitcodigo}', 'SiteController@mostrarSite')->name('site.index');
+    Route::get('/station/{sitcodigo}/edit', 'SiteController@editarSite')->name('site.edit');
+    Route::post('/station/{sitcodigo}', 'SiteController@update')->name('site.update');
+
 
     Route::get('/stations', 'SiteController@index')->name('stations.index');
 
@@ -62,6 +65,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/getAtendimentosTorre/{sitcodigo}', 'SiteController@mostrarAtendimentosTorre')->name('show.atendimentos');
     Route::get('/getPendenciasTorre/{sitcodigo}', 'SiteController@mostrarPendenciasTorre')->name('show.pendencias');
 
+    Route::get('/files', 'FileController@index')->name('files.index');
+    Route::post('/files/upload', 'FileController@upload')->name('files.upload');
+
+    
 //    Route::get('/post', 'FileLogController@showPostData')->name('show.data');
 
 //    Route::get('openfile', 'SensorController@openFile')->name('open.file');

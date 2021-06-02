@@ -19,8 +19,23 @@ dataFim <- args[3]
 #dataInicio <- '2020-05-01'
 #dataFim <- '2020-05-15'
 
-# Conexao com banco de dados, dsn nomeado measurs configurado dentro do servidor
+# Conexao com banco de dados, dsn nomeado measurs configurado no computador utilizado
 con <- dbConnect(odbc::odbc(),dsn='measurs')
+
+# Em computadores que n�o possuem o dsn registrado, utilizar m�todo de conex�o abaixo, ou registrar dsn
+# DRIVER: Verificar existencia do driver Firebird, pressionando Windows+R -> odbcad32 -> drivers
+# DBNAME: local do banco de dados, incluindo endere�o IP do servidor
+# USER: nome de usu�rio
+# PASSWORD: senha
+# ROLE: cargo, caso exista
+
+# Mais informa��es em https://www.firebirdsql.org/file/documentation/html/en/refdocs/fbodbc20/firebird-odbc-driver-20-manual.html
+#con <- DBI::dbConnect(odbc::odbc(),
+#                      DRIVER="Firebird/InterBase(r) driver", 
+#                      DBNAME="192.168.1.251:/home/firebird/measurs.gdb",
+#                      USER="mstk",
+#                      PASSWORD="abc123",
+#                      ROLE="consulta")
 
 torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codEstacaoTorre,"'"))
 
@@ -34,7 +49,8 @@ invisible(do.call(file.remove, list(list.files(plotsDir, full.names = TRUE))))
 dias <- seq(from = ymd(dataInicio), to = ymd(dataFim), by='days')
 horaminuto <- merge(0:23, seq(0, 50, by = 10))
 datetime <- merge(dias, chron(time = paste(horaminuto$x, ':', horaminuto$y, ':', 0)))
-dados <- as.POSIXct(paste(datetime$x,datetime$y))
+# dados <- as.POSIXct(paste(datetime$x,datetime$y))
+dados <- as_datetime(paste(datetime$x,datetime$y))
 dados <- dados[order(dados)]
 dados <- data.frame(DTAREG = as.character(round_date(dados, "minute")))
 row.names(dados) <- NULL
@@ -100,7 +116,8 @@ if(nrow(sensores) != 0) {
       }
       
       plot <- ggplot() + 
-        geom_line(data = dados, aes(x=as.POSIXct(DTAREG), y=unlist(dados[,iC]),colour=nomeTorre),size=0.3) +
+        geom_line(data = dados, aes(x=as_datetime(DTAREG), y=unlist(dados[,iC]),colour=nomeTorre),size=0.3) +
+        #geom_line(data = dados, aes(x=as.POSIXct(DTAREG), y=unlist(dados[,iC]),colour=nomeTorre),size=0.3) +
         scale_colour_manual("", 
                             breaks = c(nomeTorre),
                             values = c(cor)) +

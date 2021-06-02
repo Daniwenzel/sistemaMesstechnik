@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pendencia extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
 
     protected $table = 'pendencias';
 
