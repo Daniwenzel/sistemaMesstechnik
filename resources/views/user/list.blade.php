@@ -48,7 +48,7 @@
                             @foreach($usuarios as $usuario)
                                 <tr>
                                     <td>
-                                        {{ $usuario->name }}
+                                        {{ $usuario->nome }}
                                     </td>
                                     <td>
                                         {{ $usuario->email }}
@@ -63,15 +63,15 @@
                                         <button type="button" class="btn btn-icons btn-rounded btn-outline-success">
                                             <i class="mdi mdi-email"></i>
                                         </button>
-                                        @if($usuario->id === Auth::user()->id or Auth::user()->hasRole('Admin'))
+                                        @if($usuario->codigo === Auth::user()->codigo or Auth::user()->hasRole('Admin'))
                                             <button type="button" class="btn btn-icons btn-rounded btn-outline-primary" 
-                                            onclick="window.location='{{ route('users.edit', $usuario->id) }}'">
+                                            onclick="window.location='{{ route('users.edit', $usuario->codigo) }}'">
                                                 <i class="mdi mdi-pencil"></i>
                                             </button>
                                         @endif
                                         @role('Admin')
                                         <button type="button" class="btn btn-icons btn-rounded btn-outline-danger btn-user-delete 
-                                        {{ Auth::user()->id === $usuario->id ? 'hidden' : '' }}" usuario="{{ $usuario->id }}" data-toggle="modal">
+                                        {{ Auth::user()->codigo === $usuario->codigo ? 'hidden' : '' }}" usuario="{{ $usuario->codigo }}" data-toggle="modal">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                         @endrole

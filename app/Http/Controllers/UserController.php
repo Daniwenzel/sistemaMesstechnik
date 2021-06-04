@@ -3,7 +3,7 @@
 namespace Messtechnik\Http\Controllers;
 
 use Messtechnik\Http\Requests\UserStoreRequest;
-use Messtechnik\Models\Company;
+use Messtechnik\Models\Cliente;
 use Messtechnik\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-
     /**
      * Para o admin, retorna uma lista com todos os usuarios,
      * para um usuário comum, retorna uma lista dos usuarios da mesma empresa.
@@ -30,7 +29,7 @@ class UserController extends Controller
 //                    $query->where('nome', 'ilike','%'.$search.'%');
 //                })
 //                ->paginate(10) :
-        $usuarios = User::with('empresa')->where('clicodigo', Auth::user()->clicodigo)->where('name','like','%'.$search.'%')->paginate(10);
+        $usuarios = User::with('empresa')->where('clicodigo', Auth::user()->clicodigo)->where('nome','like','%'.$search.'%')->paginate(10);
         
         return view('user.list', compact('usuarios'));
     }
@@ -42,7 +41,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserStoreRequest $request) {
-        $empresa = Company::where('nome', $request['empresa'])->first();
+        $empresa = Cliente::where('nome', $request['empresa'])->first();
 
         $user = new User($request->validated());
         $user->password = bcrypt($user->password);
@@ -61,8 +60,8 @@ class UserController extends Controller
      */
     public function create() {
 //        Auth::user()->hasRole('Admin') ?
-//            $empresas = Company::all('id', 'nome') :
-            $empresas = Company::all('id', 'nome')->where('id', Auth::user()->empresa_id);
+//            $empresas = Cliente::all('codigo', 'razaosocial') :
+            $empresas = Cliente::all('codigo', 'razaosocial')->where('codigo', Auth::user()->clicodigo);
 
         return view('auth.register', compact('empresas'));
     }
