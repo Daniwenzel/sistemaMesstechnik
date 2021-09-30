@@ -7,19 +7,24 @@ use Illuminate\Support\Facades\DB;
 use Messtechnik\Models\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Messtechnik\Models\Site;
+use Messtechnik\Models\Oem;
 use Messtechnik\Traits\Logs;
 
 class ReportController extends Controller
 {
     use Logs;
 
+    /*
+        Mostra a view inicial dos relatórios
+    */
     public function index() {
         return view('report.index');
     }
 
-    // Busca pelo registro da torre dentro do banco de dados
-    public function getTorreByEstacao(string $estacao) {
+    /*
+        Busca pelo registro da torre dentro do banco de dados
+    */
+    public function getTower(string $estacao) {
         $result = false;
 
         $torre = DB::connection('mysql')->table('SITE')
@@ -37,11 +42,16 @@ class ReportController extends Controller
         return $result;
     }
 
-    // Retorna uma lista com todas as torres cadastradas no banco. 
-    public function getTorresList() {
+    /*
+        Retorna uma lista com todas as torres cadastradas no banco. 
+    */
+    public function getTowerList() {
         return DB::connection('mysql')->table('SITE')->join('CLIENTE', 'SITE.CLICODIGO', '=', 'CLIENTE.CODIGO')->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTE.RAZAOSOCIAL')->orderBy('CLIENTE.RAZAOSOCIAL')->get();
     }
 
+    /*
+        Gera um paginador, utilizado na lista de torres 
+    */
     public function getPaginator(Request $request, $items) {
         $total = count($items);
         $page = $request->page ?? 1;
@@ -55,9 +65,11 @@ class ReportController extends Controller
         ]);
     }
 
-    // Mostra a view "correlação", enviando uma lista das torres, organizadas pelo cliente
+    /*
+        Mostra a view "correlação", enviando uma lista das torres agrupadas por cliente
+    */
     public function showCompare() {
-    	$torres = $this->getTorresList();
+    	$torres = $this->getTowerList();
 
     	$grouped = $torres->groupBy('RAZAOSOCIAL');
         $grouped->toArray();
@@ -65,14 +77,18 @@ class ReportController extends Controller
         return view('report.correlation', compact('torres','grouped'));
     }
 
+    /*
+        Recebe o codigo estação de 2 torres e invoca o script Rcode que acessa o banco de dados e compara os dados das torres escolhidas. Criando imagens estáticas desta comparação dentro do diretorio da aplicação e retorna para a view mostrando as imagens criadas.
+    */
     public function compare(Request $request) {
-        $torreRef = $this->getTorreByEstacao($request->torreReferencia);
-        $torreSec = $this->getTorreByEstacao($request->torreSecundaria);
+        $torreRef = $this->getTower($request->torreReferencia);
+        $torreSec = $this->getTower($request->torreSecundaria);
 
-        // Se encontrar o registro das torres, formata o $cmd a ser executado, utilizando o código estação das torres e o período como parâmetros da chamada do scriptCompare.R
+        // Se encontrar o registro das torres, insere o código estação das torres e o período como parâmetros para a invocação do script Rcode
         if($torreRef && $torreSec) {
-            // Checar alterações no diretório do projeto, mover script para a pasta public caso não
-            // for uma "quebra" de segurança. Usar função getcwd() se script estiver na public.
+            /*
+                Atenção. O diretório do script está sendo passado de maneira estática. Checar alterações no diretório do projeto, mover script para a pasta public caso não for uma "quebra" de segurança. Script contém informações de acesso ao banco de dados.Usar função getcwd() caso script estiver na public.
+            */
             $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptCompare.R '.
             $torreRef->ESTACAO." ".$torreSec->ESTACAO." ".$request->periodo." --vanilla 2>&1";
             // getcwd() = /var/www/sistemaMesstechnik/public ou C:\xampp\htdocs\sistemaMesstechnik\public
@@ -94,13 +110,15 @@ class ReportController extends Controller
         }
     }
 
-    // Mostra os plots/imagens da torre ou correlação de torres
+    /*
+        Mostra os plots/imagens estáticas da torre ou correlação de torres
+    */
     public function showPlots(string $folder) {
+        // $folder será o nome da pasta que armazena as imagens estáticas criadas durante a comparação/geração. Caso seja uma comparação, o primeiro valor será o código estação maior. Ex: "000575-000574". Caso seja a geração de uma torre, $folder receberá apenas o código estação dela. Ex: "000575"
+
         $prefixo = "\images\plots\\".$folder."\\";
 
-        // Adiciona o nome das imagens/plots (com extensão jpeg,jpg e png, case INSENSITIVE),
-        // da pasta escolhida, para a array $imagens
-        // Atenção, caso o diretório dos plots for alterado, alterar getcwd para atender mudanças.
+        // Verifica se existe arquivos dentro da pasta escolhida. Insere o nome das imagens/plots (com extensão jpeg, jpg e png, case INSENSITIVE), na array $imagens. Atenção, caso o diretório dos plots seja alterado, alterar a função getcwd para atender mudanças.
         if (file_exists(getcwd().$prefixo)) {
             $imagens = preg_grep('~\.(jpeg|jpg|png)$~i', scandir(getcwd().$prefixo));
 
@@ -109,14 +127,14 @@ class ReportController extends Controller
     
             if (strpos($folder, '-') !== false) {
                 $arr = explode('-', $folder, 2);
-                $primeiraTorre = $this->getTorreByEstacao($arr[0]); 
-                $segundaTorre = $this->getTorreByEstacao($arr[1]);
+                $primeiraTorre = $this->getTower($arr[0]); 
+                $segundaTorre = $this->getTower($arr[1]);
 
                 //$titulo = 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME;
                 $titulo = $primeiraTorre && $segundaTorre ? 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME : 'Correlação torres: '.$arr[0].' e '.$arr[1];
             }
             else {
-                $primeiraTorre = $this->getTorreByEstacao($folder);
+                $primeiraTorre = $this->getTower($folder);
 
                // $titulo = 'Torre '.$primeiraTorre->NOME;
                 $titulo = $primeiraTorre ? 'Torre '.$primeiraTorre->NOME : 'Torre '.$folder;
@@ -140,10 +158,10 @@ class ReportController extends Controller
                 if (strpos($pasta, '-') !== false) {
                     $arr = explode('-', $pasta, 2);
 
-                    $nome = ($this->getTorreByEstacao($arr[0])->NOME ?? 'Torre Inexistente').' - '.($this->getTorreByEstacao($arr[1])->NOME ?? 'Torre Inexistente');
+                    $nome = ($this->getTower($arr[0])->NOME ?? 'Torre Inexistente').' - '.($this->getTower($arr[1])->NOME ?? 'Torre Inexistente');
                 }
                 else {
-                    $nome = $this->getTorreByEstacao($pasta)->NOME ?? 'Torre Inexistente';
+                    $nome = $this->getTower($pasta)->NOME ?? 'Torre Inexistente';
                 }
                 if (is_null($request->search)) {
                     $nomes[$pasta] = $nome;
@@ -163,7 +181,7 @@ class ReportController extends Controller
     }
 
     public function showGenerate() {
-        $torres = $this->getTorresList();
+        $torres = $this->getTowerList();
 
     	$grouped = $torres->groupBy('RAZAOSOCIAL')->toArray();
         // $grouped->toArray();
@@ -172,7 +190,7 @@ class ReportController extends Controller
     }
 
     public function generate(Request $request) {
-        $torreUm = $this->getTorreByEstacao($request->primeiraTorre);
+        $torreUm = $this->getTower($request->primeiraTorre);
 
         if($torreUm) {
             // Atenção para alterações no diretório do projeto!

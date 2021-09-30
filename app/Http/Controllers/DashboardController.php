@@ -2,15 +2,17 @@
 
 namespace Messtechnik\Http\Controllers;
 
+use Messtechnik\Models\Atendimento;
+
 class DashboardController extends Controller
 {
-
-    /**
-     * Mostra a view do painel principal
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+    /*
+        Busca pelas informações necessárias e mostra a tela inicial
+    */
     public function index() {
-        return view('dashboard');
+        $atendimentos = Atendimento::where('dataInicio', '>=', now()->subDays(5)->setTime(0, 0, 0)->toDateString())->get();
+
+
+        return view('dashboard', compact('atendimentos'));
     }
 }

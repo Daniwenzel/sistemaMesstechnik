@@ -48,6 +48,9 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        /* 
+            Regras de validação utilizadas durante a criação de um novo usuário
+        */
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -68,9 +71,9 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        if (isset($data['avatar'])) {
+        /*if (isset($data['avatar'])) {
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-        }
+        }*/
         return $user;
     }
 }
