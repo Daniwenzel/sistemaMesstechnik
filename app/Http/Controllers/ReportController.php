@@ -39,7 +39,7 @@ class ReportController extends Controller
 
     // Retorna uma lista com todas as torres cadastradas no banco. 
     public function getTorresList() {
-        return DB::connection('mysql')->table('SITE')->join('CLIENTE', 'SITE.CLICODIGO', '=', 'CLIENTE.CODIGO')->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTE.RAZAOSOCIAL')->orderBy('CLIENTE.RAZAOSOCIAL')->get();
+        return DB::connection('mysql')->table('SITE')->join('CLIENTES', 'SITE.CLICODIGO', '=', 'CLIENTES.CODIGO')->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTES.RAZAOSOCIAL')->orderBy('CLIENTES.RAZAOSOCIAL')->get();
     }
 
     public function getPaginator(Request $request, $items) {

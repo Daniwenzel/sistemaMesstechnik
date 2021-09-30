@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
-    protected $connection = 'pgsql';
-
     protected $table = 'oem';
 
     protected $primaryKey = 'codigo';

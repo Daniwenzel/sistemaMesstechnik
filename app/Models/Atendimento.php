@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Atendimento extends Model
 {
-    protected $connection = 'pgsql';
-
     protected $table = 'atendimentos';
 
     protected $primaryKey = 'codigo';
