@@ -8,11 +8,13 @@ class ImagemSite extends Model
 {
     protected $connection = 'mysql';
 
-	protected $table = 'imagens_site';
+	protected $table = 'imagens_oem';
 
-	protected $fillable = ['path', 'sitcodigo'];
+	protected $primaryKey = 'codigo';
+
+	protected $fillable = ['path', 'oemcodigo'];
 
 	public function site() {
-		return $this->belongsTo('Messtechnik\Models\Site', 'sitcodigo', 'codigo');
+		return $this->belongsTo('Messtechnik\Models\Oem', 'oemcodigo', 'codigo');
 	}
 }

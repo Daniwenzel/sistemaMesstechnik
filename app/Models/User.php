@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     protected $table = 'usuarios';
 
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
     
     protected $primaryKey = 'codigo';
 

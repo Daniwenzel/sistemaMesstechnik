@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
 
     protected $table = 'clientes';
 
@@ -19,6 +19,6 @@ class Cliente extends Model
     }
 
    public function torres() {
-       return $this->hasMany('Messtechnik\Models\Site', 'clicodigo', 'codigo');
+       return $this->hasMany('Messtechnik\Models\Oem', 'clicodigo', 'codigo');
    }
 }

@@ -10,6 +10,8 @@ class Log extends Model
 
     protected $table = 'logs';
 
+    protected $primaryKey = 'codigo';
+
     protected $fillable = [
         'usuario', 'diretorio', 'status', 'mensagem'
     ];

@@ -4,9 +4,9 @@ namespace Messtechnik\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Site extends Model
+class Oem extends Model
 {
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
 
     protected $table = 'oem';
 
@@ -19,14 +19,18 @@ class Site extends Model
     }
 
     public function imagem() {
-        return $this->hasMany('Messtechnik\Models\ImagemSite', 'sitcodigo', 'codigo');
+        return $this->hasMany('Messtechnik\Models\ImagemSite', 'oemcodigo', 'codigo');
     }
 
     public function pendencias() {
-        return $this->hasMany('Messtechnik\Models\Pendencia', 'sitcodigo', 'codigo');
+        return $this->hasMany('Messtechnik\Models\Pendencia', 'oemcodigo', 'codigo');
     }
 
     public function atendimentos() {
-        return $this->hasMany('Messtechnik\Models\Atendimento', 'sitcodigo', 'codigo');
+        return $this->hasMany('Messtechnik\Models\Atendimento', 'oemcodigo', 'codigo');
+    }
+
+    public function equipamentos() {
+        return $this->hasMany('Messtechnik\Models\Equipamento', 'oemcodigo', 'codigo');
     }
 }

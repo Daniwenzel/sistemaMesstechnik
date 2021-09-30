@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Arquivo extends Model
 {
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
 
 	protected $table = 'arquivos';
 
-	protected $fillable = ['path', 'sitcodigo', 'tipo'];
+	protected $primaryKey = 'codigo';
+
+	protected $fillable = ['path', 'oemcodigo', 'tipo'];
 
 	public function site() {
-		return $this->belongsTo('Messtechnik\Models\Site', 'sitcodigo', 'codigo');
+		return $this->belongsTo('Messtechnik\Models\Oem', 'oemcodigo', 'codigo');
 	}
 }
