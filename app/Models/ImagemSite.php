@@ -6,15 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ImagemSite extends Model
 {
-    protected $connection = 'mysql';
-
-	protected $table = 'imagens_oem';
+	protected $table = 'imagens_site';
 
 	protected $primaryKey = 'codigo';
 
-	protected $fillable = ['path', 'oemcodigo'];
+	protected $fillable = ['path', 'sitcodigo'];
 
 	public function site() {
-		return $this->belongsTo('Messtechnik\Models\Oem', 'oemcodigo', 'codigo');
+		return $this->belongsTo('Messtechnik\Models\Oem', 'sitcodigo', 'codigo');
 	}
 }

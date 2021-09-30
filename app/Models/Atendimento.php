@@ -7,8 +7,6 @@ use Messtechnik\Models\Arquivo;
 
 class Atendimento extends Model
 {
-    protected $connection = 'mysql';
-
     protected $table = 'atendimentos';
 
     protected $primaryKey = 'codigo';

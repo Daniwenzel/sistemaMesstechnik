@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Oem extends Model
 {
-    protected $connection = 'mysql';
-
     protected $table = 'oem';
 
     protected $primaryKey = 'codigo';
