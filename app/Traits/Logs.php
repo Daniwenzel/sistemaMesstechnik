@@ -8,12 +8,12 @@ use Messtechnik\Models\Log;
 
 trait Logs
 {
-    function createLog($diretorio, $status, $mensagem) {
+    private function createLog($diretorio, $status, $mensagem) {
         Log::create([
             'usuario' => Auth::user()->nome,
-            'diretorio' => $diretorio,
-            'status' => $status,
+           'diretorio' => $diretorio,
+           'status' => $status,
             'mensagem' => $mensagem
-            ])->save();
+        ])->save();
     }
 }
