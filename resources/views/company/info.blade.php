@@ -6,7 +6,6 @@
     		<div class="card-body">
                 @foreach($sites as $site)
                     <div class="row text-md-center {{ $site->nome_mstk }}">
-                    <!-- onclick="window.location='{{ url('station', $site->codigo) }}'" -->
                         <div class="col-md-12 stretch-card grid-margin" onclick="window.location='{{ url('station', $site->codigo) }}'">
                             <div class="card bg-gradient-info card-img-holder text-white card-button">
                                 <div class="card-body btn">

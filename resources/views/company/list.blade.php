@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div data-barba-namespace="company">
+    <!--<div data-barba-namespace="company">
         <form method="get" action="{{ route('company.index') }}" class="navbar-form navbar-left mt-3">
             <div class="form-group">
                 <div class="input-group">
@@ -28,5 +28,5 @@
                 </div>
             </div>
         @endforeach
-    </div>
+    </div>-->
 @endsection

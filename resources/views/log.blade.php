@@ -28,7 +28,7 @@
                             </thead>
                             <tbody>
                             @foreach($logs as $log)
-                                <tr class="alert-{{ $log->status }} card-button btn-log-show" diretorio="{{ $log->diretorio }}" mensagem="{{ $log->mensagem }}" status="{{ $log->status }}">
+                                <tr class="{{ ($log->status=='error') ? 'alert-danger' : 'alert-success' }} card-button btn-log-show" data-diretorio="{{ $log->diretorio }}" data-mensagem="{{ $log->mensagem }}" data-status="{{ $log->status }}">
                                     <td>
                                         {{ $log->mensagem }}
                                     </td>

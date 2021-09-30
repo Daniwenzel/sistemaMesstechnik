@@ -17,6 +17,6 @@ class Cliente extends Model
     }
 
    public function torres() {
-       return $this->hasMany('Messtechnik\Models\Site', 'clicodigo', 'codigo');
+       return $this->hasMany('Messtechnik\Models\Oem', 'clicodigo', 'codigo');
    }
 }

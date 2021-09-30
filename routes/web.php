@@ -44,21 +44,21 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/reports/torreepe', 'ReportController@generateEpe')->name('reports.torreepe');
     Route::post('/reports/compareEpe', 'ReportController@compareEpe')->name('reports.compareepe');
 
-    // Route::get('/clients', 'SiteController@index')->name('company.index');
-    Route::get('/clients/{client}', 'SiteController@mostrarSitesCliente')->name('company.sites');
-
     Route::get('/log', 'LogController@showLog')->name('log.index');
 
-    Route::get('/station/{sitcodigo}', 'SiteController@mostrarSite')->name('site.index');
-    Route::get('/station/{sitcodigo}/edit', 'SiteController@editarSite')->name('site.edit');
-    Route::post('/station/{sitcodigo}', 'SiteController@update')->name('site.update');
-
-
+    // Route::get('/clients', 'SiteController@index')->name('company.index');
     Route::get('/stations', 'SiteController@index')->name('stations.index');
+    Route::get('/stations/{client}', 'SiteController@mostrarSitesCliente')->name('stations.client.index');
+
+    Route::get('/station/{oemcodigo}', 'SiteController@mostrarSite')->name('site.index');
+    Route::get('/station/{oemcodigo}/edit', 'SiteController@editarSite')->name('site.edit');
+    Route::post('/station/{oemcodigo}', 'SiteController@update')->name('site.update');
+
 
     Route::post('/adicionarAtendimentoTorre', 'SiteController@adicionarAtendimentoTorre')->name('adicionar.atendimento');
     Route::post('/adicionarPendenciaTorre', 'SiteController@adicionarPendenciaTorre')->name('adicionar.pendencia');
     Route::post('/adicionarArquivoTorre', 'SiteController@adicionarArquivoTorre')->name('adicionar.arquivo');
+    Route::post('/adicionarEquipamentoTorre', 'SiteController@adicionarEquipamentoTorre')->name('adicionar.equipamento');
 
     Route::get('/generateCsv', 'ReportController@generateCsv')->name('generateCsv');
 

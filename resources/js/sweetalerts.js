@@ -1,6 +1,6 @@
 const { default: Swal } = require("sweetalert2");
 
-$(document).ready(function () {
+$(function() {
     $('.btn-user-delete').on('click', function (event) {
         event.preventDefault();
         var usuario_id = $(this).attr('usuario');
@@ -37,9 +37,9 @@ $(document).ready(function () {
 
     $('.btn-log-show').on('click', function (event) {
         event.preventDefault();
-        var status = $(this).attr('status');
-        var diretorio = $(this).attr('diretorio');
-        var mensagem = $(this).attr('mensagem');
+        var status = $(event.target).dataset.status;
+        var diretorio = $(event.target).dataset.diretorio;
+        var mensagem = $(event.target).dataset.mensagem;
 
         Swal.fire({
             type: status,
@@ -49,15 +49,15 @@ $(document).ready(function () {
     })
 
     $('#btn-arquivo-add').on('click', async function() {
-        var sitcodigo = document.getElementById('btn-arquivo-add').dataset.sitcodigo;
+        var oemcodigo = document.getElementById('btn-arquivo-add').dataset.oemcodigo;
 
-        var atendimentosTorre = await fetch('/getAtendimentosTorre/'+sitcodigo).then(response => {
+        var atendimentosTorre = await fetch('/getAtendimentosTorre/'+oemcodigo).then(response => {
             return response.json().then(json => {
                 return json.map(dados => [dados.codigo, dados.descricao])
             })
         })
 
-        var pendenciasTorre = await fetch('/getPendenciasTorre/'+sitcodigo).then(response => {
+        var pendenciasTorre = await fetch('/getPendenciasTorre/'+oemcodigo).then(response => {
             return response.json().then(json => {
                 return json.map(dados => [dados.codigo, dados.descricao+'('+dados.gravidade+')'])
             })
@@ -89,7 +89,7 @@ $(document).ready(function () {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Adicionar',
             onOpen: () => {
-                $('input[name="tipo-arquivo"]').click(function() {
+                $('input[name="tipo-arquivo"]').on('click', function() {
                     $('.form-swal-arquivo').hide();
                     $('.formulario-'+this.value).show();
                 });
@@ -102,29 +102,27 @@ $(document).ready(function () {
             },
             preConfirm: () => {
                 var form = new FormData();
-                var arquivoAtendimento = $('input[name="arquivo-atendimento"]').prop('files')[0];
-                var arquivoPendencia = $('input[name="arquivo-pendencia"]').prop('files')[0];
-                var imagemTorre = $('input[name="arquivo-imagem-torre"]').prop('files')[0];
                 var tipoArquivo = document.querySelector('input[name="tipo-arquivo"]:checked').value;
 
-                form.append('codigoSite', sitcodigo);
                 switch (tipoArquivo) {
                     case 'atendimento':
-                        form.append('arquivo', arquivoAtendimento);
+                        var arquivo = $('input[name="arquivo-atendimento"]').prop('files')[0];
+                        var tipoCodigo = $('#select-atendimento').val();
                         break;
                     case 'pendencia':
-                        form.append('arquivo', arquivoPendencia);
+                        var arquivo = $('input[name="arquivo-pendencia"]').prop('files')[0];
+                        var tipoCodigo = $('#select-pendencia').val();
                         break;
                     case 'imagem':
-                        form.append('arquivo', imagemTorre);
+                        var arquivo = $('input[name="arquivo-imagem-torre"]').prop('files')[0];
+                        var tipoCodigo = "";
                         break;
                 }
+                
+                form.append('codigoSite', oemcodigo);
                 form.append('tipoArquivo', tipoArquivo);
-
-                //form.append('arquivoAtendimento', arquivoAtendimento);
-                //form.append('arquivoPendencia', arquivoPendencia);
-                //form.append('imagemTorre', imagemTorre);
-
+                form.append('arquivo', arquivo);
+                form.append('tipoCodigo', tipoCodigo);
 
                 return fetch('/adicionarArquivoTorre', {
                     headers: {
@@ -161,66 +159,14 @@ $(document).ready(function () {
         })
     })
 
-    // $('#btn-image-add').on('click', async function () {
-    //     var sitcodigo = document.getElementById('btn-image-add').dataset.sitcodigo;
-    //     var { value: file } = await Swal.fire({
-    //         title: 'Selecionar Imagem',
-    //         input: 'file',
-    //         inputAttributes: {
-    //             'type': 'file',
-    //             'name': 'imagemSite',
-    //             'accept': 'image/*',
-    //             'aria-label': 'Carregar imagem da torre'
-    //         }
-    //     })
-    //     if (file) {
-    //         const reader = new FileReader()
-
-    //         reader.onload = (e) => {
-    //             var form = new FormData();
-    //             form.append('imagem', file);
-    //             form.append('sitcodigo', sitcodigo);
-
-    //             Swal.fire({
-    //                 title: 'Imagem a ser salva',
-    //                 imageUrl: e.target.result,
-    //                 imageAlt: 'Imagem carregada'
-    //             }).then((result) => {
-    //                 if (result.value) {
-    //                     fetch('/adicionarImagemSite', {
-    //                         headers: {
-    //                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                         },
-    //                         method: 'POST',
-    //                         body: form
-    //                     }).then(response => {
-    //                         if (!response.ok) {
-    //                             throw new Error(response.statusText)
-    //                         }
-    //                         return response
-    //                     }).catch(error => {
-    //                         Swal.showValidationMessage(
-    //                             `Request failed: ${error}`
-    //                         )
-    //                     })
-    //                 }
-    //             })
-    //         }
-    //         reader.readAsDataURL(file)
-    //     }
-    // })
-
     $('#btn-atendimento-add').on('click', function () {
-        var sitcodigo = document.getElementById('btn-atendimento-add').dataset.sitcodigo;
-
-        // '<label for="codigoSite">Código da torre</label>'+
-        // '<input id="codigoSite" class="swal2-input" value="'+sitcodigo+'" readonly>'+
+        var oemcodigo = document.getElementById('btn-atendimento-add').dataset.sitcodigo;
 
         Swal.fire({
             title: 'Adicionar atendimento',
             width: '80%',
             html: '<label for="descricaoAtendimento">Descrição</label>' +
-                '<input id="descricaoAtendimento" type="text" class="swal2-input">' +
+                '<textarea id="descricaoAtendimento" maxlength="500" class="swal2-input"></textarea>' +
                 '<label for="tipoAtendimento">Tipo</label>' +
                 '<select id="tipoAtendimento" class="swal2-input">' +
                 '<option value="Preventivo">Preventivo</option>' +
@@ -229,7 +175,7 @@ $(document).ready(function () {
                 '<option value="Instalacao">Instalação</option>' +
                 '</select>' +
                 '<label for="periodoAtendimento">Data</label>' +
-                '<input name="periodoAtendimento" id="periodoAtendimento" class="swal2-input" type="text" autocomplete="off" required>',
+                '<input name="periodoAtendimento" id="periodoAtendimento" class="swal2-input" type="text" autocomplete="off" placeholder="yyyy-mm-dd yyyy-mm-dd" required>',
             focusConfirm: false,
             allowOutsideClick: false,
             showCancelButton: true,
@@ -244,8 +190,7 @@ $(document).ready(function () {
                 var fimAtendimento = document.getElementById('periodoAtendimento').value.split(" ")[1];
                 var tipoAtendimento = document.getElementById('tipoAtendimento').value;
 
-
-                form.append('codigoSite', sitcodigo);
+                form.append('codigoSite', oemcodigo);
                 form.append('descricaoAtendimento', descricaoAtendimento);
                 form.append('dataInicio', inicioAtendimento);
                 form.append('dataFim', fimAtendimento);
@@ -291,10 +236,7 @@ $(document).ready(function () {
     })
 
     $('#btn-pendencia-add').on('click', function () {
-        var sitcodigo = document.getElementById('btn-pendencia-add').dataset.sitcodigo;
-
-        // '<label for="codigoSite">Código da torre</label>'+
-        // '<input id="codigoSite" class="swal2-input" value="'+sitcodigo+'" readonly>'+
+        var oemcodigo = document.getElementById('btn-pendencia-add').dataset.sitcodigo;
 
         Swal.fire({
             title: 'Adicionar pendencia',
@@ -318,7 +260,7 @@ $(document).ready(function () {
                 var descricaoPendencia = document.getElementById('descricaoPendencia').value;
                 var gravidadePendencia = document.getElementById('gravidadePendencia').value;
 
-                form.append('codigoSite', sitcodigo);
+                form.append('codigoSite', oemcodigo);
                 form.append('descricaoPendencia', descricaoPendencia);
                 form.append('gravidadePendencia', gravidadePendencia);
 
@@ -362,5 +304,99 @@ $(document).ready(function () {
         })
     })
 
-})
+    $('#btn-equipamento-add').on('click', function () {
+        var oemcodigo = document.getElementById('btn-equipamento-add').dataset.sitcodigo;
 
+        Swal.fire({
+            title: 'Adicionar equipamento',
+            width: '50%',
+            html: '<label for="descricaoEquipamento">Descrição</label>' +
+                '<input id="descricaoEquipamento" type="text" class="swal2-input">' +
+                '<label for="nroSerieEquipamento">Número de Série (caso exista)</label>' +
+                '<input id="nroSerieEquipamento" type="text" class="swal2-input">' +
+                '<label for="dataInstalacao">Data de Instalação</label>' +
+                '<input name="dataInstalacao" id="dataInstalacao" class="swal2-input" type="text">' + '<label for="tempoOperacao">Tempo de Operação (em anos)</label>' +
+                '<input name="tempoOperacao" id="tempoOperacao" class="swal2-input" type="text">' +
+                '<select id="estadoEquipamento" class="swal2-input">' +
+                '<option value="OK">OK</option>' +
+                '<option value="Irregular">Irregular</option>' +
+                '<option value="Substituido">Substituído</option>' +
+                '</select>',
+            focusConfirm: false,
+            allowOutsideClick: false,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Adicionar',
+            onOpen: () => $('#dataInstalacao').mask("99/99/9999", { placeholder: 'dd/mm/yyyy' }),
+            preConfirm: () => {
+                var form = new FormData();
+                var descricaoEquipamento = document.getElementById('descricaoEquipamento').value;
+                var nroSerieEquipamento = document.getElementById('nroSerieEquipamento').value;
+                var dataInstalacao = document.getElementById('dataInstalacao').value;
+                var dataSubstituicao = "";
+                var tempoOperacao = "";
+                if(dataInstalacao && /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/i.test(dataInstalacao)) {
+                    dataItens = dataInstalacao.split('/');
+                    dataInstalacao = new Date(dataItens[2], dataItens[1]-1, dataItens[0]);
+                    dataSubstituicao = dataInstalacao;
+                    dataInstalacao = dataInstalacao.getUTCFullYear()+'-'+("0" + (dataInstalacao.getUTCMonth() + 1)).slice(-2)+'-'+("0" + dataInstalacao.getUTCDate()).slice(-2);
+                    tempoOperacao = document.getElementById('tempoOperacao').value;
+                    if(tempoOperacao) {
+                        dataSubstituicao.setMonth(dataSubstituicao.getMonth()+(tempoOperacao*12));
+                        dataSubstituicao = dataSubstituicao.getUTCFullYear()+'-'+("0" + (dataSubstituicao.getUTCMonth() + 1)).slice(-2)+'-'+("0" + dataSubstituicao.getUTCDate()).slice(-2);
+                    } else {
+                        tempoOperacao = "";
+                        dataSubstituicao = "";
+                    }
+                }
+
+                var estadoEquipamento = document.getElementById('estadoEquipamento').value;
+
+                form.append('codigoSite', oemcodigo);
+                form.append('descricaoEquipamento', descricaoEquipamento);
+                form.append('nroSerieEquipamento', nroSerieEquipamento);
+                form.append('dataInstalacao', dataInstalacao);
+                form.append('tempoOperacao', tempoOperacao);
+                form.append('dataSubstituicao', dataSubstituicao);
+                form.append('estadoEquipamento', estadoEquipamento);
+
+                return fetch("/adicionarEquipamentoTorre", {
+                    headers: {
+                        "X-CSRF-Token": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: "POST",
+                    body: form
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText)
+                    }
+
+                    var row = '<tr class="card-button"><td>'+descricaoEquipamento+'</td><td>'+nroSerieEquipamento+'</td><td>'+dataInstalacao+'</td><td>'+tempoOperacao+'</td><td>'+dataSubstituicao+'</td><td>'+estadoEquipamento+'</td></tr>'
+
+                    $(row).prependTo("#tabelaEquipamentos > tbody");
+
+                    return response
+                }).catch(error => {
+                    Swal.showValidationMessage(
+                        `Request failed: ${error}`
+                    )
+                })
+            }
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire(
+                    'Equipamento salvo!',
+                    'O registro de equipamento foi armazenado com sucesso!',
+                    'success')
+            }
+            else if (result.dismiss === Swal.DismissReason.cancel ||
+                result.dismiss === Swal.DismissReason.esc) {
+                Swal.fire(
+                    'Cancelado',
+                    'A ação para registrar novo equipamento foi cancelada!',
+                    'error')
+            }
+        })
+    })
+})

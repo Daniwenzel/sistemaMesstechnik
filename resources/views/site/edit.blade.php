@@ -6,19 +6,19 @@
     		<div class="card-body">
                 <form method="POST" action="{{ route('site.update', $torre->codigo) }}" id="editarSite">
                     @csrf
-                    <div class="form-group">
+                    <div class="row form-group">
                         <label for="nomeMstk" class="control-label">Nome MSTK</label>
-                        <input name="nomeMstk" value="{{ $torre->nomemstk }}">
+                        <input class="form-control" name="nomeMstk" value="{{ $torre->nome_mstk }}">
                     </div>
-                    <div class="form-group">
+                    <div class="row form-group">
                         <label for="latsite" class="control-label">Latitude</label>
-                        <input name="latsite" value="{{ $torre->latsite }}">
+                        <input class="form-control" name="latsite" value="{{ $torre->lat_decimal }}">
                     </div>
-                    <div class="form-group">
+                    <div class="row form-group">
                         <label for="lngsite" class="control-label">Longitude</label>
-                        <input name="lngsite" value="{{ $torre->lngsite }}">
+                        <input class="form-control" name="lngsite" value="{{ $torre->long_decimal }}">
                     </div>
-                    <div class="form-group">
+                    <div class="row form-group">
                         <button class="btn btn-outline-success" type="submit" form="editarSite" value="Submit">Salvar</button>
                     </div>
                 </form>

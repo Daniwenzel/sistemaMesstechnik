@@ -12,15 +12,15 @@ class Pendencia extends Model
 
     protected $appends = ['alerta'];
 
-    protected $fillable = ['sitcodigo', 'descricao', 'gravidade', 'status'];
+    protected $fillable = ['sitcodigo', 'equipcodigo', 'descricao', 'gravidade', 'status', 'arquivo'];
 
     public function torre() {
-        return $this->belongsTo('Messtechnik\Models\Site', 'codigo', 'sitcodigo');
+        return $this->belongsTo('Messtechnik\Models\Oem', 'codigo', 'oemcodigo');
     }
 
     public function getAlertaAttribute() {
         if($this->status == 'Realizado') {
-            return 'alert-primary';
+            return 'alert-success';
         }
         else {
             switch($this->gravidade) {

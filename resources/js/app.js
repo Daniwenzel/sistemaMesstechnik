@@ -13,6 +13,9 @@ require('daterangepicker');
 require('./sweetalerts');
 require('./datepicker');
 require('dropzone');
+require('jquery-mask-plugin/dist/jquery.mask');
+
+
 window.L = require('leaflet/dist/leaflet');
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({

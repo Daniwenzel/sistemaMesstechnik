@@ -24,6 +24,9 @@ class Handler extends ExceptionHandler
 
     public function render($request, Exception $exception)
     {
+        /*
+            Verifica se o código da exceção retornada é um dos definidos abaixo e retorna a view específica para o usuário
+        */
         if ($this->isHttpException($exception)) {
             switch($exception->getStatusCode()) {
                 case 404:

@@ -41,7 +41,7 @@
                     </div>
                     <div class="row mt-5">
                         <div class="col-12 mt-xl-2">
-                            <p class="text-white font-weight-medium text-center">Copyright &copy; 2020 Messtechnik Comércio e Instrumentações LTDA.</p>
+                            <p class="text-white font-weight-medium text-center">Copyright &copy; {{ date('Y') }} Messtechnik Comércio e Instrumentações LTDA.</p>
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Input;
 
 class FileController extends Controller
 {
-    public function index() {
+    /*
+
+    */
+    /*public function index() {
         return view('files/index');
     }
 
@@ -20,4 +23,5 @@ class FileController extends Controller
 
         
     }
+    */
 }
