@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Messtechnik\Models\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Messtechnik\Models\Oem;
+//use Messtechnik\Models\Site;
 use Messtechnik\Traits\Logs;
 
 class ReportController extends Controller
@@ -27,12 +27,15 @@ class ReportController extends Controller
     public function getTower(string $estacao) {
         $result = false;
 
-        $torre = DB::connection('mysql')->table('SITE')
-        ->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO')
-        ->where('SITE.ESTACAO','=',$estacao)
-        ->get();
+        $torre = DB::table('SITES_FIREBIRD')
+            ->select('CODIGO', 'SITENAME', 'ESTACAO')
+            ->where('ESTACAO', $estacao)
+            ->get();
 
         if ($torre->first()) {
+            /*
+                Atribui o conteúdo entre parênteses do SITENAME na variável "NOME"
+            */
             preg_match('#\((.*?)\)#', $torre->first()->SITENAME, $match);
             $torre->first()->NOME = $match[1];
 
@@ -46,9 +49,9 @@ class ReportController extends Controller
         Retorna uma lista com todas as torres cadastradas no banco. 
     */
     public function getTowerList() {
-        return DB::connection('mysql')->table('SITE')->join('CLIENTE', 'SITE.CLICODIGO', '=', 'CLIENTE.CODIGO')->select('SITE.CODIGO', 'SITE.SITENAME', 'SITE.ESTACAO', 'CLIENTE.RAZAOSOCIAL')->orderBy('CLIENTE.RAZAOSOCIAL')->get();
+        return DB::connection('mysql')->table('SITES_FIREBIRD')->join('CLIENTES', 'SITES_FIREBIRD.CLICODIGO', '=', 'CLIENTES.CODIGO')->select('SITES_FIREBIRD.CODIGO', 'SITES_FIREBIRD.SITENAME', 'SITES_FIREBIRD.ESTACAO', 'CLIENTES.RAZAOSOCIAL')->orderBy('CLIENTES.RAZAOSOCIAL')->get();
     }
-
+    
     /*
         Gera um paginador, utilizado na lista de torres 
     */
@@ -125,19 +128,20 @@ class ReportController extends Controller
             // Insere o prefixo necessário para atribuir o path correto dentro do parâmetro src da tag <img src={{asset(...)}}>
             $fullPlotsPath = substr_replace($imagens, $prefixo, 0, 0);
     
+            // Se o nome da pasta tiver um hífen (correlação), 
             if (strpos($folder, '-') !== false) {
                 $arr = explode('-', $folder, 2);
                 $primeiraTorre = $this->getTower($arr[0]); 
                 $segundaTorre = $this->getTower($arr[1]);
 
                 //$titulo = 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME;
-                $titulo = $primeiraTorre && $segundaTorre ? 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME : 'Correlação torres: '.$arr[0].' e '.$arr[1];
+                $titulo = 'Correlação torres: '.($primeiraTorre && $segundaTorre ?$primeiraTorre->NOME.' e '.$segundaTorre->NOME : $arr[0].' e '.$arr[1]);
             }
             else {
                 $primeiraTorre = $this->getTower($folder);
 
-               // $titulo = 'Torre '.$primeiraTorre->NOME;
-                $titulo = $primeiraTorre ? 'Torre '.$primeiraTorre->NOME : 'Torre '.$folder;
+                // $titulo = 'Torre '.$primeiraTorre->NOME;
+                $titulo = 'Torre '.($primeiraTorre ? $primeiraTorre->NOME : $folder);
             }
             
         	return view('report.plots', compact(['fullPlotsPath','titulo']));
