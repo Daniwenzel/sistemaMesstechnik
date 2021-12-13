@@ -1,5 +1,5 @@
 suppressPackageStartupMessages(suppressWarnings({
-  library(odbc)
+  #library(odbc)
   library(tidyverse)
   library(plotly)
   library(lubridate)
@@ -11,12 +11,13 @@ suppressPackageStartupMessages(suppressWarnings({
 # Recebe o primeiro parametro (nome do arquivo "carregado" em disco) e atribui ao nome do arquivo
 args <- commandArgs(trailingOnly = TRUE)
 epeArquivo <- args[1]
-#epeArquivo <- '000473_20200416_20200430.txt'
+#epeArquivo <- '000473_20211101_20211115.txt'
 #epeArquivo <- '000571_20200201_20200215.txt'
 
 
 # Diretorio que o webserver salva os arquivos EPE carregados
 epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/storage/app/public/epe/'
+#epeDir <- 'C:/Users/Daniel/Desktop/arquivos-dados/epe/'
 
 # Le arquivo EPE, remove o cabecalho e linhas que nao sao utilizadas ("dados","fimdados"), e salva em outro arquivo para que o R consiga ler
 arqOriginal <- file(paste0(epeDir,epeArquivo))
@@ -35,7 +36,8 @@ close(arqModificado)
 # Busca pelo codigo da estacao na linha 1
 codigoEstacaoTorre <- str_pad(parse_number(linhas[1]), 6, pad="0")
 
-# FAZER FILTRO VERIFICAR SE ENCONTROU UM CODIGOESTACAO VALIDO, CASO NAO, SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
+# FAZER FILTRO VERIFICAR SE ENCONTROU UM CODIGOESTACAO VALIDO, CASO NAO,
+# SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
 
 # Lista com possiveis caracteres (tamanho fixo = 5), que precisam ser alterados para NA na leitura
 stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ", "-")
@@ -51,22 +53,22 @@ dados$CH02 <- str_pad(dados$CH02, 6, pad="0")
 dados$DTAREG <- as.POSIXct(paste(dados$CH01,dados$CH02,sep=' '), format="%Y-%m-%d %H%M%S")
 
 # Tenta conectar no database atraves do dsn measurs, e busca pelo registro do SITE usando o codigo estacao.
-tryCatch({
-  con <- dbConnect(odbc::odbc(),dsn='measurs')
-  torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
+#tryCatch({
+#  con <- dbConnect(odbc::odbc(),dsn='measurs')
+#  torre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoTorre,"'"))
   
-  if(nrow(torre) > 0) {
-    nomeTorre <- str_extract(string = torre$SITENAME, pattern = "\\([^()]+\\)")
-    nomeTorre <- substring(nomeTorre,2,nchar(nomeTorre)-1)
-  }
-}, error = function(err) {
-  message('Nao foi possivel conectar no banco de dados.\n')
-})
+#  if(nrow(torre) > 0) {
+#    nomeTorre <- str_extract(string = torre$SITENAME, pattern = "\\([^()]+\\)")
+#    nomeTorre <- substring(nomeTorre,2,nchar(nomeTorre)-1)
+#  }
+#}, error = function(err) {
+#  message('Nao foi possivel conectar no banco de dados.\n')
+#})
 
 # Caso nao encontre, atribui codigo estacao no nomeTorre
-if(!exists('nomeTorre')) {
-  nomeTorre <- codigoEstacaoTorre
-}
+#if(!exists('nomeTorre')) {
+#  nomeTorre <- codigoEstacaoTorre
+#}
 
 # Cria o diretorio da torre, caso ainda nao exista
 dir <- paste0("C:/xampp/htdocs/sistemaMesstechnik/public/images/plots/")
@@ -82,9 +84,9 @@ suppressWarnings({
   for (iC in canais) {
     cor <- randomColor(luminosity = "dark")
     plot <- ggplot() + 
-      geom_line(data = dados, aes(x=as.POSIXct(DTAREG), y=dados[,iC],colour=nomeTorre),size=0.3) +
+      geom_line(data = dados, aes(x=as.POSIXct(DTAREG), y=dados[,iC],colour=codigoEstacaoTorre),size=0.3) +
       scale_colour_manual("", 
-                          breaks = c(nomeTorre),
+                          breaks = c(codigoEstacaoTorre),
                           values = c(cor)) +
       scale_x_datetime(date_breaks = "12 hours" , date_labels = "%d/%b %R") +
       labs(title=linhas[iC+3],
@@ -181,6 +183,6 @@ for (iD in 1:nrow(dados)) {
   }
 }
 
-if(exists('con')) {
-  dbDisconnect(con)
-}
+#if(exists('con')) {
+#  dbDisconnect(con)
+#}
