@@ -1,5 +1,5 @@
 suppressPackageStartupMessages(suppressWarnings({
-  library(odbc)
+  #library(odbc)
   library(tidyverse)
   library(plotly)
   library(lubridate)
@@ -14,11 +14,12 @@ args <- commandArgs(trailingOnly = TRUE)
 primeiroArquivoEpe <- args[1]
 segundoArquivoEpe <- args[2]
 
-#primeiroArquivoEpe <- '000475_20200516_20200531.txt'
-#segundoArquivoEpe <- '000474_20200516_20200531.txt'
+#primeiroArquivoEpe <- '000473_20211101_20211115.txt'
+#segundoArquivoEpe <- '000474_20211101_20211115.txt'
 
 # Diretorio que o webserver salva os arquivos EPE carregados
 epeDir <- 'C:/xampp/htdocs/sistemaMesstechnik/storage/app/public/epe/'
+#epeDir <- 'C:/Users/Daniel/Desktop/arquivos-dados/epe/'
 
 # Cria handlers para os arquivos originais e modificados (modificado=contem apenas a linha dos nomes "CH01|CH02.." e os dados)
 primeiroOriginal <- file(paste0(epeDir,primeiroArquivoEpe))
@@ -71,25 +72,25 @@ segundaDados <- segundaDados %>% mutate(CH01 = as.Date(as.character(CH01), "%Y%m
 segundaDados$CH02 <- str_pad(segundaDados$CH02, 6, pad="0")
 segundaDados$DTAREG <- as.POSIXct(paste(segundaDados$CH01,segundaDados$CH02,sep=' '), format="%Y-%m-%d %H%M%S")
 
-# Conexao com banco de primeiraDados, dsn nomeado measurs configurado dentro do servidor
-con <- dbConnect(odbc::odbc(),dsn='measurs')
+# Conexao com banco de dados, dsn nomeado measurs configurado dentro do servidor
+#con <- dbConnect(odbc::odbc(),dsn='measurs')
 
 # Caso a torre nao estiver armazenada no banco de dados, utiliza o codigo estacao como identificador
-primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoPrimeiraTorre,"'"))
-if(nrow(primeiraTorre) > 0) {
-  nomePrimeiraTorre <- str_extract(string = primeiraTorre$SITENAME, pattern = "\\([^()]+\\)")
-  nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
-} else {
-  nomePrimeiraTorre = codigoEstacaoPrimeiraTorre
-}
+#primeiraTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoPrimeiraTorre,"'"))
+#if(nrow(primeiraTorre) > 0) {
+#  nomePrimeiraTorre <- str_extract(string = primeiraTorre$SITENAME, pattern = "\\([^()]+\\)")
+#  nomePrimeiraTorre <- substring(nomePrimeiraTorre,2,nchar(nomePrimeiraTorre)-1)
+#} else {
+#  nomePrimeiraTorre = codigoEstacaoPrimeiraTorre
+#}
 
-segundaTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoSegundaTorre,"'"))
-if(nrow(segundaTorre) > 0) {
-  nomeSegundaTorre <- str_extract(string = segundaTorre$SITENAME, pattern = "\\([^()]+\\)")
-  nomeSegundaTorre <- substring(nomeSegundaTorre,2,nchar(nomeSegundaTorre)-1)
-} else {
-  nomeSegundaTorre = codigoEstacaoSegundaTorre  
-}
+#segundaTorre <- dbGetQuery(con, paste0("SELECT * FROM SITE sit WHERE sit.ESTACAO='",codigoEstacaoSegundaTorre,"'"))
+#if(nrow(segundaTorre) > 0) {
+#  nomeSegundaTorre <- str_extract(string = segundaTorre$SITENAME, pattern = "\\([^()]+\\)")
+#  nomeSegundaTorre <- substring(nomeSegundaTorre,2,nchar(nomeSegundaTorre)-1)
+#} else {
+#  nomeSegundaTorre = codigoEstacaoSegundaTorre  
+#}
 
 # Cria o diretorio da torre, caso ainda nao exista
 maiorCodigo <- max(c(codigoEstacaoPrimeiraTorre, codigoEstacaoSegundaTorre))
@@ -105,11 +106,11 @@ canais <- c(4,5,6,7,11,13,17,19)
 # Para cada canal, gera o plot das medicoes em relacao a data
 for (iC in canais) {
   plot <- ggplot() + 
-    geom_line(data = primeiraDados, aes(x=as.POSIXct(DTAREG), y=primeiraDados[,iC],colour=nomePrimeiraTorre),size=0.3) +
-    geom_line(data = segundaDados, aes(x=as.POSIXct(DTAREG), y=segundaDados[,iC],colour=nomeSegundaTorre),size=0.3) +
+    geom_line(data = primeiraDados, aes(x=as.POSIXct(DTAREG), y=primeiraDados[,iC],colour=codigoEstacaoPrimeiraTorre),size=0.3) +
+    geom_line(data = segundaDados, aes(x=as.POSIXct(DTAREG), y=segundaDados[,iC],colour=codigoEstacaoSegundaTorre),size=0.3) +
     
     scale_colour_manual("", 
-                        breaks = c(nomePrimeiraTorre, nomeSegundaTorre),
+                        breaks = c(codigoEstacaoPrimeiraTorre, codigoEstacaoSegundaTorre),
                         values = c("#56B4E9", "#E3265C")) +
     scale_x_datetime(date_breaks = "12 hours" , date_labels = "%d/%b %R") +
     labs(title=primeiraLinhas[iC+3],
@@ -151,12 +152,12 @@ for (iW in 1:length(primeiraWvAlturas)) {
                        direction = as.numeric(unlist(primeiraWindvanes[iW])),
                        speed_cuts = seq(0,25,5),
                        legend_title="Velocidades [m/s]",
-                       ggtheme='minimal')+labs(title=paste0(nomePrimeiraTorre," - Windvane ",names(primeiraWindvanes[iW])))
+                       ggtheme='minimal')+labs(title=paste0(codigoEstacaoPrimeiraTorre," - Windvane ",names(primeiraWindvanes[iW])))
   wr2 <- windrose(speed = as.numeric(unlist(segundaAnemometroPar)),
                          direction = as.numeric(unlist(segundaWindvanes[iW])),
                          speed_cuts = seq(0,25,5),
                          legend_title="Velocidades [m/s]",
-                         ggtheme='minimal')+labs(title=paste0(nomeSegundaTorre," - Windvane ",names(segundaWindvanes[iW])))
+                         ggtheme='minimal')+labs(title=paste0(codigoEstacaoSegundaTorre," - Windvane ",names(segundaWindvanes[iW])))
   rosaVentos <- grid.arrange(wr1,wr2,ncol=2)
   # E salva a imagem da rosa dos ventos dentro da pasta da torre 
   ggsave(file=paste0("rosaventos-",iW,".png"), plot=rosaVentos, device="png", path=plotsDir, height=4, width=8)
@@ -166,23 +167,23 @@ for (iW in 1:length(primeiraWvAlturas)) {
 if(iC == 19) {
   cat("Plots gerados com sucesso!\n")
 } else {
-  cat("Houve uma falha na geraï¿½ï¿½o dos plots.\n")
+  cat("Houve uma falha na geracao dos plots.\n")
 }
 
 # Todos os possiveis periodos dentro de 1 dia
 periodos <- c('000000','001000','002000','003000','004000','005000','010000','011000','012000','013000','014000','015000','020000','021000','022000','023000','024000','025000','030000','031000','032000','033000','034000','035000','040000','041000','042000','043000','044000','045000','050000','051000','052000','053000','054000','055000','060000','061000','062000','063000','064000','065000','070000','071000','072000','073000','074000','075000','080000','081000','082000','083000','084000','085000','090000','091000','092000','093000','094000','095000','100000','101000','102000','103000','104000','105000','110000','111000','112000','113000','114000','115000','120000','121000','122000','123000','124000','125000','130000','131000','132000','133000','134000','135000','140000','141000','142000','143000','144000','145000','150000','151000','152000','153000','154000','155000','160000','161000','162000','163000','164000','165000','170000','171000','172000','173000','174000','175000','180000','181000','182000','183000','184000','185000','190000','191000','192000','193000','194000','195000','200000','201000','202000','203000','204000','205000','210000','211000','212000','213000','214000','215000','220000','221000','222000','223000','224000','225000','230000','231000','232000','233000','234000','235000')
 
-# Para cada dia do intervalo escolhido, verifica se a quantidade de registros eh != 144, se for menor, busca pela data ausente, se for maior, busca por datas duplicadas
+# Para cada dia do intervalo escolhido, verifica se a quantidade de registros é != 144, se for menor, busca pela data ausente, se for maior, busca por datas duplicadas
 for(i in 1:length(unique(primeiraDados$CH01))) {
   quantidadeRegistros <- sum(primeiraDados$CH01 == unique(primeiraDados$CH01)[i])
   if(quantidadeRegistros < 144) {
     ausentes <- !periodos %in% primeiraDados$CH02[primeiraDados$CH01 == unique(primeiraDados$CH01)[i]]
-    cat(paste0("Erro! O dia ",unique(primeiraDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
+    cat(paste0("Erro na torre ",codigoEstacaoPrimeiraTorre,"! O dia ",unique(primeiraDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
     cat(paste0("- O horario ",periodos[ausentes]," esta ausente.\n"))
   }
   else if(quantidadeRegistros > 144) {
     duplicados <- data.frame(table(primeiraDados$CH02[primeiraDados$CH01 == unique(primeiraDados$CH01)[i]]))
-    cat(paste0("Erro! O dia ",unique(primeiraDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
+    cat(paste0("Erro na torre ",codigoEstacaoPrimeiraTorre,"! O dia ",unique(primeiraDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
     cat(paste0("- O horario ",duplicados$Var1[duplicados$Freq > 1], " esta duplicado.\n")) 
   }
 }
@@ -191,14 +192,14 @@ for(i in 1:length(unique(segundaDados$CH01))) {
   quantidadeRegistros <- sum(segundaDados$CH01 == unique(segundaDados$CH01)[i])
   if(quantidadeRegistros < 144) {
     ausentes <- !periodos %in% segundaDados$CH02[segundaDados$CH01 == unique(segundaDados$CH01)[i]]
-    cat(paste0("Erro! O dia ",unique(segundaDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
+    cat(paste0("Erro na torre ",codigoEstacaoSegundaTorre,"! O dia ",unique(segundaDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
     cat(paste0("- O horario ",periodos[ausentes]," esta ausente.\n"))
   }
   else if(quantidadeRegistros > 144) {
     duplicados <- data.frame(table(segundaDados$CH02[segundaDados$CH01 == unique(segundaDados$CH01)[i]]))
-    cat(paste0("Erro! O dia ",unique(segundaDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
+    cat(paste0("Erro na torre ",codigoEstacaoSegundaTorre,"! O dia ",unique(segundaDados$CH01)[i]," possui ",quantidadeRegistros," registros.\n"))
     cat(paste0("- O horario ",duplicados$Var1[duplicados$Freq > 1], " esta duplicado.\n")) 
   }
 }
 
-dbDisconnect(con)
+#dbDisconnect(con)
