@@ -43,7 +43,7 @@
         "del": "2.2.2",
         "jquery": "^3.5.1",
         "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "merge-stream": "^1.0.1",
         "minimatch": "^3.0.4",
         "popper.js": "^1.15.0",
