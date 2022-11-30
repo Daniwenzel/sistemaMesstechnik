@@ -9,14 +9,16 @@
 				<div class="row">
 					<div class="table-responsive col-md-12 my-5" id="site-mapa" style="height: 500px;"></div>
 				</div>
+
 				@role('Admin')
-				<div class="col-md-12 text-center">
+				<div class="col-md-12 text-center my-3">
 					<button class="btn btn-inverse-dark" type="button" data-oemcodigo="{{ $site->codigo }}" id="btn-arquivo-add">Adicionar Arquivo</button>
 					<a href="{{ route('site.edit', $site->codigo) }}"><button class="btn btn-inverse-dark" type="button">Editar Estação</button></a>
 				</div>
 				@endrole
 				<div class="row menu-estacao">
 					<div class="table-responsive"><!--col-md-6 my-5-->
+						<h4 class="card-title my-3">Informações Gerais</h4>
 						<table class="table table-striped">
 							<tbody>
 								<tr><td>Nome Mstk: {{ $site->nome_mstk }}</td></tr>
@@ -37,13 +39,15 @@
 					<img src="{{ $imagem }}" alt="Imagem da estação" class="imagem-estacao">	
 					<!--</div>-->
 				</div>
+
 				@role('Admin')
-				<div class="col-md-12 text-center">
+				<div class="col-md-12 text-center my-3">
 					<button class="btn btn-inverse-dark" type="button" data-sitcodigo="{{ $site->codigo }}" id="btn-atendimento-add">Adicionar Atendimento</button>
 				</div>
 				@endrole
 				<div class="row">
-					<div class="table-responsive col-md-12 my-5">
+					<div class="table-responsive col-md-12 my-3">
+						<h4 class="card-title my-3">Atendimentos</h4>
 						<table class="table" id="tabelaAtendimentos">
 							<thead>
 								<tr>
@@ -66,6 +70,7 @@
 						</table>
 					</div>
 				</div>
+
 				@role('Admin')
 				<div class="col-md-12 text-center">
 					<button class="btn btn-inverse-dark" type="button" data-sitcodigo="{{ $site->codigo }}" id="btn-pendencia-add">Adicionar Pendência</button>
@@ -73,6 +78,7 @@
 				@endrole
 				<div class="row">
 					<div class="table-responsive col-md-12 my-5">
+						<h4 class="card-title my-3">Pendências</h4>
 						<table class="table" id="tabelaPendencias">
 							<thead>
 								<tr>
@@ -98,6 +104,7 @@
 				@endrole
 				<div class="row">
 					<div class="table-responsive col-md-12 my-5">
+						<h4 class="card-title my-3">Equipamentos</h4>
 						<table class="table" id="tabelaEquipamentos">
 							<thead>
 								<tr>

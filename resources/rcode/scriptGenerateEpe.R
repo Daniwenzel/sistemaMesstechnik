@@ -8,6 +8,8 @@ suppressPackageStartupMessages(suppressWarnings({
   library(randomcoloR)
 }))
 
+rm(list=ls())
+
 # Recebe o primeiro parametro (nome do arquivo "carregado" em disco) e atribui ao nome do arquivo
 args <- commandArgs(trailingOnly = TRUE)
 epeArquivo <- args[1]
@@ -40,7 +42,7 @@ codigoEstacaoTorre <- str_pad(parse_number(linhas[1]), 6, pad="0")
 # SCRIPT IRA ENVIAR ERRO PARA A PAGINA MAS MOSTRARA PLOTS CASO TENHAM SIDO CRIADOS ANTERIORMENTE
 
 # Lista com possiveis caracteres (tamanho fixo = 5), que precisam ser alterados para NA na leitura
-stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ", "-")
+stringsNa <- c("    -","   - ","  -  "," -   ","-    "," - ", "-","    -","   -","  -","-")
 
 # Le arquivo modificado e remove coluna "X", criada sem necessidade
 dados <- read.table(paste0(epeDir,'MOD-',epeArquivo),header=TRUE,sep='|',dec=',',na.strings = stringsNa)
@@ -104,32 +106,40 @@ suppressWarnings({
 })
 
 # Cria um dataframe com as colunas 11 e 17 (medias das windvanes), e usa um regex que filtra strings dentro de parenteses (altura) nas linhas 14 e 20
-windvanes <- dados[c(11,17)]
-names(windvanes) <- c(gsub(".*\\((.*)\\).*", "\\1", linhas[14]),gsub(".*\\((.*)\\).*", "\\1", linhas[20]))
+#windvanes <- dados[c(11,17)]
+#names(windvanes) <- c(gsub(".*\\((.*)\\).*", "\\1", linhas[14]),gsub(".*\\((.*)\\).*", "\\1", linhas[20]))
 
 # Cria um dataframe com as colunas 7, 13 e 19 (medias dos anemometros), e usa um regex que filtra strings dentro de parenteses (altura) nas linhas 10, 16 e 22
-anemometros <- dados[c(7,13,19)]
-names(anemometros) <- c(gsub(".*\\((.*)\\).*", "\\1", linhas[10]),gsub(".*\\((.*)\\).*", "\\1", linhas[16]),gsub(".*\\((.*)\\).*", "\\1", linhas[22]))
+#anemometros <- dados[c(7,13,19)]
+#names(anemometros) <- c(gsub(".*\\((.*)\\).*", "\\1", linhas[10]),gsub(".*\\((.*)\\).*", "\\1", linhas[16]),gsub(".*\\((.*)\\).*", "\\1", linhas[22]))
 
 # Extrai os valores numericos das strings de altura, substituindo caracteres (underlines, hifens, virgulas) para atender o formato numerico
-wvAlturas <- as.numeric(gsub("_|-|,",".",gsub("m","",names(windvanes))))
-anAlturas <- as.numeric(gsub("_|-|,",".",gsub("m","",names(anemometros))))
+#wvAlturas <- as.numeric(gsub("_|-|,",".",gsub("m","",names(windvanes))))
+#anAlturas <- as.numeric(gsub("_|-|,",".",gsub("m","",names(anemometros))))
 
 # Para cada windvane, busca pelo anemometro mais proximo (relacao da altura) e gera a sua rosa dos ventos
-for (iW in 1:length(wvAlturas)) {
-  anemometroProx <- anemometros[first(which(abs(anAlturas-wvAlturas[iW])==min(abs(anAlturas-wvAlturas[iW]))))]
+#for (iW in 1:length(wvAlturas)) {
+  #anemometroProx <- anemometros[first(which(abs(anAlturas-wvAlturas[iW])==min(abs(anAlturas-wvAlturas[iW]))))]
   
-  rosaVentos <- windrose(speed = as.numeric(unlist(anemometroProx)),
-                       direction = as.numeric(unlist(windvanes[iW])),
-                       speed_cuts = seq(0,25,5),
-                       legend_title="Velocidades [m/s]",
-                       ggtheme='minimal')+labs(title=paste0("Windvane ",names(windvanes[iW])))
-  # E salva a imagem da rosa dos ventos dentro da pasta da torre 
-  ggsave(file=paste0("rosaventos-",iW,".png"), plot=rosaVentos, device="png", path=plotsDir, height=4, width=8)
-}
+rosaVentosSuperior <- windrose(speed = as.numeric(unlist(dados[7])),
+                               direction = as.numeric(unlist(dados[11])),
+                               speed_cuts = seq(0,25,5),
+                               legend_title="Velocidades [m/s]",
+                               ggtheme='minimal')+labs(title="Windvane Superior")
 
-# Se, ao final do script, o indice dos lacos de repeticao 'for(iW...), for(iC...)' dos plots alcancar o ultimo valor possivel, os plots foram criados com sucesso
-if(iC == canais[length(canais)] && iW == length(wvAlturas)) {
+ggsave(file=paste0("rosaventos-superior.png"), plot=rosaVentosSuperior, device="png", path=plotsDir, height=4, width=8)
+
+rosaVentosInferior <- windrose(speed = as.numeric(unlist(dados[13])),
+                               direction = as.numeric(unlist(dados[17])),
+                               speed_cuts = seq(0,25,5),
+                               legend_title="Velocidades [m/s]",
+                               ggtheme='minimal')+labs(title="Windvane Inferior")
+
+ggsave(file=paste0("rosaventos-inferior.png"), plot=rosaVentosInferior, device="png", path=plotsDir, height=4, width=8)
+#}
+
+# Se, ao final do script, o indice dos lacos de repeticao 'for(iC...)' dos plots alcancar o ultimo valor possivel, os plots foram criados com sucesso
+if(iC == canais[length(canais)]) {
   cat("Plots gerados com sucesso!\n")
 } else {
   cat("Houve uma falha na geracao dos plots.\n")

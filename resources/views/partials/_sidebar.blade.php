@@ -22,6 +22,7 @@
                 <span class="menu-title">{{ __('buttons.dashboard') }}</span>
             </a>
         </li>
+        @role('Admin')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="menu-icon mdi mdi-account-box"></i>
@@ -41,15 +42,23 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('clients.index') }}">
+                <i class="menu-icon mdi mdi-wind-turbine"></i>
+                <span class="menu-title">{{ __('Estações') }}</span>
+            </a>
+        </li>
+        @else
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('stations.index', Auth::user()->empresa->razaosocial ) }}">
+                <i class="menu-icon mdi mdi-wind-turbine"></i>
+                <span class="menu-title">{{ __('Estações') }}</span>
+            </a>
+        </li>
+        @endrole
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('reports.index') }}">
                 <i class="menu-icon mdi mdi-poll"></i>
                 <span class="menu-title">{{ __('buttons.report') }}</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('stations.index') }}">
-                <i class="menu-icon mdi mdi-wind-turbine"></i>
-                <span class="menu-title">{{ __('Estações') }}</span>
             </a>
         </li>
     </ul>

@@ -46,11 +46,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/log', 'LogController@showLog')->name('log.index');
 
-    // Route::get('/clients', 'SiteController@index')->name('company.index');
-    Route::get('/stations', 'SiteController@index')->name('stations.index');
-    Route::get('/stations/{client}', 'SiteController@mostrarSitesCliente')->name('stations.client.index');
+    Route::get('/clients', 'SiteController@index')->name('clients.index');
+    //Route::get('/stations', 'SiteController@mostrarSitesCliente')->name('stations.index');
+    Route::get('/stations/{client}', 'SiteController@mostrarSitesCliente')->name('stations.index');
 
-    Route::get('/station/{oemcodigo}', 'SiteController@mostrarSite')->name('site.index');
+    Route::get('/station/{sitcodigo}', 'SiteController@mostrarSite')->name('site.index');
     Route::get('/station/{oemcodigo}/edit', 'SiteController@editarSite')->name('site.edit');
     Route::post('/station/{oemcodigo}', 'SiteController@update')->name('site.update');
 
