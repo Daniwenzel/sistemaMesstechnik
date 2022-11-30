@@ -18,7 +18,7 @@
         "@barba/prefetch": "^2.1.5",
         "@mdi/font": "^3.7.95",
         "animate.css": "^3.7.2",
-        "chart.js": "^2.8.0",
+        "chart.js": "^2.9.4",
         "daterangepicker": "^3.0.5",
         "dropzone": "^5.7.2",
         "flag-icon-css": "2.9.0",
