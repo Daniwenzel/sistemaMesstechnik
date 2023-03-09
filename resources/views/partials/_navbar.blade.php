@@ -11,7 +11,7 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown nav-profile cursor-pointer">
                 <span class="nav-link dropdown-toggle d-none d-xl-inline-block" id="UserDropdown" data-toggle="dropdown" aria-expanded="false">
-                <span class="profile-text">{{ __('buttons.hello',['attribute' => Auth::user()->nome]) }}</span>
+                <span class="profile-text">{{ __('buttons.hello',['attribute' => Auth::user()->name]) }}</span>
                         <img class="img-xs rounded-circle" src="{{ asset('images/faces-clipart/pic-1.png') }}" alt="Imagem perfil">
                     </span>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">

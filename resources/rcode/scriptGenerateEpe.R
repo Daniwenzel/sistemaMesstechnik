@@ -91,7 +91,7 @@ suppressWarnings({
                           breaks = c(codigoEstacaoTorre),
                           values = c(cor)) +
       scale_x_datetime(date_breaks = "12 hours" , date_labels = "%d/%b %R") +
-      labs(title=linhas[iC+3],
+      labs(title=enc2utf8(linhas[iC+3]),
            x=' ',
            y=' ') +
       theme(axis.text.x=element_text(size=8, angle=45, hjust=1),

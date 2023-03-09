@@ -15,6 +15,12 @@ class ReportController extends Controller
     use Logs;
 
     /*
+        Atenção. O diretório do executavel do Rscript e dos scripts estão sendo passados de maneira estática. Alterar caso a instalação seja feita em outro caminho.
+    */
+    private $rscriptExe = '"C:\Program Files\R\R-4.2.2\bin\Rscript.exe"';
+    private $scriptsPath = 'C:\xampp\htdocs\sistemaMesstechnik\resources\rcode';
+
+    /*
         Mostra a view inicial dos relatórios
     */
     public function index() {
@@ -24,6 +30,7 @@ class ReportController extends Controller
     /*
         Busca pelo registro da torre dentro do banco de dados
     */
+    /*
     public function getTower(string $estacao) {
         $result = false;
 
@@ -35,7 +42,7 @@ class ReportController extends Controller
         if ($torre->first()) {
             /*
                 Atribui o conteúdo entre parênteses do SITENAME na variável "NOME"
-            */
+            
             preg_match('#\((.*?)\)#', $torre->first()->SITENAME, $match);
             $torre->first()->NOME = $match[1];
 
@@ -44,9 +51,10 @@ class ReportController extends Controller
 
         return $result;
     }
+    */
 
     /*
-        Retorna uma lista com todas as torres cadastradas no banco. 
+        Retorna uma lista com todas as torres cadastradas no banco MySQL. 
     */
     public function getTowerList() {
         return DB::connection('mysql')->table('SITES_FIREBIRD')->join('CLIENTES', 'SITES_FIREBIRD.CLICODIGO', '=', 'CLIENTES.CODIGO')->select('SITES_FIREBIRD.CODIGO', 'SITES_FIREBIRD.SITENAME', 'SITES_FIREBIRD.ESTACAO', 'CLIENTES.RAZAOSOCIAL')->orderBy('CLIENTES.RAZAOSOCIAL')->get();
@@ -72,40 +80,39 @@ class ReportController extends Controller
         Mostra a view "correlação", enviando uma lista das torres agrupadas por cliente
     */
     public function showCompare() {
-    	$torres = $this->getTowerList();
+    	//$torres = $this->getTowerList();
 
-    	$grouped = $torres->groupBy('RAZAOSOCIAL');
-        $grouped->toArray();
+    	//$grouped = $torres->groupBy('RAZAOSOCIAL');
+        //$grouped->toArray();
         
-        return view('report.correlation', compact('torres','grouped'));
+        return view('report.correlation');
     }
 
     /*
         Recebe o codigo estação de 2 torres e invoca o script Rcode que acessa o banco de dados e compara os dados das torres escolhidas. Criando imagens estáticas desta comparação dentro do diretorio da aplicação e retorna para a view mostrando as imagens criadas.
     */
     public function compare(Request $request) {
-        $torreRef = $this->getTower($request->torreReferencia);
-        $torreSec = $this->getTower($request->torreSecundaria);
+        $torreRef = $request->torreReferencia;
+        $torreSec = $request->torreSecundaria;
+        $periodo = $request->periodo;
+        $diretorio = $request->diretorio;
 
         // Se encontrar o registro das torres, insere o código estação das torres e o período como parâmetros para a invocação do script Rcode
         if($torreRef && $torreSec) {
-            /*
-                Atenção. O diretório do script está sendo passado de maneira estática. Checar alterações no diretório do projeto, mover script para a pasta public caso não for uma "quebra" de segurança. Script contém informações de acesso ao banco de dados.Usar função getcwd() caso script estiver na public.
-            */
-            $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptCompare.R '.
-            $torreRef->ESTACAO." ".$torreSec->ESTACAO." ".$request->periodo." --vanilla 2>&1";
+            // Atenção, o script possui credenciais de banco de dados
+            $cmdCompare = $this->rscriptExe.' '.$this->scriptsPath.'\scriptCompare.R '.$torreRef." ".$torreSec." ".$periodo." --vanilla 2>&1";
             // getcwd() = /var/www/sistemaMesstechnik/public ou C:\xampp\htdocs\sistemaMesstechnik\public
 
-            $rawResponse = shell_exec($cmd);
+            $rawResponse = shell_exec($cmdCompare);
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
-            $this->createLog($request->diretorio,'success','Comparação das torres: '.$torreRef->NOME.' e '.$torreSec->NOME.' Criada com sucesso.');
+            $this->createLog($diretorio,'success','Comparação das torres: '.$torreRef.' e '.$torreSec.' Criada com sucesso.');
 
             return;
         }
         else {
-            $this->createLog($request->diretorio, "error", "Falha ao encontrar torre(s): ".$request->torreReferencia." = ".($torreRef->NOME ?? 'Inexistente').' e '.$request->torreSecundaria." = ".($torreSec->NOME ?? 'Inexistente'));
+            $this->createLog($diretorio, "error", "Falha ao comparar torre(s): ".$torreRef.' e '.$torreSec);
 
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
@@ -131,17 +138,12 @@ class ReportController extends Controller
             // Se o nome da pasta tiver um hífen (correlação), 
             if (strpos($folder, '-') !== false) {
                 $arr = explode('-', $folder, 2);
-                $primeiraTorre = $this->getTower($arr[0]); 
-                $segundaTorre = $this->getTower($arr[1]);
 
                 //$titulo = 'Correlação torres: '.$primeiraTorre->NOME.' e '.$segundaTorre->NOME;
-                $titulo = 'Correlação torres: '.($primeiraTorre && $segundaTorre ?$primeiraTorre->NOME.' e '.$segundaTorre->NOME : $arr[0].' e '.$arr[1]);
+                $titulo = 'Correlação torres: '.$arr[0].' e '.$arr[1];
             }
             else {
-                $primeiraTorre = $this->getTower($folder);
-
-                // $titulo = 'Torre '.$primeiraTorre->NOME;
-                $titulo = 'Torre '.($primeiraTorre ? $primeiraTorre->NOME : $folder);
+                $titulo = 'Torre '. $folder;
             }
             
         	return view('report.plots', compact(['fullPlotsPath','titulo']));
@@ -153,7 +155,25 @@ class ReportController extends Controller
     // Retorna uma lista com todas as pastas dos plots (correlações ou torres) já gerados dentro do MMS
     public function showTorresList(Request $request) {
         // scan dentro da pasta C:\xampp\htdocs\sistemaMesstechnik\public\images\plots retornando o nome dos diretórios presentes
+
         $pastas = preg_grep('/^([^.])/', scandir(getcwd().'/images/plots'));
+
+        foreach ($pastas as $pasta) {
+            $datas[] = date("F d Y H:i:s.", filemtime(getcwd().'/images/plots'.'/'.$pasta));
+        }
+
+        $lista = array_map(function ($pastas, $datas) {
+            return [
+                'nome' => $pastas,
+                'data' => $datas,
+            ];
+        }, $pastas, $datas);
+        
+
+        //$listaPlots = array();
+        //$listaPlots['pastas'] = preg_grep('/^([^.])/', scandir(getcwd().'/public/images/plots'));
+
+        //$pastas = preg_grep('/^([^.])/', scandir(getcwd().'/public/images/plots'));
 
         if (!empty($pastas)) {
             foreach($pastas as $pasta) {
@@ -162,10 +182,10 @@ class ReportController extends Controller
                 if (strpos($pasta, '-') !== false) {
                     $arr = explode('-', $pasta, 2);
 
-                    $nome = ($this->getTower($arr[0])->NOME ?? 'Torre Inexistente').' - '.($this->getTower($arr[1])->NOME ?? 'Torre Inexistente');
+                    $nome = $arr[0].' - '.$arr[1];
                 }
                 else {
-                    $nome = $this->getTower($pasta)->NOME ?? 'Torre Inexistente';
+                    $nome = $pasta;
                 }
                 if (is_null($request->search)) {
                     $nomes[$pasta] = $nome;
@@ -185,34 +205,31 @@ class ReportController extends Controller
     }
 
     public function showGenerate() {
-        $torres = $this->getTowerList();
+        //$torres = $this->getTowerList();
 
-    	$grouped = $torres->groupBy('RAZAOSOCIAL')->toArray();
+    	//$grouped = $torres->groupBy('RAZAOSOCIAL')->toArray();
         // $grouped->toArray();
 
-        return view('report.generate', compact('torres','grouped'));
+        //return view('report.generate', compact('torres','grouped'));
+        return view('report.generate');
     }
 
     public function generate(Request $request) {
-        $torreUm = $this->getTower($request->primeiraTorre);
+        $torreUm = $request->primeiraTorre;
 
         if($torreUm) {
-            // Atenção para alterações no diretório do projeto!
-            // Caso houver, modificar $cmd para atender as mudanças.
-            // Caso o script estiver na pasta public, pesquisar possiveis falhas de segurança. Utilizar função getcwd() = /var/www/sistemaMesstechnik/public no linux ou C:\xampp\htdocs\sistemaMesstechnik\public no windows
+             $cmdGenerate = $this->rscriptExe.' '.$this->scriptsPath.'\scriptGenerate.R '.$torreUm." ".$request->periodo.' --vanilla 2>&1';
 
-            $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptGenerate.R '.$torreUm->ESTACAO." ".$request->periodo.' --vanilla 2>&1';
-
-            $rawResponse = shell_exec($cmd);
+            $rawResponse = shell_exec($cmdGenerate);
             $response = explode("\n", $rawResponse);
             $request->session()->flash('message', $response);
 
-            $this->createLog($request->diretorio,'success','Geração dos plots da torre '.$torreUm->NOME.' Criada com sucesso.');
+            $this->createLog($request->diretorio,'success','Geração dos plots da torre '.$torreUm.' Criada com sucesso.');
             
             return;
         }
         else {
-            $this->createLog($request->diretorio,'error', 'Falha ao encontrar torre com código estação = '.$request->primeiraTorre);
+            $this->createLog($request->diretorio,'error', 'Falha ao encontrar torre com código estação = '.$torreUm);
 
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
@@ -230,11 +247,10 @@ class ReportController extends Controller
             $upload = $arquivo->storeAs('epe', $nomeArquivo, 'public');
 
             if ($upload) {
-                // Atenção para alterações no diretório do projeto!
-                // Caso houver, modificar $cmd para atender as mudanças.
-                $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptGenerateEpe.R '.$nomeArquivo." --vanilla 2>&1";
+     
+                $cmdGenerateEpe = $this->rscriptExe.' '.$this->scriptsPath.'\scriptGenerateEpe.R '.$nomeArquivo." --vanilla 2>&1";
 
-                $rawResponse = shell_exec($cmd);
+                $rawResponse = shell_exec($cmdGenerateEpe);
                 $response = explode("\n", $rawResponse);
 
                 $folder = substr($nomeArquivo,0,6);
@@ -265,11 +281,9 @@ class ReportController extends Controller
             $segundoUpload = $segundoArq->storeAs('epe', $nomeSegundoArq, 'public');
 
             if ($primeiroUpload && $segundoUpload) {
-                // Atenção para alterações no diretório do projeto!
-                // Caso houver, modificar a string $cmd para atender as mudanças.
-                $cmd = '"C:\Program Files\R\R-3.6.1\bin\Rscript.exe" C:\xampp\htdocs\sistemaMesstechnik\resources\rcode\scriptCompareEpe.R '.$nomePrimeiroArq." ".$nomeSegundoArq." --vanilla 2>&1";
+                $cmdCompareEpe = $this->rscriptExe.' '.$this->scriptsPath.'\scriptCompareEpe.R '.$nomePrimeiroArq." ".$nomeSegundoArq." --vanilla 2>&1";
 
-                $rawResponse = shell_exec($cmd);
+                $rawResponse = shell_exec($cmdCompareEpe);
                 $response = explode("\n", $rawResponse);
 
                 $estacaoMaior = max(substr($nomePrimeiroArq, 0, 6), substr($nomeSegundoArq, 0, 6));

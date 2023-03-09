@@ -48,13 +48,13 @@
                             @foreach($usuarios as $usuario)
                                 <tr>
                                     <td>
-                                        {{ $usuario->nome }}
+                                        {{ $usuario->name }}
                                     </td>
                                     <td>
                                         {{ $usuario->email }}
                                     </td>
                                     <td>
-                                        {{ $usuario->empresa->nome }}
+                                        {{ $usuario->empresa->razaosocial }}
                                     </td>
                                     <td>
                                         {{ $usuario->getRoleNames()->first() }}

@@ -26,10 +26,10 @@ class UserController extends Controller
 //            $usuarios = User::where('name','ilike','%'.$search.'%')
 //                ->with('empresa')
 //                ->orWhereHas('empresa', function($query) use ($search) {
-//                    $query->where('nome', 'ilike','%'.$search.'%');
+//                    $query->where('name', 'ilike','%'.$search.'%');
 //                })
 //                ->paginate(10) :
-        $usuarios = User::with('empresa')->where('clicodigo', Auth::user()->clicodigo)->where('nome','like','%'.$search.'%')->paginate(10);
+        $usuarios = User::with('empresa')->where('clicodigo', Auth::user()->clicodigo)->where('name','like','%'.$search.'%')->paginate(10);
         
         return view('user.list', compact('usuarios'));
     }
@@ -41,7 +41,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserStoreRequest $request) {
-        $empresa = Cliente::where('nome', $request['empresa'])->first();
+        $empresa = Cliente::where('name', $request['empresa'])->first();
 
         $user = new User($request->validated());
         $user->password = bcrypt($user->password);

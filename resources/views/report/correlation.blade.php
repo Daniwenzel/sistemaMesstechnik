@@ -55,5 +55,5 @@
             </div>
         </div>
     </div>
-    @include('report.sites')
+    <!--include('report.sites')-->
 @endsection

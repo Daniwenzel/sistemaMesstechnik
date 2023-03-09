@@ -10,9 +10,9 @@ trait Logs
 {
     private function createLog($diretorio, $status, $mensagem) {
         Log::create([
-            'usuario' => Auth::user()->nome,
-           'diretorio' => $diretorio,
-           'status' => $status,
+            'usuario' => Auth::user()->name,
+            'diretorio' => $diretorio,
+            'status' => $status,
             'mensagem' => $mensagem
         ])->save();
     }
