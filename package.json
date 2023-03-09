@@ -26,7 +26,7 @@
         "jquery-mask-plugin": "^1.14.16",
         "leaflet": "^1.7.1",
         "mdi": "2.1.19",
-        "moment": "^2.27.0",
+        "moment": "^2.29.4",
         "simple-line-icons": "2.4.1",
         "sweetalert2": "^8.13.1",
         "toastr": "^2.1.4"
